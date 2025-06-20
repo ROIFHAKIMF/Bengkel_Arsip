@@ -13,7 +13,6 @@ $routes->post('login', 'AuthController::processLogin'); // Proses Login
 $routes->get('logout', 'AuthController::logout'); // Logout
 
 // Halaman Dashboard berdasarkan Role
-
 $routes->get('admin', 'DashboardController::admin', ['filter' => 'rolefilter']);
 $routes->get('user', 'DashboardController::user', ['filter' => 'rolefilter']);
 
