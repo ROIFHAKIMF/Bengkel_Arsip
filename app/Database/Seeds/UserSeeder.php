@@ -8,24 +8,24 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-                // membuat data
         $data = [
             [
                 'username' => 'Adit',
-                'password'  => '123456',
+                'password'  => password_hash('123456', PASSWORD_DEFAULT),
                 'role' => 'guest',
             ],
             [
                 'username' => 'Rafi',
-                'password'  => '123456',
+                'password'  => password_hash('123456', PASSWORD_DEFAULT),
                 'role' => 'guest',
             ],
             [
                 'username' => 'Roif',
-                'password'  => '123456',
+                'password'  => password_hash('123456', PASSWORD_DEFAULT),
                 'role' => 'admin',
             ],
         ];
-        $this->db->table('user')->insert($data);
+
+        $this->db->table('user')->insertBatch($data); // insertBatch bukan insert
     }
 }
