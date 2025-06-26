@@ -12,17 +12,17 @@ class UserSeeder extends Seeder
         $data = [
             [
                 'username' => 'Adit',
-                'password'  => 123456,
+                'password'  => '123456',
                 'role' => 'guest',
             ],
             [
                 'username' => 'Rafi',
-                'password'  => 123456,
+                'password'  => '123456',
                 'role' => 'guest',
             ],
             [
                 'username' => 'Roif',
-                'password'  => 123456,
+                'password'  => '123456',
                 'role' => 'admin',
             ],
         ];
