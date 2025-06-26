@@ -12,12 +12,12 @@ class UserSeeder extends Seeder
             [
                 'username' => 'Adit',
                 'password'  => password_hash('123456', PASSWORD_DEFAULT),
-                'role' => 'guest',
+                'role' => 'admin',
             ],
             [
                 'username' => 'Rafi',
                 'password'  => password_hash('123456', PASSWORD_DEFAULT),
-                'role' => 'guest',
+                'role' => 'admin',
             ],
             [
                 'username' => 'Roif',

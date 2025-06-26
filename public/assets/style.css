@@ -7,6 +7,15 @@
     --warna-teks-putih: #FFFFFF;
     --warna-teks-hitam: #000000;
 }
+.darkmode{
+    --warna-utama: #3E9397;
+    --warna-kedua: #1A1A1A;
+    --warna-ketiga: #FFB300;
+    --warna-keempat: #121212;
+    --warna-teks: #FFFFFF;
+    --warna-teks-putih: #FFFFFF;
+    --warna-teks-hitam: #000000;
+}
 body{
   background-color: var(--warna-keempat);
 }
