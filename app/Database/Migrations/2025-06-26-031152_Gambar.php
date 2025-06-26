@@ -20,6 +20,11 @@ class Gambar extends Migration
                 'constraint' => 255,
                 'null' => FALSE,
             ],
+            'deskripsi' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => FALSE,
+            ],
 
         ]);
         
