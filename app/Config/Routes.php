@@ -13,8 +13,12 @@ $routes->post('login', 'AuthController::processLogin'); // Proses Login
 $routes->get('logout', 'AuthController::logout'); // Logout
 
 // Halaman Dashboard berdasarkan Role
-$routes->get('admin', 'DashboardController::admin', ['filter' => 'rolefilter']);
-$routes->get('user', 'DashboardController::user', ['filter' => 'rolefilter']);
+$routes->group('admin', ['filter' => 'rolefilter'], function($routes) {
+    $routes->get('/', 'DashboardController::admin'); // Halaman Admin Dashboard
+    // tambahkan route lain kalau perlu
+});
+
+
 
 
 
