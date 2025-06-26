@@ -23,7 +23,7 @@ class User extends Migration
             ],
             'password' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 25,
                 'null' => FALSE,
             ],
         ]);

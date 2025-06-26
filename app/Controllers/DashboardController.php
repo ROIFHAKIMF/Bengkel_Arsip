@@ -19,7 +19,7 @@ class DashboardController extends BaseController
             'content' => 'Proses pekerjaan tergantung kwantitas atau banyaknya arsip serta tingkat kesulitannya baik pengolahan dan penataan arsip, Digitalisasi arsip maupun Restorasi arsip.'],
             ['title' => 'Mengapa sih harus memilih bengkel arsip?',
             'content' => 'Ini Bengkel Arsip adalah Jasa Layanan Kearsipan yang Modern, Professional dan terpercaya'],
-            ['title' => ' Bagaimana bengkel arsip memproses sebuah arsip?',
+            ['title' => ' Bagaimana bengkel arsip memproses sebuah arsip?',
             'content' => 'Pemrosesan suatu arsip tergantung jenis layanan kearsipan antara lain Pengolahan dan Penataan arsip, Digitalisasi arsip maupun Restorasi arsip. Setiap kegiatan layanan membutuhkan proses khusus jadi tergantung jenis layanan kearsipan yang dibutuhkan'],
         ];
         // Tampilkan halaman yang bisa diakses oleh pengunjung yang belum login
@@ -58,7 +58,7 @@ class DashboardController extends BaseController
             'content' => 'Proses pekerjaan tergantung kwantitas atau banyaknya arsip serta tingkat kesulitannya baik pengolahan dan penataan arsip, Digitalisasi arsip maupun Restorasi arsip.'],
             ['title' => 'Mengapa sih harus memilih bengkel arsip?',
             'content' => 'Ini Bengkel Arsip adalah Jasa Layanan Kearsipan yang Modern, Professional dan terpercaya'],
-            ['title' => ' Bagaimana bengkel arsip memproses sebuah arsip?',
+            ['title' => ' Bagaimana bengkel arsip memproses sebuah arsip?',
             'content' => 'Pemrosesan suatu arsip tergantung jenis layanan kearsipan antara lain Pengolahan dan Penataan arsip, Digitalisasi arsip maupun Restorasi arsip. Setiap kegiatan layanan membutuhkan proses khusus jadi tergantung jenis layanan kearsipan yang dibutuhkan'],
         ];
 
