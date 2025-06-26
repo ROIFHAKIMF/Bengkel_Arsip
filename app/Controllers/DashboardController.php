@@ -14,6 +14,19 @@ class DashboardController extends BaseController
     }
         // Cek jika sudah login, maka redirect ke halaman sesuai role
 
+        
+        $data_services = [
+            ['title' => 'sv-1.jpg',
+            'content' => 'DIGITALISASI ARSIP MENJADI BENTUK DIGITAL'],
+            ['title' => 'sv-2.jpg',
+            'content' => 'RESTORASI ARSIP BERHARGA YANG RUSAK'],
+            ['title' => 'sv-3.jpg',
+            'content' => 'PENGOLAHAN DAN PENATAAN ARSIP DAN RUANG ARSIP'],
+            ['title' => 'sv-4.png',
+            'content' => 'PELATIHAN DAN KONSULTASI KEARSIPAN'],
+            ['title' => 'sv-5.png',
+            'content' => 'PENGADAAN SARANA DAN PRASARANA KEARSIPAN.']];
+
         $data_about = [
             ['title' => 'Apa itu bengkel arsip?',
             'content' => 'Bengkel Arsip adalah sebuah usaha dalam bidang Layanan Jasa Manajemen Kearsipan yang Profesional dan Terpercaya'],
@@ -28,11 +41,17 @@ class DashboardController extends BaseController
             ['title' => ' Bagaimana bengkel arsip memproses sebuah arsip?',
             'content' => 'Pemrosesan suatu arsip tergantung jenis layanan kearsipan antara lain Pengolahan dan Penataan arsip, Digitalisasi arsip maupun Restorasi arsip. Setiap kegiatan layanan membutuhkan proses khusus jadi tergantung jenis layanan kearsipan yang dibutuhkan'],
         ];
-        // Tampilkan halaman yang bisa diakses oleh pengunjung yang belum login
+
+        // Tampilkan halaman admin dashboard
         echo view('layout/header');
         echo view('content/nav');
         echo view('content/home'); // Halaman home biasa
         echo view('content/about', ['data_about' => $data_about]);
+        echo view('content/services', ['data_services' => $data_services]);
+        echo view('content/profile');
+        echo view('content/gallery');
+        echo view('content/client');
+        echo view('content/contact');
         echo view('layout/footer');
     }
 
