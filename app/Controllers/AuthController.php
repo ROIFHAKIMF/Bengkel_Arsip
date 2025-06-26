@@ -13,8 +13,6 @@ class AuthController extends BaseController {
             $role = session()->get('role');
             if ($role == 'admin') {
                 return redirect()->to('/admin');
-            } else {
-                return redirect()->to('/user');
             }
         }
 
@@ -36,11 +34,6 @@ class AuthController extends BaseController {
                     'username' => 'Roif_Hakim',
                     'password' => 'admin123', // password tanpa MD5
                     'role' => 'admin'
-                ],
-                'Nafiah' => [
-                    'username' => 'Nafiah',
-                    'password' => 'user123', // password tanpa MD5
-                    'role' => 'user'
                 ]
             ];
 
@@ -56,8 +49,6 @@ class AuthController extends BaseController {
                     // Redirect sesuai role setelah login
                     if ($dataUsers[$username]['role'] == 'admin') {
                         return redirect()->to('/admin');
-                    } else {
-                        return redirect()->to('/user');
                     }
                 } else {
                     // Jika password salah, beri alert

@@ -23,32 +23,30 @@ class RoleFilter implements FilterInterface
      *
      * @return RequestInterface|ResponseInterface|string|void
      */
-    public function before(RequestInterface $request, $arguments = null)
-    {
-        // Ambil session
-        $session = session();
-        
-        // Jika pengguna belum login, redirect ke halaman login
-        if (! $session->get('isLoggedIn')) {
-            return redirect()->to('/login');
-        }
+public function before(RequestInterface $request, $arguments = null)
+{
+    $session = session();
 
-        // Ambil role dan segment URL
-        $role = $session->get('role');
-        $uri = service('uri')->getSegment(1); // Ambil segment pertama dari URL
-
-        // Jika user admin mencoba akses user-dashboard
-        if ($role === 'admin' && $uri === 'user') {
-            return redirect()->to('/admin');
-        }
-
-        // Jika user biasa mencoba akses admin-dashboard
-        if ($role === 'user' && $uri === 'admin') {
-            return redirect()->to('/user');
-        }
-
-        // Jika role sesuai dengan halaman yang diminta, lanjutkan
+    // Cek apakah sudah login
+    if (! $session->get('isLoggedIn')) {
+        return redirect()->to('/login');
     }
+
+    // Ambil role dan segment URL
+    $role = $session->get('role');
+    $segment1 = service('uri')->getSegment(1);
+
+    // Kalau rolenya bukan admin, redirect ke login (jaga-jaga kalau role corrupt)
+    if ($role !== 'admin') {
+        return redirect()->to('/login');
+    }
+
+    // Kalau URL bukan /admin atau child-nya, redirect paksa ke /admin
+    if ($segment1 !== 'admin') {
+        return redirect()->to('/admin');
+    }
+}
+
     
 
     /**

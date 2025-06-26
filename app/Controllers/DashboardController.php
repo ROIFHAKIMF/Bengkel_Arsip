@@ -6,6 +6,12 @@ class DashboardController extends BaseController
 {    // Halaman Utama (Home) - untuk pengunjung (belum login)
     public function index()
     {
+        $session = session();
+
+    // ✅ Jika sudah login dan role admin, redirect ke /admin
+    if ($session->get('isLoggedIn') && $session->get('role') === 'admin') {
+        return redirect()->to('/admin');
+    }
         // Cek jika sudah login, maka redirect ke halaman sesuai role
 
         $data_about = [
@@ -63,30 +69,6 @@ class DashboardController extends BaseController
         ];
 
         // Tampilkan halaman admin dashboard
-        echo view('layout/header');
-        echo view('content/nav');
-        echo view('content/home'); // Halaman home biasa
-        echo view('content/about', ['data_about' => $data_about]);
-        echo view('content/services', ['data_services' => $data_services]);
-        echo view('content/profile');
-        echo view('content/gallery');
-        echo view('content/client');
-        echo view('content/contact');
-        echo view('layout/footer');
-    }
-
-    // User Dashboard - hanya bisa diakses oleh user yang sudah login
-    public function user()
-    {
-
-
-        $data_about = [
-            
-        ];
-
-        $data_services = [
-            ];
-
         echo view('layout/header');
         echo view('content/nav');
         echo view('content/home'); // Halaman home biasa
