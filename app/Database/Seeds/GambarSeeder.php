@@ -10,52 +10,59 @@ class GambarSeeder extends Seeder
     {
         $data = [
             [
+                'judul'     => 'Aplikasi Bengkel Arsip',
                 'gambar'    => 'slide1.jpg',
-                'deskripsi' => 'Gambar pemandangan alam'
+                'deskripsi' => 'Aplikasi bengkel arsip untuk mengelola data hasil  digital'
             ],
             [
+                'judul'     => 'Digitalisasi Arsip',
                 'gambar'    => 'slide2.jpg',
-                'deskripsi' => 'Gambar hewan lucu'
+                'deskripsi' => 'Digitilisasi arsip bapenda kota semarang'
             ],
             [
+                'judul'     => 'Penataan Arsip ',
                 'gambar'    => 'slide3.jpg',
-                'deskripsi' => 'Gambar desain modern'
+                'deskripsi' => 'Dinas pendapatan dan aset daerah kabupaten brebes melakukan penataan arsip yang rapi dan terstruktur'
             ],
             [
+                'judul'     => 'Penataan Arsip ',
                 'gambar'    => 'slide4.jpg',
-                'deskripsi' => 'Gambar kota di malam hari'
+                'deskripsi' => 'Badan pendapatan daerah kota semarang melakukan penataan arsip yang rapi dan terstruktur'
             ],
             [
+                'judul'     => 'Penataan Arsip ',
                 'gambar'    => 'slide5.jpg',
-                'deskripsi' => 'Gambar ilustrasi abstrak'
+                'deskripsi' => 'Kantor pusat bank jateng melakukan penataan arsip yang rapi dan terstruktur'
             ],
             [
-                'gambar'    => 'slide6.jpg',
-                'deskripsi' => 'Gambar pemandangan gunung'
+                'judul'     => 'Restorasi',
+                'gambar'    => 'slide 7.jpg',
+                'deskripsi' => 'Dinas kependudukan dan pencatatan sipil kabupaten karanganyar '
             ],
             [
-                'gambar'    => 'slide7.jpg',
-                'deskripsi' => 'Gambar laut biru'
-            ],
-            [
+                'judul'     => 'Digitalisasi Arsip',
                 'gambar'    => 'slide8.jpg',
-                'deskripsi' => 'Gambar jalanan kota'
+                'deskripsi' => 'Digitilisasi arsip bapenda kota semarang'
             ],
             [
+                'judul'     => 'Penataan Arsip ',
                 'gambar'    => 'slide9.jpg',
-                'deskripsi' => 'Gambar makanan lezat'
+                'deskripsi' =>  'Badan pendapatan daerah kota semarang melakukan penataan arsip yang rapi dan terstruktur'
             ],
             [
+                'judul'     => 'Digitalisasi Arsip',
                 'gambar'    => 'slide10.jpg',
-                'deskripsi' => 'Gambar teknologi futuristik'
+                'deskripsi' => 'Digitilisasi arsip bapenda kota semarang'
             ],
             [
+                'judul'     => 'File Digitalisasi',
                 'gambar'    => 'slide11.jpg',
-                'deskripsi' => 'Gambar arsitektur klasik'
+                'deskripsi' => 'Tumupukan file yang akan dijadikan arsip digital'
             ],
             [
+                'judul'     => 'Digitalisasi Arsip',
                 'gambar'    => 'slide12.jpg',
-                'deskripsi' => 'Gambar suasana hutan'
+                'deskripsi' => 'Keraton mangkunegaran surakarta melakukan digitalisasi '
             ],
         ];
 

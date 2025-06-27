@@ -10,24 +10,28 @@ class Gambar extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => TRUE,
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'unsigned'       => TRUE,
                 'auto_increment' => TRUE
             ],
-            'gambar' => [
-                'type' => 'VARCHAR',
+            'judul' => [
+                'type'       => 'VARCHAR',
                 'constraint' => 255,
-                'null' => FALSE,
+                'null'       => FALSE,
+            ],
+            'gambar' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => FALSE,
             ],
             'deskripsi' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 255,
-                'null' => FALSE,
+                'null'       => FALSE,
             ],
-
         ]);
-        
+
         $this->forge->addKey('id', TRUE);
         $this->forge->createTable('gambar');
     }
@@ -37,7 +41,3 @@ class Gambar extends Migration
         $this->forge->dropTable('gambar');
     }
 }
-
-
-
-
