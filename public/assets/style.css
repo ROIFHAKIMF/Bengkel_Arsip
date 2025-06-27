@@ -3,20 +3,39 @@
     --warna-kedua: #ffffff;
     --warna-ketiga: #FFB300;
     --warna-keempat: #f2f2f2;
-    --warna-teks: #333333;
-    --warna-teks-putih: #FFFFFF;
+    --warna-teks-hijau: #3E9397;
+    --warna-teks-putih: #ffffff;
     --warna-teks-hitam: #000000;
+    --warna-teks-kuning: #FFB300;
 }
 .darkmode{
-    --warna-utama: #3E9397;
-    --warna-kedua: #1A1A1A;
-    --warna-ketiga: #FFB300;
-    --warna-keempat: #121212;
-    --warna-teks: #FFFFFF;
-    --warna-teks-putih: #FFFFFF;
-    --warna-teks-hitam: #000000;
+    --warna-utama: #FFB300;
+    --warna-kedua: #263E4C;
+    --warna-ketiga: #FFFFFF;
+    --warna-keempat: #12222A;
+    --warna-teks-kuning: #3E9397;
+    --warna-teks-hitam: #ffffff;
+    --warna-teks-putih: #000000;
+    --warna-teks-hijau: #FFB300;
 }
 body{
+  background-color: var(--warna-keempat);
+}
+.text-profil{
+  color: var(--warna-utama);
+}
+.log{
+  color: var(--warna-utama);
+}
+.log:hover{
+  color: var(--warna-utama);
+  background-color: var(--warna-kedua);
+  transition: all .3s;
+}
+.nav-profile{
+  border: var(--warna-utama);
+}
+.bg-nav{
   background-color: var(--warna-keempat);
 }
 .nav-link{
@@ -54,6 +73,7 @@ border-bottom: 2px solid var(--warna-utama) !important;
 .navbar{
     height: 92px;
     z-index: 9999;
+    border-bottom: 2px solid var(--warna-utama) !important;
 }
 
 .foto-awal{
@@ -74,10 +94,15 @@ border-bottom: 2px solid var(--warna-utama) !important;
     align-items: center;
 }
 /* From Uiverse.io by SteveBloX */ 
-#Home, #about, #service, #contact, #client, #profile #login{
+#Home, #about, #service, #contact,  #client, #profile #login{
     background-color: var(--warna-keempat);
     min-height: 100vh;
-    height: fit-content;
+  }
+  #gallery{
+    background-color: var(--warna-utama);
+  }
+  #gallery h1{
+    color: var(--warna-utama);
   }
 .card {
   box-sizing: border-box;
@@ -85,7 +110,7 @@ border-bottom: 2px solid var(--warna-utama) !important;
   height: 255px;
   min-height: fit-content;
   background-color: var(--warna-kedua);
-  border: 1px solid white;
+  border: 1px solid var(--warna-utama);
   box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
   backdrop-filter: blur(6px);
   border-radius: 17px;
@@ -97,18 +122,45 @@ border-bottom: 2px solid var(--warna-utama) !important;
   justify-content: center;
   user-select: none;
   font-weight: bolder;
-  color: black;
+  color: var(--warna-teks-hitam);
+}
+.card h5{
+  color: var(--warna-utama);
+}
+.card p{
+  color: var(--warna-teks-hitam);
 }
 
 .card:hover {
-  border: 3px solid var(--warna-utama);
+  border: 4px solid var(--warna-utama);
   transform: scale(1.05);
+}
+
+ .carousel-caption p{
+  color: var(--warna-teks-hijau);
+  text-align: center;
+}
+.carousel-caption h5{
+  color: white;
+  text-align: center;
 }
 
 .card:active {
   transform: scale(0.95) rotateZ(1.7deg);
 }
-
+.cpbook{
+  border-radius: 15px 0 0 15px!important;
+}
+.cp-inner{
+  background-color: var(--warna-utama);
+  border-radius: 0 15px 15px 0 !important;
+}
+.cp-inner h2 , p{
+  color: var(--warna-teks-putih);
+  font-weight: bolder;
+  text-align: center;
+  text-align: justify;
+}
 .card-sr {
   position: relative;
   height: 360px;
@@ -121,7 +173,7 @@ border-bottom: 2px solid var(--warna-utama) !important;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow:10px 10px 20px rgba(0, 0, 0, 0.6), -10px -10px 20px #ffffff;
+  box-shadow:10px 10px 20px rgba(0, 0, 0, 0.6);
   background-color: rgba(99, 99, 99, 0.24);
 }
 
@@ -136,7 +188,6 @@ border-bottom: 2px solid var(--warna-utama) !important;
   backdrop-filter: blur(24px);
   border-radius: 10px;
   overflow: hidden;
-  outline: 2px solid white;
 }
 .bg img{
   height: 80%;
@@ -159,6 +210,10 @@ border-bottom: 2px solid var(--warna-utama) !important;
   opacity: 1;
   filter: blur(12px);
   animation: blob-bounce 4s infinite ease;
+}
+
+.client-bg{
+  background-color: var(--warna-kedua);
 }
 
 @keyframes blob-bounce {
@@ -419,10 +474,14 @@ border-bottom: 2px solid var(--warna-utama) !important;
   opacity: 1;
 }
 
-#miniCarousel, #minicarousel1, #minicarousel2, #minicarousel3, #minicarousel4, #minicarousel5, #minicarousel6, #minicarousel7{ 
-    height: 240px;
+#miniCarousel .carousel-inner .carousel-item p, #minicarousel1 .carousel-inner .carousel-item p, #minicarousel2 .carousel-inner .carousel-item p, #minicarousel3 .carousel-inner .carousel-item p, #minicarousel4 .carousel-inner .carousel-item p, #minicarousel5 .carousel-inner .carousel-item p{ 
+    color: var(--warna-teks-hitam);
+    text-align: center;
+}
+#miniCarousel, #minicarousel1, #minicarousel2, #minicarousel3, #minicarousel4, #minicarousel5{ 
+    height: 320px;
     width: calc((100%/4)-20px);
-    box-shadow: 7px 7px 24px rgba(0, 0, 0, 0.6), -7px -7px 24px rgba(255, 255, 255, 0.5);
+    box-shadow: 7px 7px 24px rgba(0, 0, 0, 0.6);
     border: 3px solid var(--warna-utama);
     border-radius: 20px;
 }
@@ -435,26 +494,28 @@ border-bottom: 2px solid var(--warna-utama) !important;
 }
 
 .profile-view{
-  background-color: var(--warna-kedua);
+  background-color: var(--warna-keempat);
   display: flex;
   justify-content: center;
+  border: 1px solid var(--warna-utama);
   align-items: center;
   flex-direction: row;
-  transition: all .2s;
+  transition: all .5s;
 }
 
 .profile-view:hover{
-  background-color: var(--warna-utama)!important;
-  transition: all .2s;
+  background-color: var(--warna-kedua)!important;
+  border: 3px solid var(--warna-utama);
+  transition: all .5s;
 }
 
 .dropdown-menu{
-  background-color: var(--warna-kedua);
+  background-color: var(--warna-keempat);
   border-radius: 20px;
   color: var(--warna-teks-hitam);
 }
 .dropdown-item:hover{
-  background-color: var(--warna-utama)!important;
+  background-color: var(--warna-kedua)!important;
 }
 
 .img-1, .img-2{
@@ -617,4 +678,8 @@ border-bottom: 2px solid var(--warna-utama) !important;
 .example-2 .icon-content a[data-social="telegram"] .filled,
 .example-2 .icon-content a[data-social="telegram"] ~ .tooltip {
   background-color: #ff0000;
+}
+
+.location{
+  background-color: var(--warna-kedua);
 }

@@ -12,4 +12,4 @@
     <link rel="stylesheet" href="<?= base_url('bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/style.css') ?>">
 </head>
-<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70" tabindex="0">
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70" tabindex="0" class="darkmode">
