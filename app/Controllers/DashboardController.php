@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-
+use App\Models\GambarModel;
 class DashboardController extends BaseController
 {    // Halaman Utama (Home) - untuk pengunjung (belum login)
     public function index()
@@ -12,6 +12,9 @@ class DashboardController extends BaseController
     if ($session->get('isLoggedIn') && $session->get('role') === 'admin') {
         return redirect()->to('/admin');
     }
+
+    $gambarModel = new GambarModel();
+        $data['gambarList'] = $gambarModel->findAll();
         // Cek jika sudah login, maka redirect ke halaman sesuai role
 
         
@@ -49,7 +52,7 @@ class DashboardController extends BaseController
         echo view('content/about', ['data_about' => $data_about]);
         echo view('content/services', ['data_services' => $data_services]);
         echo view('content/profile');
-        echo view('content/gallery');
+        echo view('content/gallery', $data);
         echo view('content/client');
         echo view('content/contact');
         echo view('layout/footer');
