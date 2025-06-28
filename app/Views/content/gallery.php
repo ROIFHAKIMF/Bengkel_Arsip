@@ -2,7 +2,7 @@
     <div class="container-fluid mt-5 d-flex justify-content-center align-items-center text-center flex-column">
         <h1 class="text-light fw-bold text-center text-uppercase py-2">Gallery</h1>
         <div id="carouselExample" class="carousel carousel-dark slide w-75 rounded-3" data-bs-ride="carousel">
-
+           
             <!-- INDICATORS -->
             <div class="carousel-indicators">
                 <?php foreach ($galeri as $index => $item): ?>

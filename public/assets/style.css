@@ -683,3 +683,30 @@ border-bottom: 2px solid var(--warna-utama) !important;
 .location{
   background-color: var(--warna-kedua);
 }
+
+.btngallery{
+  background-color: transparent;
+  border-radius: 20px;
+  border: 2px solid var(--warna-utama);
+}
+.btngallery:hover{
+  background-color: var(--warna-utama);
+  color:#FFFFFF ; 
+  transition: all .3s;
+}
+.btngallery a{
+  color: var(--warna-utama);
+  text-decoration: none;
+  font-weight: bold;
+}
+.btngallery:hover > a{
+  color:#FFFFFF ; 
+}
+.clientbg{
+  position: relative;
+}
+.ubahbg{
+position : absolute;
+top: 0;
+height: 100%;
+}
