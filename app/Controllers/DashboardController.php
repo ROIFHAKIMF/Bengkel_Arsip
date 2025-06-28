@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\GambarModel;
 use App\Models\AboutModel;
+use App\Models\ServiceModel;
 class DashboardController extends BaseController
 {
     // Halaman Utama (Home) - untuk pengunjung (belum login)
@@ -22,13 +23,8 @@ class DashboardController extends BaseController
         $modelAbout = new AboutModel();
         $data_about = $modelAbout->findAll();
 
-        $data_services = [
-            ['title' => 'sv-1.jpg', 'content' => 'DIGITALISASI ARSIP MENJADI BENTUK DIGITAL'],
-            ['title' => 'sv-2.jpg', 'content' => 'RESTORASI ARSIP BERHARGA YANG RUSAK'],
-            ['title' => 'sv-3.jpg', 'content' => 'PENGOLAHAN DAN PENATAAN ARSIP DAN RUANG ARSIP'],
-            ['title' => 'sv-4.png', 'content' => 'PELATIHAN DAN KONSULTASI KEARSIPAN'],
-            ['title' => 'sv-5.png', 'content' => 'PENGADAAN SARANA DAN PRASARANA KEARSIPAN.']
-        ];
+       $modelService = new ServiceModel();
+        $data_services = $modelService->findAll();
 
         echo view('layout/header');
         echo view('content/nav');
@@ -50,16 +46,12 @@ class DashboardController extends BaseController
 
         $modelAbout = new AboutModel();
         $data_about = $modelAbout->findAll();
+         
+        
+       $modelService = new ServiceModel();
+       $data_services = $modelService->findAll();
 
-
-        $data_services = [
-            ['title' => 'sv-1.jpg', 'content' => 'DIGITALISASI ARSIP MENJADI BENTUK DIGITAL'],
-            ['title' => 'sv-2.jpg', 'content' => 'RESTORASI ARSIP BERHARGA YANG RUSAK'],
-            ['title' => 'sv-3.jpg', 'content' => 'PENGOLAHAN DAN PENATAAN ARSIP DAN RUANG ARSIP'],
-            ['title' => 'sv-4.png', 'content' => 'PELATIHAN DAN KONSULTASI KEARSIPAN'],
-            ['title' => 'sv-5.png', 'content' => 'PENGADAAN SARANA DAN PRASARANA KEARSIPAN.']
-        ];
-
+    
 
         echo view('layout/header');
         echo view('content/nav');
