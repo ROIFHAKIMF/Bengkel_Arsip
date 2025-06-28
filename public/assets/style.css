@@ -148,10 +148,50 @@ border-bottom: 2px solid var(--warna-utama) !important;
 .card:active {
   transform: scale(0.95) rotateZ(1.7deg);
 }
+
+@media (max-width: 768px) {
+  .cpbook{
+    width: 100% !important; ;
+    height: 500px !important;
+    border-radius:  15px 0 0 15px !important;
+  }
+  .cpout{
+    padding: 0;
+    display: flex;
+    width: 80%;
+    height: max-content;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--warna-utama);
+    border-radius: 20px;
+  }
+  .cp-inner{
+    width: 100%;
+    height: 500px;
+    background-color: var(--warna-utama);
+    border-radius: 0 15px 15px 0 !important;
+  }
+}
 .cpbook{
-  border-radius: 15px 0 0 15px!important;
+  width: 50% !important; ;
+  height: 500px !important;
+  border-radius:  15px 0 0 15px !important;
+}
+.cpout{
+  padding: 0;
+  display: flex;
+  width: 80%;
+  height: max-content;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--warna-utama);
+  border-radius: 20px;
 }
 .cp-inner{
+  width: 50%;
+  height: 500px;
   background-color: var(--warna-utama);
   border-radius: 0 15px 15px 0 !important;
 }
