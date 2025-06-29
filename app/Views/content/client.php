@@ -1,6 +1,16 @@
 <section id="client" class="mb-5 pt-3">
   <div class="container-fluid pt-5 mt-5 w-100 d-flex justify-content-center align-items-center text-center flex-column">
     <h1 class="text-center fw-bold color-hijau pb-4 text-uppercase">Client</h1>
+    <?php if (session()->get('isLoggedIn')): ?>
+      <div class="row ubahbg w-50 gap-4">
+        <button type="button" class="btngallery col-3 mb-4">Hapus</button>
+        <button type="button" class="btngallery col-3 mb-4">Tambah</button>
+        <button type="button" class="btngallery col-3 mb-4">Edit</button>
+      </div>
+      <!-- modal add -->
+      <!-- modal delete -->
+      <!-- modal hapus -->
+    <?php endif; ?>
     <div class="row gy-5 w-100">
 
       <?php $carouselId = 1; ?>
@@ -17,7 +27,7 @@
                     <img class="img-cl" src="<?= base_url('img/' . $item['gambar']) ?>" class="d-block w-100" alt="<?= esc($item['judul']) ?>">
                   <?php endif; ?>
                   <!-- ✅ Deskripsi -->
-                  <p class="mb-0"><?= esc($item['deskripsi']) ?></p>
+                  <p class="mt-2"><?= esc($item['deskripsi']) ?></p>
                 </div>
               <?php endforeach; ?>
             </div>
@@ -31,22 +41,6 @@
             </button>
 
             <!-- Tombol Admin -->
-            <?php if (session()->get('isLoggedIn')): ?>
-              <div class="row ubahbg w-100 top-50 gap-3 pb-5">
-                <button type="button" class="btngallery col-3 mb-4"><a href="">Hapus</a></button>
-                <button type="button" class="btngallery col-3 mb-4"><a href="">Tambah</a></button>
-                <button type="button" class="btngallery col-3 mb-4"><a href="">Edit</a></button>
-              </div>
-              <style>
-                #miniCarousel, #minicarousel1, #minicarousel2, #minicarousel3, #minicarousel4, #minicarousel5{ 
-                    height: 450px !important;
-                    width: calc((100%/4)-20px);
-                    box-shadow: 7px 7px 24px rgba(0, 0, 0, 0.6);
-                    border: 3px solid var(--warna-utama);
-                    border-radius: 20px!important;
-                }
-              </style>
-            <?php endif; ?>
           </div>
         </div>
         <?php $carouselId++; ?>

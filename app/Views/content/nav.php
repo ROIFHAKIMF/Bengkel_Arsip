@@ -12,7 +12,7 @@
             <span></span>
         </label>
         <div class="w-100 container-fluid rounded-4 p-3 collapse navbar-collapse" id="navbarScroll">
-        <ul class="navbar-nav w-100 text-center gap-2 d-flex gap-0  bg-nav justify-content-around navbar-nav-scroll" style="--bs-scroll-height: 1000px;">
+        <ul class="navbar-nav w-100 text-center gap-2 d-flex bg-nav justify-content-around navbar-nav-scroll" style="--bs-scroll-height: 1000px;">
             <li class="nav-item">
             <a class="nav-link active color-hijau" aria-current="page" href="#Home">Home</a>
             </li>

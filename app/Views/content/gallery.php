@@ -9,7 +9,7 @@
                     <button type="button"
                             data-bs-target="#carouselExample"
                             data-bs-slide-to="<?= $index ?>"
-                            class="<?= $index == 0 ? 'active' : '' ?> bg-success bg-opacity-25"
+                            class="<?= $index == 0 ? 'active' : '' ?> bg-light bg-opacity-75"
                             aria-current="<?= $index == 0 ? 'true' : 'false' ?>"
                             aria-label="Slide <?= $index + 1 ?>"></button>
                 <?php endforeach; ?>
@@ -20,7 +20,7 @@
                 <?php foreach ($galeri as $index => $item): ?>
                     <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
                         <img src="<?= base_url('img/' . $item['gambar']) ?>" class="d-block w-100" alt="<?= esc($item['judul']) ?>">
-                        <div class="carousel-caption d-none d-md-block text-light">
+                        <div class="carousel-caption d-block d-md-block text-light">
                             <h5><?= esc($item['judul']) ?></h5>
                             <p><?= esc($item['deskripsi']) ?></p>
                         </div>

@@ -1,12 +1,12 @@
 <footer class="footer bg-hijau mt-5 py-4 px-5 text-white">
-  <div class="container-fluid">
-    <div class="row d-flex justify-content-between align-items-center">
-      <div class="col-lg-6 col-xl-4 col-sm-10 mb-5 px-5">
+  <div class="container-fluid w-100 d-flex justify-content-center align-items-center">
+    <div class="row d-flex w-100 justify-content-center align-items-center">
+      <div class="col-lg-6 col-xl-4 col-sm-10 mb-5 px-5 bg-danger d-flex flex-column justify-content-center align-items-center">
         <div class="logo d-flex align-items-center">
             <img src="<?=base_url('img/logo.jpg')?>" alt="logo" width="40" height="40" class="rounded-circle me-3">
             <h3 class="text-uppercase fw-bold">Bengkel Arsip</h3>
         </div>
-        <p class="mt-2">solusi kearsipanprofesional dan terpercaya</p>
+        <p class="mt-2">solusi kearsipan <br> profesional dan terpercaya</p>
         <ul class="example-2 ms-0">
             <li class="icon-content">
                 <a
@@ -56,7 +56,7 @@
       </div>
 
 
-      <div class="col-lg-6 col-xl-4 col-sm-10 mb-4 pt-5 row ">
+      <div class="col-lg-6 col-xl-4 col-sm-10 mb-4 pt-5 row bg-danger d-flex flex-row justify-content-center align-items-center">
         <ul class="list-unstyled col-6">
           <li><h4>Navigasi</h4></li>
           <li><a href="#Home">Home</a></li>
@@ -71,7 +71,7 @@
         </ul>
       </div>
 
-      <div class="col-lg-6 col-xl-4 col-sm-10  mb-3">
+      <div class="col-lg-6 col-xl-4 col-sm-10  mb-3 bg-danger d-flex flex-column justify-content-center align-items-center">
         <h5>Kontak</h5>
         <p>Email: bengkelarsip@gmail.com</p>
         <p>Telp/WA: +6285701442698 / +6285701442699</p>
