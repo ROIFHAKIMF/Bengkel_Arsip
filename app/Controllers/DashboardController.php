@@ -189,5 +189,62 @@ public function hapusAbout()
     }
 }
 
+// Tambah Client
+public function tambahClient()
+{
+    $clientModel = new ClientModel();
+
+    $data = [
+        'judul'     => $this->request->getPost('judul'),
+        'deskripsi' => $this->request->getPost('deskripsi')
+    ];
+
+    $file = $this->request->getFile('gambar');
+    if ($file && $file->isValid()) {
+        $fileName = $file->getRandomName();
+        $file->move('img/', $fileName);
+        $data['gambar'] = $fileName;
+    }
+
+    $clientModel->save($data);
+    return redirect()->to('/admin')->with('success', 'Client berhasil ditambahkan.');
+}
+
+// Edit Client
+public function editClient()
+{
+    $clientModel = new ClientModel();
+    $id = $this->request->getPost('id');
+
+    $data = [
+        'judul'     => $this->request->getPost('judul'),
+        'deskripsi' => $this->request->getPost('deskripsi')
+    ];
+
+    $file = $this->request->getFile('gambar');
+    if ($file && $file->isValid()) {
+        $fileName = $file->getRandomName();
+        $file->move('img/', $fileName);
+        $data['gambar'] = $fileName;
+    }
+
+    $clientModel->update($id, $data);
+    return redirect()->to('/admin')->with('success', 'Client berhasil diedit.');
+}
+
+// Hapus Client
+public function hapusClient()
+{
+    $clientModel = new ClientModel();
+    $id = $this->request->getPost('id');
+
+    if ($clientModel->delete($id)) {
+        return redirect()->to('/admin')->with('success', 'Client berhasil dihapus.');
+    } else {
+        return redirect()->to('/admin')->with('error', 'Gagal menghapus client.');
+    }
+}
+
+
 
 }
