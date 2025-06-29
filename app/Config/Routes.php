@@ -27,7 +27,7 @@ $routes->get('/service/delete/(:num)', 'DashboardController::deleteService/$1');
 
     $routes->post('about/tambah', 'DashboardController::tambahAbout');
     $routes->post('about/edit', 'DashboardController::editAbout');
-    $routes->post('about/hapus', 'DashboardController::hapusAbout'); // ← ini sudah BENAR
+    $routes->post('about/hapus', 'DashboardController::hapusAbout'); 
 
 
 });

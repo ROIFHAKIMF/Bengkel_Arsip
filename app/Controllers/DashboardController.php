@@ -49,38 +49,49 @@ class DashboardController extends BaseController
     }
 
     // Admin Dashboard - hanya bisa diakses oleh admin yang sudah login
-    public function admin()
-    {
-        $model = new GambarModel();
-        $data_gallery = $model->findAll();
+   public function admin()
+{
+    $model = new GambarModel();
+    $data_gallery = $model->findAll();
 
-        $modelAbout = new AboutModel();
-        $data_about = $modelAbout->findAll();
-         
-        
-       $modelService = new ServiceModel();
-       $data_services = $modelService->findAll();
+    $modelAbout = new AboutModel();
+    $data_about = $modelAbout->findAll();
 
-        $clientModel = new ClientModel();
-        $clients = $clientModel->findAll();
-
-        $groupedClient = [];
-        foreach ($clients as $client) {
-            $judul = trim($client['judul']);
-            $groupedClient[$judul][] = $client;
-        }
-
-        echo view('layout/header');
-        echo view('content/nav');
-        echo view('content/home');
-        echo view('content/about', ['data_about' => $data_about]);
-        echo view('content/services', ['data_services' => $data_services]);
-        echo view('content/profile');
-        echo view('content/gallery', ['galeri' => $data_gallery]);
-        echo view('content/client', ['groupedClient' => $groupedClient]);
-        echo view('content/contact');
-        echo view('layout/footer');  
+    // Ambil ID dari URL (GET) untuk modal edit
+    $id = $this->request->getGet('id');
+    $selected_about = null;
+    if ($id) {
+        $selected_about = $modelAbout->find($id);
     }
+
+    $modelService = new ServiceModel();
+    $data_services = $modelService->findAll();
+
+    $clientModel = new ClientModel();
+    $clients = $clientModel->findAll();
+
+    $groupedClient = [];
+    foreach ($clients as $client) {
+        $judul = trim($client['judul']);
+        $groupedClient[$judul][] = $client;
+    }
+
+    echo view('layout/header');
+    echo view('content/nav');
+    echo view('content/home');
+    echo view('content/about', [
+        'data_about' => $data_about,
+        'selected_about' => $selected_about // <- Tambahkan ini
+    ]);
+    echo view('content/services', ['data_services' => $data_services]);
+    echo view('content/profile');
+    echo view('content/gallery', ['galeri' => $data_gallery]);
+    echo view('content/client', ['groupedClient' => $groupedClient]);
+    echo view('content/contact');
+    echo view('layout/footer');
+}
+
+
 
     // CRUD service
     public function createService()

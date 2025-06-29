@@ -44,7 +44,7 @@
 
 <!-- Modal Edit -->
 <div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered ">
+  <div class="modal-dialog modal-dialog-centered">
     <form action="<?= base_url('admin/about/edit'); ?>" method="post">
       <div class="modal-content modal-half">
         <div class="modal-header">
@@ -52,22 +52,45 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <select name="id" class="form-select mb-3" required>
+          <!-- Dropdown untuk pilih data -->
+          <select name="id" class="form-select mb-3" onchange="setEditData(this)" required>
             <option value="">Pilih Data</option>
             <?php foreach ($data_about as $item): ?>
-              <option value="<?= $item['id']; ?>"><?= $item['title']; ?></option>
+              <option 
+                value="<?= $item['id']; ?>" 
+                data-title="<?= htmlspecialchars($item['title'], ENT_QUOTES); ?>" 
+                data-content="<?= htmlspecialchars($item['content'], ENT_QUOTES); ?>">
+                <?= $item['title']; ?>
+              </option>
             <?php endforeach; ?>
           </select>
-          <input type="text" name="title" class="form-control mb-3" placeholder="Judul Baru" required>
-          <textarea name="content" class="form-control" placeholder="Konten Baru" required></textarea>
+
+          <!-- Input yang otomatis terisi -->
+          <input type="hidden" id="edit-id" name="id">
+          <input type="text" id="edit-title" name="title" class="form-control mb-3" placeholder="Judul Baru" required>
+          <textarea id="edit-content" name="content" class="form-control" placeholder="Konten Baru" required></textarea>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn">Update</button>
+          <button type="submit" class="btn btn-warning">Update</button>
         </div>
       </div>
     </form>
   </div>
 </div>
+<script>
+  function setEditData(select) {
+    const selectedOption = select.options[select.selectedIndex];
+
+    const id = selectedOption.value;
+    const title = selectedOption.getAttribute('data-title');
+    const content = selectedOption.getAttribute('data-content');
+
+    document.getElementById('edit-id').value = id;
+    document.getElementById('edit-title').value = title;
+    document.getElementById('edit-content').value = content;
+  }
+</script>
+
 
 <!-- Modal Hapus -->
 <div class="modal fade" id="modalDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
@@ -93,3 +116,5 @@
     </form>
   </div>
 </div>
+
+
