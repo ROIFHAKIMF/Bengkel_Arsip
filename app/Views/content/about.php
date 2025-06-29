@@ -73,7 +73,7 @@
 <div class="modal fade" id="modalDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered">
     <form action="<?= base_url('about/hapus'); ?>" method="post">
-      <div class="modal-content  modal-half">
+      <div class="modal-content  modal-half ">
         <div class="modal-header">
           <h5 class="modal-title">Hapus Data</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
