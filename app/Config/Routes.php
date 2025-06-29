@@ -10,7 +10,7 @@ $routes->get('/', 'DashboardController::index'); // Halaman Home (dapat diakses 
 // Halaman Login
 $routes->get('login', 'AuthController::login'); // Halaman Login
 $routes->post('login', 'AuthController::processLogin'); // Proses Login
-$routes->get('logout', 'AuthController::logout'); // Logout
+$routes->get('logout', 'AuthController::logout');// Logout
 
 // Halaman Dashboard berdasarkan Role
 $routes->group('admin', ['filter' => 'rolefilter'], function($routes) {

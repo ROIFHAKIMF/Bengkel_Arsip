@@ -689,17 +689,17 @@ flex-direction: row;
   background-color: transparent;
   border-radius: 20px;
   border: 2px solid var(--warna-utama);
+   color: var(--warna-utama);
+  text-decoration: none;
+  font-weight: bold;
 }
+
 .btngallery:hover{
   background-color: var(--warna-utama);
   color:#FFFFFF ; 
   transition: all .3s;
 }
-.btngallery a{
-  color: var(--warna-utama);
-  text-decoration: none;
-  font-weight: bold;
-}
+
 .btngallery:hover > a{
   color:#FFFFFF ; 
 }
@@ -806,4 +806,8 @@ z-index: 99;
     color: var(--warna-teks-putih);
     border-radius: 5px;
     border: none;
+}
+
+.modal-half {
+  width: 500px;
 }
