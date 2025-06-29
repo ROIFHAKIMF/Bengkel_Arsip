@@ -15,7 +15,16 @@ $routes->get('logout', 'AuthController::logout'); // Logout
 // Halaman Dashboard berdasarkan Role
 $routes->group('admin', ['filter' => 'rolefilter'], function($routes) {
     $routes->get('/', 'DashboardController::admin'); // Halaman Admin Dashboard
-    // tambahkan route lain kalau perlu
+
+// Routes untuk CRUD Service
+$routes->get('/service/create', 'DashboardController::createService');
+$routes->post('/service/store', 'DashboardController::storeService');
+$routes->get('/service/edit/(:num)', 'DashboardController::editService/$1');
+$routes->post('/service/update/(:num)', 'DashboardController::updateService/$1');
+$routes->get('/service/delete/(:num)', 'DashboardController::deleteService/$1');
+
+// tambahkan route lain kalau perlu
+
 });
 
 

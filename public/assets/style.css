@@ -783,3 +783,11 @@ z-index: 99;
     border-radius: 0 0 15px 15px !important; /* bawah bundar */
   }
 }
+
+.modal {
+  z-index: 9999 !important;
+}
+
+.modal-backdrop {
+  z-index: 9998 !important;
+}

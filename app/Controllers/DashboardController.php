@@ -79,6 +79,64 @@ class DashboardController extends BaseController
         echo view('content/gallery', ['galeri' => $data_gallery]);
         echo view('content/client', ['groupedClient' => $groupedClient]);
         echo view('content/contact');
-        echo view('layout/footer');
+        echo view('layout/footer');  
     }
+
+    // CRUD service
+    public function createService()
+    {
+        return view('service_form');
+    }
+
+    public function storeService()
+    {
+        $model = new ServiceModel();
+        $file = $this->request->getFile('title');
+        
+        if ($file && $file->isValid()) {
+            $fileName = $file->getRandomName();
+            $file->move('img', $fileName);
+        }
+
+        $model->save([
+            'title' => $fileName ?? '',
+            'content' => $this->request->getPost('content')
+        ]);
+
+        return redirect()->to('/admin');
+    }
+
+    public function editService($id)
+    {
+        $model = new ServiceModel();
+        $data['service'] = $model->find($id);
+        return view('service_edit', $data);
+    }
+
+    public function updateService($id)
+    {
+        $model = new ServiceModel();
+
+        $data = [
+            'content' => $this->request->getPost('content')
+        ];
+
+        $file = $this->request->getFile('title');
+        if ($file && $file->isValid()) {
+            $fileName = $file->getRandomName();
+            $file->move('img', $fileName);
+            $data['title'] = $fileName;
+        }
+
+        $model->update($id, $data);
+        return redirect()->to('/admin');
+    }
+
+    public function deleteService($id)
+    {
+        $model = new ServiceModel();
+        $model->delete($id);
+        return redirect()->to('/admin');
+    }
+
 }
