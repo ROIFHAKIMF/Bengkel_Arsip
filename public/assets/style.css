@@ -148,13 +148,7 @@ text-align: center;
 .card:active {
 transform: scale(0.95) rotateZ(1.7deg);
 }
-.cpbook{
-border-radius: 15px 0 0 15px!important;
-}
-.cp-inner{
-background-color: var(--warna-utama);
-border-radius: 0 15px 15px 0 !important;
-}
+
 .cp-inner h2 , p{
 color: var(--warna-teks-putih);
 font-weight: bolder;
@@ -740,4 +734,52 @@ z-index: 99;
 
 #client > .container-fluid{
   border-radius: 40px;
+}
+
+.cpout{
+  position: relative;
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid var(--warna-utama);
+  border-radius: 20px;
+}
+
+.cpbook{
+  width: 720px;
+  height: 500px;
+  border-radius: 15px 0 0 15px!important;
+}
+.cp-inner{
+    width: 720px;
+    height: 500px;
+    border-radius: 0 15px 15px 0!important;
+    scroll-behavior: smooth;
+    scroll-snap-type: mandatory;
+    overflow-y: auto;
+}
+
+@media (max-width: 1280px) {
+  .cpout {
+    flex-direction: column;
+    width: 90%;
+    height: auto; /* biar menyesuaikan isi saat stack */
+  }
+
+  .cpbook, .cp-inner {
+    width: 100%;
+    height: auto; /* biar fleksibel tinggi saat stacking */
+    border-radius: 15px !important; /* biar gak aneh bentuknya */
+  }
+
+  .cpbook {
+    border-radius: 15px 15px 0 0 !important; /* atas bundar */
+    height: 500px;
+  }
+
+  .cp-inner {
+    border-radius: 0 0 15px 15px !important; /* bawah bundar */
+  }
 }
