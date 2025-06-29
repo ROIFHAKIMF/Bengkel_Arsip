@@ -1,231 +1,57 @@
-   <!-- client start -->
-   <section id="client" class="mb-5 pt-3">
-        <div class="container-fluid pt-5 mt-5 w-100 d-flex justify-content-center align-items-center text-center flex-column">
-            <h1 class="text-center fw-bold color-hijau pb-4 text-uppercase">Client</h1>
-            <div class="row gy-5 w-100">
-                <div class="col-lg-4 col-md-6 col-sm-12 ">
-                    <div id="miniCarousel" class="carousel carousel-dark slide client-bg rounded-3 clientbg" data-bs-ride="carousel">
-                        <div class="carousel-inner text-center ">
-                            <div class="carousel-item active p-4 ">
-                                <p class="mb-0">Digitalisasi Desa</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <p class="mb-0">Digitalisasi Desa</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <p class="mb-0">Digitalisasi Desa</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <p class="mb-0">Digitalisasi Desa</p>
-                            </div>
-                        </div>
-                    <!-- Prev button with green icon -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#miniCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#miniCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    </button>
-                 <?php
-                if (session()->get('isLoggedIn')) {
-                ?>
-                <div class="row ubahbg w-100 top-50 gap-3 pb-5 ">
+<section id="client" class="mb-5 pt-3">
+  <div class="container-fluid pt-5 mt-5 w-100 d-flex justify-content-center align-items-center text-center flex-column">
+    <h1 class="text-center fw-bold color-hijau pb-4 text-uppercase">Client</h1>
+    <div class="row gy-5 w-100">
 
-                    <button type="button" class="btngallery col-3 mb-4 "><a  href="">Hapus</a></button>
-                    <button type="button" class="btngallery col-3 mb-4  "><a  href="">Tambah</a></button>
-                    <button type="button" class="btngallery col-3 mb-4 "><a  href="">Edit</a></button>
+      <?php $carouselId = 1; ?>
+      <?php foreach ($groupedClient as $judul => $items): ?>
+        <div class="col-lg-6 col-md-10 col-sm-12">
+          <div id="minicarousel<?= $carouselId ?>" class="carousel carousel-dark carousel-client slide client-bg rounded-3 clientbg" data-bs-ride="carousel">
+            <div class="carousel-inner text-center">
+              <?php foreach ($items as $index => $item): ?>
+                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?> p-4">
+                    <!-- ✅ Judul -->
+                    <p class="mb-1 fw-bold"><?= esc($item['judul']) ?></p>
+                  <!-- ✅ Gambar -->
+                  <?php if (!empty($item['gambar'])): ?>
+                    <img class="img-cl" src="<?= base_url('img/' . $item['gambar']) ?>" class="d-block w-100" alt="<?= esc($item['judul']) ?>">
+                  <?php endif; ?>
+                  <!-- ✅ Deskripsi -->
+                  <p class="mb-0"><?= esc($item['deskripsi']) ?></p>
                 </div>
-                <?php 
+              <?php endforeach; ?>
+            </div>
+
+            <!-- Navigasi Carousel -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#minicarousel<?= $carouselId ?>" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#minicarousel<?= $carouselId ?>" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+
+            <!-- Tombol Admin -->
+            <?php if (session()->get('isLoggedIn')): ?>
+              <div class="row ubahbg w-100 top-50 gap-3 pb-5">
+                <button type="button" class="btngallery col-3 mb-4"><a href="">Hapus</a></button>
+                <button type="button" class="btngallery col-3 mb-4"><a href="">Tambah</a></button>
+                <button type="button" class="btngallery col-3 mb-4"><a href="">Edit</a></button>
+              </div>
+              <style>
+                #miniCarousel, #minicarousel1, #minicarousel2, #minicarousel3, #minicarousel4, #minicarousel5{ 
+                    height: 450px !important;
+                    width: calc((100%/4)-20px);
+                    box-shadow: 7px 7px 24px rgba(0, 0, 0, 0.6);
+                    border: 3px solid var(--warna-utama);
+                    border-radius: 20px!important;
                 }
-                ?>
-                </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div id="minicarousel1" class="carousel carousel-dark slide client-bg  rounded-3 clientbg" data-bs-ride="carousel">
-                        <div class="carousel-inner text-center">
-                            <div class="carousel-item active p-4">
-                                <p class="mb-0">Restorasi Arsip</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <p class="mb-0">Restorasi Arsip</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <p class="mb-0">Restorasi Arsip</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <p class="mb-0">Restorasi Arsip</p>
-                            </div>
-                        </div>
-                        <!-- Prev button with green icon -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#minicarousel1" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#minicarousel1" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </button>
-                        <?php
-                        if (session()->get('isLoggedIn')) {
-                        ?>
-                        <div class="row ubahbg w-100 top-50 gap-3 pb-5 ">
-
-                            <button type="button" class="btngallery col-3 mb-4 "><a  href="">Hapus</a></button>
-                            <button type="button" class="btngallery col-3 mb-4  "><a  href="">Tambah</a></button>
-                            <button type="button" class="btngallery col-3 mb-4 "><a  href="">Edit</a></button>
-                        </div>
-                        <?php 
-                        }
-                        ?>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                <div id="minicarousel2" class="carousel carousel-dark slide client-bg rounded-3 clientbg" data-bs-ride="carousel">
-                    <div class="carousel-inner text-center">
-                    <div class="carousel-item active p-4">
-                        <p class="mb-0">Penataan Arsip</p>
-                    </div>
-                    <div class="carousel-item p-4">
-                    <p class="mb-0">Penataan Arsip</p>
-                    </div>
-                    <div class="carousel-item p-4">
-                    <p class="mb-0">Penataan Arsip</p>
-                    </div>
-                    <div class="carousel-item p-4">
-                    <p class="mb-0">Penataan Arsip</p>
-                    </div>
-                </div>
-                <!-- Prev button with green icon -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#minicarousel2" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#minicarousel2" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </button>
-                <?php
-                    if (session()->get('isLoggedIn')) {
-                    ?>
-                    <div class="row ubahbg w-100 top-50 gap-3 pb-5 ">
-
-                        <button type="button" class="btngallery col-3 mb-4 "><a  href="">Hapus</a></button>
-                        <button type="button" class="btngallery col-3 mb-4  "><a  href="">Tambah</a></button>
-                        <button type="button" class="btngallery col-3 mb-4 "><a  href="">Edit</a></button>
-                    </div>
-                    <?php 
-                    }
-                    ?>
-            </div>
-                </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div id="minicarousel3" class="carousel carousel-dark slide client-bg  rounded-3 clientbg" data-bs-ride="carousel">
-                            <div class="carousel-inner text-center">
-                            <div class="carousel-item active p-4">
-                                <p class="mb-0">Pelatihan Kearsipan</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">Pelatihan Kearsipan</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">Pelatihan Kearsipan</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">Pelatihan Kearsipan</p>
-                            </div>
-                        </div>
-                        <!-- Prev button with green icon -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#minicarousel3" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#minicarousel3" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </button>
-                        <?php
-                        if (session()->get('isLoggedIn')) {
-                        ?>
-                        <div class="row ubahbg w-100 top-50 gap-3 pb-5 ">
-
-                            <button type="button" class="btngallery col-3 mb-4 "><a  href="">Hapus</a></button>
-                            <button type="button" class="btngallery col-3 mb-4  "><a  href="">Tambah</a></button>
-                            <button type="button" class="btngallery col-3 mb-4 "><a  href="">Edit</a></button>
-                        </div>
-                        <?php 
-                        }
-                        ?>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div id="minicarousel4" class="carousel carousel-dark slide client-bg  rounded-3 clientbg" data-bs-ride="carousel">
-                            <div class="carousel-inner text-center">
-                            <div class="carousel-item active p-4">
-                                <p class="mb-0">Sarpras Kearsipan</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">Sarpras Kearsipan</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">Sarpras Kearsipan</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">Sarpras Kearsipan</p>
-                            </div>
-                        </div>
-                        <!-- Prev button with green icon -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#minicarousel4" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#minicarousel4" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </button>
-                        <?php
-                        if (session()->get('isLoggedIn')) {
-                        ?>
-                        <div class="row ubahbg w-100 top-50 gap-3 pb-5 ">
-
-                            <button type="button" class="btngallery col-3 mb-4 "><a  href="">Hapus</a></button>
-                            <button type="button" class="btngallery col-3 mb-4  "><a  href="">Tambah</a></button>
-                            <button type="button" class="btngallery col-3 mb-4 "><a  href="">Edit</a></button>
-                        </div>
-                        <?php 
-                        }
-                        ?>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div id="minicarousel5" class="carousel carousel-dark slide client-bg  rounded-3 clientbg" data-bs-ride="carousel">
-                            <div class="carousel-inner text-center">
-                            <div class="carousel-item active p-4">
-                            <p class="mb-0">penataan arsip Institusi</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">penataan arsip Institusi</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">penataan arsip Institusi</p>
-                            </div>
-                            <div class="carousel-item p-4">
-                            <p class="mb-0">penataan arsip Institusi</p>
-                            </div>
-                        </div>
-                        <!-- Prev button with green icon -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#minicarousel5" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#minicarousel5" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </button>
-                        <?php
-                        if (session()->get('isLoggedIn')) {
-                        ?>
-                        <div class="row ubahbg w-100 top-50 gap-3 pb-5 ">
-
-                            <button type="button" class="btngallery col-3 mb-4 "><a  href="">Hapus</a></button>
-                            <button type="button" class="btngallery col-3 mb-4  "><a  href="">Tambah</a></button>
-                            <button type="button" class="btngallery col-3 mb-4 "><a  href="">Edit</a></button>
-                        </div>
-                        <?php 
-                        }
-                        ?>
-                    </div>
-                </div>
-            </div>
-                
+              </style>
+            <?php endif; ?>
+          </div>
         </div>
-    </section>
+        <?php $carouselId++; ?>
+      <?php endforeach; ?>
+
+    </div>
+  </div>
+</section>

@@ -214,6 +214,7 @@ animation: blob-bounce 4s infinite ease;
 
 .client-bg{
 background-color: var(--warna-kedua);
+border-radius: 20%;
 }
 
 @keyframes blob-bounce {
@@ -479,11 +480,12 @@ color: var(--warna-teks-hitam);
 text-align: center;
 }
 #miniCarousel, #minicarousel1, #minicarousel2, #minicarousel3, #minicarousel4, #minicarousel5{ 
-height: 320px;
+height: 400px;
+max-height: fit-content;
 width: calc((100%/4)-20px);
 box-shadow: 7px 7px 24px rgba(0, 0, 0, 0.6);
 border: 3px solid var(--warna-utama);
-border-radius: 20px;
+border-radius: 20px!important;
 }
 
 .nav-item{
@@ -709,4 +711,33 @@ background-color: var(--warna-kedua);
 position : absolute;
 top: 0;
 height: 100%;
+z-index: 99;
+}
+
+.img-cl{
+    width: fit-content;
+    height: fit-content;
+}
+
+.carousel-client{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+}
+
+.carousel-client .carousel-inner{
+  height: 100%;
+  width: 100%;
+  border-radius: 30px;
+
+}
+.carousel-client .carousel-item img{
+  height: 280px;
+  width: 70%;
+  z-index: -1;
+}
+
+#client > .container-fluid{
+  border-radius: 40px;
 }

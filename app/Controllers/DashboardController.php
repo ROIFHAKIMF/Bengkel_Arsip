@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\GambarModel;
 use App\Models\AboutModel;
 use App\Models\ServiceModel;
+use App\Models\ClientModel;
 class DashboardController extends BaseController
 {
     // Halaman Utama (Home) - untuk pengunjung (belum login)
@@ -26,6 +27,15 @@ class DashboardController extends BaseController
        $modelService = new ServiceModel();
         $data_services = $modelService->findAll();
 
+        $clientModel = new ClientModel();
+        $clients = $clientModel->findAll();
+
+        $groupedClient = [];
+        foreach ($clients as $client) {
+            $judul = trim($client['judul']);
+            $groupedClient[$judul][] = $client;
+        }
+
         echo view('layout/header');
         echo view('content/nav');
         echo view('content/home');
@@ -33,7 +43,7 @@ class DashboardController extends BaseController
         echo view('content/services', ['data_services' => $data_services]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
-        echo view('content/client');
+        echo view('content/client', ['groupedClient' => $groupedClient]);
         echo view('content/contact');
         echo view('layout/footer');
     }
@@ -51,7 +61,14 @@ class DashboardController extends BaseController
        $modelService = new ServiceModel();
        $data_services = $modelService->findAll();
 
-    
+        $clientModel = new ClientModel();
+        $clients = $clientModel->findAll();
+
+        $groupedClient = [];
+        foreach ($clients as $client) {
+            $judul = trim($client['judul']);
+            $groupedClient[$judul][] = $client;
+        }
 
         echo view('layout/header');
         echo view('content/nav');
@@ -60,7 +77,7 @@ class DashboardController extends BaseController
         echo view('content/services', ['data_services' => $data_services]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
-        echo view('content/client');
+        echo view('content/client', ['groupedClient' => $groupedClient]);
         echo view('content/contact');
         echo view('layout/footer');
     }

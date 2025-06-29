@@ -30,9 +30,9 @@ class AuthController extends BaseController {
 
             // Data pengguna untuk login, username dan password
             $dataUsers = [
-                'Roif_Hakim' => [
-                    'username' => 'Roif_Hakim',
-                    'password' => 'admin123', // password tanpa MD5
+                'roif' => [
+                    'username' => 'roif',
+                    'password' => '123456', // password tanpa MD5
                     'role' => 'admin'
                 ]
             ];
