@@ -520,9 +520,9 @@ border: 3px solid var(--warna-utama);
 border-radius: 20px;
 }
 .img-1{
-height: 400px;
 width: 390px;
 object-fit: cover;
+border-radius: 25px;
 }
 
 #contact .container-fluid .container{
@@ -678,6 +678,11 @@ background-color: #ff0000;
 
 .location{
 background-color: var(--warna-kedua);
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 20px;
+flex-direction: row;
 }
 
 .btngallery{
@@ -782,4 +787,17 @@ z-index: 99;
   .cp-inner {
     border-radius: 0 0 15px 15px !important; /* bawah bundar */
   }
+
+  .location{
+        background-color: var(--warna-kedua);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-direction: column;
+    }
+}
+
+#contact{
+    height: auto;
 }
