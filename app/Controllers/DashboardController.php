@@ -139,4 +139,44 @@ class DashboardController extends BaseController
         return redirect()->to('/admin');
     }
 
+    // Tambah About
+public function tambahAbout()
+{
+    $model = new AboutModel();
+    $model->save([
+        'title' => $this->request->getPost('title'),
+        'content' => $this->request->getPost('content')
+    ]);
+
+    return redirect()->to('/admin')->with('success', 'Data About berhasil ditambahkan.');
+}
+
+// Edit About
+public function editAbout()
+{
+    $model = new AboutModel();
+
+    $id = $this->request->getPost('id');
+    $model->update($id, [
+        'title' => $this->request->getPost('title'),
+        'content' => $this->request->getPost('content')
+    ]);
+
+    return redirect()->to('/admin')->with('success', 'Data About berhasil diedit.');
+}
+
+// Hapus About
+public function hapusAbout()
+{
+    $id = $this->request->getPost('id');
+    $model = new AboutModel();
+
+    if ($model->delete($id)) {
+        return redirect()->back()->with('success', 'Data berhasil dihapus');
+    } else {
+        return redirect()->back()->with('error', 'Gagal menghapus data');
+    }
+}
+
+
 }

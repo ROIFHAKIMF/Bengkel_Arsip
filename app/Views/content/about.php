@@ -23,7 +23,7 @@
 
 <div class="modal fade" id="modalAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAddLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered "> <!-- class kustom -->
-    <form action="<?= base_url('about/tambah'); ?>" method="post">
+    <form action="<?= base_url('admin/about/tambah'); ?>" method="post">
       <div class="modal-content modal-half">
         <div class="modal-header">
           <h5 class="modal-title">Tambah Data</h5>
@@ -45,7 +45,7 @@
 <!-- Modal Edit -->
 <div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered ">
-    <form action="<?= base_url('about/edit'); ?>" method="post">
+    <form action="<?= base_url('admin/about/edit'); ?>" method="post">
       <div class="modal-content modal-half">
         <div class="modal-header">
           <h5 class="modal-title">Edit Data</h5>
@@ -72,7 +72,7 @@
 <!-- Modal Hapus -->
 <div class="modal fade" id="modalDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered">
-    <form action="<?= base_url('about/hapus'); ?>" method="post">
+    <form action="<?= base_url('admin/about/hapus'); ?>" method="post">
       <div class="modal-content  modal-half ">
         <div class="modal-header">
           <h5 class="modal-title">Hapus Data</h5>
