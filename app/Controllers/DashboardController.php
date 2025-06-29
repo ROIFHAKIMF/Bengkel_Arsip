@@ -6,6 +6,9 @@ use App\Models\GambarModel;
 use App\Models\AboutModel;
 use App\Models\ServiceModel;
 use App\Models\ClientModel;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class DashboardController extends BaseController
 {
     // Halaman Utama (Home) - untuk pengunjung (belum login)
