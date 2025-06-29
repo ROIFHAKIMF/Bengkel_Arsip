@@ -41,8 +41,8 @@
                 <h5 class="modal-title">Tambah Service</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="<?= site_url('service/store') ?>" method="post" enctype="multipart/form-data">
-                <?= csrf_field(); ?>
+                <form action="<?= site_url('admin/service/store') ?>" method="post" enctype="multipart/form-data">
+                    <?= csrf_field(); ?>
                 <div class="modal-body">
                     <div class="form-group mb-3">
                         <label for="title">Gambar</label>
@@ -58,6 +58,33 @@
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Hapus Service -->
+<div class="modal fade" id="hapusModal" tabindex="-1" aria-labelledby="hapusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- modal-lg untuk tampilan lebar -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pilih Service yang Ingin Dihapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <?php foreach ($data_services as $service): ?>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <img src="<?= base_url('img/' . $service['title']) ?>" class="card-img-top" alt="Service">
+                                <div class="card-body text-center">
+                                    <p class="card-text"><?= esc($service['content']) ?></p>
+                                    <a href="<?= site_url('service/delete/' . $service['id']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus ini?')">Hapus</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
