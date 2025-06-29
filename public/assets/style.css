@@ -787,17 +787,4 @@ z-index: 99;
   .cp-inner {
     border-radius: 0 0 15px 15px !important; /* bawah bundar */
   }
-
-  .location{
-        background-color: var(--warna-kedua);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-        flex-direction: column;
-    }
-}
-
-#contact{
-    height: auto;
 }
