@@ -811,3 +811,9 @@ z-index: 99;
 .modal-half {
   width: 500px;
 }
+
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Atau bisa disesuaikan: 180px, 250px, dll */
+    object-fit: cover;
+}
