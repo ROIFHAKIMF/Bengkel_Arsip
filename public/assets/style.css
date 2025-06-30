@@ -707,14 +707,14 @@ flex-direction: row;
   background-color: transparent;
   border-radius: 20px;
   border: 2px solid var(--warna-kedua);
-   color: var(--warna-kedua);
   text-decoration: none;
+  color: var(--warna-teks-putih); ;
   font-weight: bold;
 }
 
 .btngallery1:hover{
   background-color: var(--warna-kedua);
-  color:#FFFFFF ; 
+  color: var(--warna-teks-hitam);
   transition: all .3s;
 }
 
