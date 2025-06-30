@@ -146,11 +146,16 @@ class DashboardController extends BaseController
         return redirect()->to('/admin');
     }
 
-    public function hapusService($id)
+    public function hapusService()
     {
+        $id = $this->request->getPost('id');
         $model = new ServiceModel();
-        $model->delete($id);
-        return redirect()->to('/admin');
+
+        if ($model->delete($id)) {
+            return redirect()->back()->with('success', 'Service berhasil dihapus.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menghapus service.');
+        }
     }
 
     // Tambah About
