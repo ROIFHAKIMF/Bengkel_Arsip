@@ -23,7 +23,7 @@ class User extends Migration
             ],
             'password' => [
                 'type' => 'VARCHAR',
-                'constraint' => 25,
+                'constraint' => 255,
                 'null' => FALSE,
             ],
             'role' => [
@@ -34,13 +34,13 @@ class User extends Migration
         ]);
 
         $this->forge->addKey('id', TRUE);
-        $this->forge->createTable('user');
+        $this->forge->createTable('user') ;
     }
 
     //--------------------------------------------------------------------
 
     public function down()
     {
-        $this->forge->dropTable('user');
+        $this->forge->dropTable('user') ;
     }
 }

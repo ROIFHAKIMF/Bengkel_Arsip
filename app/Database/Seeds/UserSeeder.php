@@ -11,21 +11,21 @@ class UserSeeder extends Seeder
         $data = [
             [
                 'username' => 'Adit',
-                'password'  => password_hash('123456', PASSWORD_DEFAULT),
-                'role' => 'admin',
+                'password' => password_hash('123456', PASSWORD_DEFAULT),
+                'role'     => 'admin',
             ],
             [
                 'username' => 'Rafi',
-                'password'  => password_hash('123456', PASSWORD_DEFAULT),
-                'role' => 'admin',
+                'password' => password_hash('123456', PASSWORD_DEFAULT),
+                'role'     => 'admin',
             ],
             [
                 'username' => 'Roif',
-                'password'  => password_hash('123456', PASSWORD_DEFAULT),
-                'role' => 'admin',
+                'password' => password_hash('123456', PASSWORD_DEFAULT),
+                'role'     => 'admin',
             ],
         ];
 
-        $this->db->table('user')->insertBatch($data); // insertBatch bukan insert
+        $this->db->table('user')->insertBatch($data); // Pastikan nama tabel sesuai
     }
 }

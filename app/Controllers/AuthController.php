@@ -3,70 +3,53 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\UserModel;
 
-class AuthController extends BaseController {
+class AuthController extends BaseController
+{
     public function login()
     {
-        // Jika sudah login, langsung ke dashboard berdasarkan role
         if (session()->get('isLoggedIn')) {
-            $role = session()->get('role');
-            if ($role == 'admin') {
+            if (session()->get('role') === 'admin') {
                 return redirect()->to('/admin');
             }
         }
 
-        // Tampilkan halaman login jika belum login
         echo view('layout/header');
         echo view('content/login');
     }
 
     public function processLogin()
     {
-        // Proses login dengan username dan password
-        if ($this->request->getPost()) {
-            $username = $this->request->getVar('username');
-            $password = $this->request->getVar('password');
+        $model = new UserModel();
 
-            // Data pengguna untuk login, username dan password
-            $dataUsers = [
-                'roif' => [
-                    'username' => 'roif',
-                    'password' => '123456', // password tanpa MD5
-                    'role' => 'admin'
-                ]
-            ];
+        $username = $this->request->getVar('username');
+        $password = $this->request->getVar('password');
 
-            // Cek apakah username ada dalam dataUsers
-            if (isset($dataUsers[$username])) {
-                if ($dataUsers[$username]['password'] == $password) {
-                    session()->set([
-                        'username' => $dataUsers[$username]['username'],
-                        'role' => $dataUsers[$username]['role'],
-                        'isLoggedIn' => TRUE
-                    ]);
+        $user = $model->where('username', $username)->first();
 
-                    // Redirect sesuai role setelah login
-                    if ($dataUsers[$username]['role'] == 'admin') {
-                        return redirect()->to('/admin');
-                    }
-                } else {
-                    // Jika password salah, beri alert
-                    session()->setFlashdata('failed', 'Password salah');
-                    return redirect()->to('/login');
-                }
+        if ($user) {
+            if (password_verify($password, $user['password'])) {
+                session()->set([
+                    'id'         => $user['id'],
+                    'username'   => $user['username'],
+                    'role'       => $user['role'],
+                    'isLoggedIn' => true
+                ]);
+                return redirect()->to('/admin');
             } else {
-                // Jika username tidak ditemukan, beri alert
-                session()->setFlashdata('failed', 'Username tidak ditemukan');
+                session()->setFlashdata('failed', 'Password salah');
                 return redirect()->to('/login');
             }
+        } else {
+            session()->setFlashdata('failed', 'Username tidak ditemukan');
+            return redirect()->to('/login');
         }
     }
 
-    // Fungsi logout
     public function logout()
     {
-        session()->destroy(); // Hapus session
-        return redirect()->to('/login'); // Kembali ke halaman login
+        session()->destroy();
+        return redirect()->to('/login');
     }
 }
