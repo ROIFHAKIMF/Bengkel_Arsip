@@ -8,5 +8,5 @@ class GambarModel extends Model
 {
     protected $table = 'gambar';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['gambar', 'deskripsi'];
+    protected $allowedFields = ['judul','gambar', 'deskripsi'];
 }

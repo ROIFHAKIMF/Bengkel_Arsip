@@ -253,15 +253,54 @@ public function hapusClient()
     }
 }
 
-public function tambahgallery(){
+    protected $gambarModel;
 
-}
-public function editgallery(){
+    public function __construct()
+    {
+        $this->gambarModel = new GambarModel();
+    }
 
-}
-public function hapusgallery(){
+    public function tambahgallery()
+    {
+        $gambar = $this->request->getFile('gambar');
+        $gambarName = $gambar->getRandomName();
+        $gambar->move('img', $gambarName);
 
-}
+        $this->gambarModel->save([
+            'gambar'     => $gambarName,
+            'deskripsi'  => $this->request->getPost('deskripsi'),
+            'judul'      => $this->request->getPost('judul'), // kalau tabel `gambar` punya kolom 'judul'
+        ]);
+
+        return redirect()->back()->with('success', 'Galeri berhasil ditambahkan!')->to('/admin#gallery');
+    }
+
+    public function editgallery()
+    {
+        $id = $this->request->getPost('id');
+        $data = [
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'judul'     => $this->request->getPost('judul'),
+        ];
+
+        $gambar = $this->request->getFile('gambar');
+        if ($gambar && $gambar->isValid()) {
+            $gambarName = $gambar->getRandomName();
+            $gambar->move('img', $gambarName);
+            $data['gambar'] = $gambarName;
+        }
+
+        $this->gambarModel->update($id, $data);
+
+        return redirect()->back()->with('success', 'Galeri berhasil diupdate!')->to('/admin#gallery');
+    }
+
+    public function hapusgallery()
+    {
+        $id = $this->request->getPost('id');
+        $this->gambarModel->delete($id);
+        return redirect()->back()->with('success', 'Galeri berhasil dihapus!')->to('/admin#gallery');
+    }
 
 
 }

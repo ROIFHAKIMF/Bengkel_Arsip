@@ -37,3 +37,4 @@ $routes->post('/admin/client/hapus', 'DashboardController::hapusClient');
 $routes->post('/admin/gallery/tambah', 'DashboardController::tambahgallery');
 $routes->post('/admin/gallery/edit', 'DashboardController::editgallery');
 $routes->post('/admin/gallery/hapus', 'DashboardController::hapusgallery');
+

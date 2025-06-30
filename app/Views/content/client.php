@@ -110,7 +110,7 @@ function fillEditClient(select) {
               <?php foreach ($clients as $client): ?>
                 <label class="list-group-item d-flex align-items-start gap-3">
                   <input class="form-check-input mt-1" type="radio" name="id" value="<?= $client['id'] ?>" required>
-                  <div class="d-flex flex-column justify-content-center align-items-center">
+                  <div class="tabel-modal d-flex flex-column justify-content-center align-items-center">
                     <div class="d-flex flex-row align-items-start justify-content-start w-100">
                       <p class="fw-bold mb-1"><?= esc($client['judul']) ?></p>
                       <img src="<?= base_url('img/' . $client['gambar']) ?>" alt="" width="60" height="40" class="rounded shadow-sm mb-1">
@@ -156,10 +156,10 @@ function fillEditClient(select) {
 
             <!-- Navigasi Carousel -->
             <button class="carousel-control-prev" type="button" data-bs-target="#minicarousel<?= $carouselId ?>" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon bg-warning" aria-hidden="true"></span>
+              <span class="bg-light d-flex justify-content-center align-items-center text-light fs-3 p-4 rounded-pill carousel-control-prev-icon" aria-hidden="true"><i class="bi bi-caret-left-fill"></i></span>
             </button>
-            <button class="carousel-control-next h-25" type="button" data-bs-target="#minicarousel<?= $carouselId ?>" data-bs-slide="next">
-              <span class="carousel-control-next-icon bg-warning" aria-hidden="true"></span>
+            <button class="carousel-control-next" type="button" data-bs-target="#minicarousel<?= $carouselId ?>" data-bs-slide="next">
+              <span class="bg-light text-light d-flex justify-content-center align-items-center fs-3 p-4 rounded-pill carousel-control-next-icon" aria-hidden="true"><i class="bi bi-caret-right-fill"></i></span>
             </button>
 
             <!-- Tombol Admin -->
