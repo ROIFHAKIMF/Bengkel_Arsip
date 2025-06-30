@@ -56,41 +56,34 @@
 </div>
 
 <!-- Modal Hapus Service -->
-<div class="modal fade" id="hapusModal" tabindex="-1" aria-labelledby="hapusModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Pilih Service yang Ingin Dihapus</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-      </div>
-      <div class="modal-body">
-        <div class="d-flex flex-wrap justify-content-center gap-2">
-          <?php foreach ($data_services as $service): ?>
-            <div class="card text-center d-flex flex-column align-items-center"
-                 style="width: 120px; height: 180px; border: 1px solid var(--warna-utama); border-radius: 8px; padding: 0.4rem; overflow: hidden;">
-              
-              <!-- Gambar -->
-              <img src="<?= base_url('img/' . $service['title']) ?>" 
-                   style="width: 100%; height: 60px; object-fit: cover; border-radius: 6px;" 
-                   alt="Service">
-
-              <!-- Deskripsi Singkat -->
-              <div class="mt-1" 
-                   style="font-size: 0.65rem; text-align: center; max-height: 3em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                <?= esc($service['content']) ?>
-              </div>
-
-              <!-- Tombol Hapus -->
-              <a href="<?= site_url('service/delete/' . $service['id']) ?>" 
-                 class="btn btn-sm btn-danger w-100 mt-auto py-0"
-                 style="font-size: 0.6rem;" 
-                 onclick="return confirm('Yakin ingin menghapus ini?')">
-                Hapus
-              </a>
-            </div>
-          <?php endforeach; ?>
+<div class="modal fade" id="hapusModal" data-bs-backdrop="static" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <form action="<?= base_url('admin/service/hapus') ?>" method="post">
+      <div class="modal-content modal-half">
+        <div class="modal-header">
+          <h5 class="modal-title">Hapus Service</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Pilih service yang ingin dihapus:</p>
+          <div class="list-group overflow-auto" style="max-height: 300px;">
+            <?php foreach ($data_services as $service): ?>
+              <label class="list-group-item d-flex align-items-start gap-3">
+                <input class="form-check-input mt-1" type="radio" name="id" value="<?= $service['id'] ?>" required>
+                <div class="d-flex flex-column justify-content-center align-items-start">
+                  <div class="d-flex flex-row align-items-start justify-content-start w-100 gap-2">
+                    <p class="fw-bold mb-1 small"><?= esc($service['content']) ?></p>
+                    <img src="<?= base_url('img/' . $service['title']) ?>" alt="Service" width="60" height="40" class="rounded shadow-sm mb-1">
+                  </div>
+                </div>
+              </label>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Hapus</button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
