@@ -659,20 +659,20 @@ transition: all 0.3s ease-in-out;
 .example-2 .icon-content a:hover .filled {
 height: 100%;
 }
-.example-2 .icon-content a[data-social="spotify"] .filled,
-.example-2 .icon-content a[data-social="spotify"] ~ .tooltip {
+.example-2 .icon-content a[data-social="whatsapp"] .filled,
+.example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip {
 background-color: #248044;
 }
-.example-2 .icon-content a[data-social="pinterest"] .filled,
-.example-2 .icon-content a[data-social="pinterest"] ~ .tooltip {
+.example-2 .icon-content a[data-social="Instagram"] .filled,
+.example-2 .icon-content a[data-social="Instagram"] ~ .tooltip {
 background-color: #ea4c89;
 }
-.example-2 .icon-content a[data-social="dribbble"] .filled,
-.example-2 .icon-content a[data-social="dribbble"] ~ .tooltip {
+.example-2 .icon-content a[data-social="Facebook"] .filled,
+.example-2 .icon-content a[data-social="Facebook"] ~ .tooltip {
 background-color: #454e96;
 }
-.example-2 .icon-content a[data-social="telegram"] .filled,
-.example-2 .icon-content a[data-social="telegram"] ~ .tooltip {
+.example-2 .icon-content a[data-social="Email"] .filled,
+.example-2 .icon-content a[data-social="Email"] ~ .tooltip {
 background-color: #ff0000;
 }
 

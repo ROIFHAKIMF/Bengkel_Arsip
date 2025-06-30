@@ -9,7 +9,7 @@
         <p class="mt-2">solusi kearsipan <br> profesional dan terpercaya</p>
         <ul class="example-2 ms-0">
             <li class="icon-content">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#whatsappModal" aria-label="Whatsapp">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#whatsappModal" aria-label="whatsapp" data-social="whatsapp">
                 <div class="filled"></div>
                 <i class="bi bi-whatsapp fs-3"></i>
               </a>
@@ -18,8 +18,8 @@
             <li class="icon-content">
                 <a
                 href="https://www.instagram.com/bengkel.arsip/"
-                aria-label="Pinterest"
-                data-social="pinterest"
+                aria-label="Instagram"
+                data-social="Instagram"
                 >
                     <div class="filled"></div>
                     <i class="bi bi-instagram fs-3"></i>
@@ -29,8 +29,8 @@
             <li class="icon-content">
                 <a
                 href="https://www.facebook.com/bengkel.arsip/"
-                aria-label="Dribbble"
-                data-social="dribbble"
+                aria-label="Facebook"
+                data-social="Facebook"
                 >
                 <div class="filled"></div>
                 <i class="bi bi-facebook fs-3"></i>
@@ -40,11 +40,11 @@
             <li class="icon-content">
                 <a
                 href="https://www.youtube.com/@bengkelarsip3676"
-                aria-label="Telegram"
-                data-social="telegram"
+                aria-label="Email"
+                data-social="Email"
                 >
                 <div class="filled"></div>
-                <i class="bi bi-youtube fs-3"></i>
+                <i class="bi bi-envelope fs-3"></i>
                 </a>
                 <div class="tooltip">Youtube</div>
             </li>
