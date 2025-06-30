@@ -34,7 +34,7 @@
         <h5 class="modal-title">Tambah Service</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="<?= site_url('admin/service/store') ?>" method="post" enctype="multipart/form-data">
+      <form action="<?= site_url('admin/service/tambah') ?>" method="post" enctype="multipart/form-data">
         <?= csrf_field(); ?>
         <div class="modal-body">
           <div class="form-group mb-3">
