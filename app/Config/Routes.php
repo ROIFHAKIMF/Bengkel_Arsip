@@ -20,7 +20,7 @@ $routes->group('admin', ['filter' => 'rolefilter'], function ($routes) {
 
     // Service (Layanan)
     $routes->post('service/tambah', 'DashboardController::tambahService');
-    $routes->post('service/edit/(:num)', 'DashboardController::editService/$1');
+    $routes->post('service/edit', 'DashboardController::editService');
     $routes->post('service/hapus', 'DashboardController::hapusService');
 
     // About
