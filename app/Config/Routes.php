@@ -5,37 +5,31 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// Halaman Utama dan Halaman Publik (Guest)
-$routes->get('/', 'DashboardController::index'); // Halaman Home (dapat diakses oleh guest)n Contact (dapat diakses oleh guest)
-// Halaman Login
-$routes->get('login', 'AuthController::login'); // Halaman Login
-$routes->post('login', 'AuthController::processLogin'); // Proses Login
-$routes->get('logout', 'AuthController::logout');// Logout
 
-// Halaman Dashboard berdasarkan Role
-$routes->group('admin', ['filter' => 'rolefilter'], function($routes) {
-    $routes->get('/', 'DashboardController::admin'); // Halaman Admin Dashboard
+// Halaman publik (untuk pengunjung / guest)
+$routes->get('/', 'DashboardController::index');
 
-// Routes untuk CRUD Service
-    $routes->get('service/create', 'DashboardController::createService');
-    $routes->post('service/store', 'DashboardController::storeService');
-    $routes->get('/service/edit/(:num)', 'DashboardController::editService/$1');
-    $routes->post('/service/update/(:num)', 'DashboardController::updateService/$1');
-    $routes->get('/service/delete/(:num)', 'DashboardController::deleteService/$1');
+// Autentikasi
+$routes->get('login', 'AuthController::login');
+$routes->post('login', 'AuthController::processLogin');
+$routes->get('logout', 'AuthController::logout');
 
-// tambahkan route lain kalau perlu
+// Halaman dashboard dan manajemen data (khusus admin)
+$routes->group('admin', ['filter' => 'rolefilter'], function ($routes) {
+    $routes->get('/', 'DashboardController::admin');
 
+    // Service (Layanan)
+    $routes->post('service/tambah', 'DashboardController::simpanLayanan');
+    $routes->post('service/edit/(:num)', 'DashboardController::perbaruiLayanan/$1');
+    $routes->post('service/hapus', 'DashboardController::hapusLayanan');
+
+    // About
     $routes->post('about/tambah', 'DashboardController::tambahAbout');
     $routes->post('about/edit', 'DashboardController::editAbout');
-    $routes->post('about/hapus', 'DashboardController::hapusAbout'); 
-    
+    $routes->post('about/hapus', 'DashboardController::hapusAbout');
+
+    // Client
+    $routes->post('client/tambah', 'DashboardController::tambahClient');
+    $routes->post('client/edit', 'DashboardController::editClient');
+    $routes->post('client/hapus', 'DashboardController::hapusClient');
 });
-// Routes untuk CRUD Client
-$routes->post('/admin/client/tambah', 'DashboardController::tambahClient');
-$routes->post('/admin/client/edit', 'DashboardController::editClient');
-$routes->post('/admin/client/hapus', 'DashboardController::hapusClient');
-
-
-
-
-
