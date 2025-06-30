@@ -19,9 +19,9 @@ $routes->group('admin', ['filter' => 'rolefilter'], function ($routes) {
     $routes->get('/', 'DashboardController::admin');
 
     // Service (Layanan)
-    $routes->post('service/tambah', 'DashboardController::simpanLayanan');
-    $routes->post('service/edit/(:num)', 'DashboardController::perbaruiLayanan/$1');
-    $routes->post('service/hapus', 'DashboardController::hapusLayanan');
+    $routes->post('service/tambah', 'DashboardController::tambahService');
+    $routes->post('service/edit/(:num)', 'DashboardController::editService/$1');
+    $routes->post('service/hapus', 'DashboardController::hapusService');
 
     // About
     $routes->post('about/tambah', 'DashboardController::tambahAbout');

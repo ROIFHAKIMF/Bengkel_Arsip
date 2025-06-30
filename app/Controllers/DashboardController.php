@@ -102,7 +102,7 @@ class DashboardController extends BaseController
         return view('service_form');
     }
 
-    public function storeService()
+    public function tambahService()
     {
         $model = new ServiceModel();
         $file = $this->request->getFile('title');
@@ -146,7 +146,7 @@ class DashboardController extends BaseController
         return redirect()->to('/admin');
     }
 
-    public function deleteService($id)
+    public function hapusService($id)
     {
         $model = new ServiceModel();
         $model->delete($id);
