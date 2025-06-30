@@ -26,10 +26,14 @@ $routes->group('admin', ['filter' => 'rolefilter'], function ($routes) {
     // About
     $routes->post('about/tambah', 'DashboardController::tambahAbout');
     $routes->post('about/edit', 'DashboardController::editAbout');
-    $routes->post('about/hapus', 'DashboardController::hapusAbout');
-
-    // Client
-    $routes->post('client/tambah', 'DashboardController::tambahClient');
-    $routes->post('client/edit', 'DashboardController::editClient');
-    $routes->post('client/hapus', 'DashboardController::hapusClient');
+    $routes->post('about/hapus', 'DashboardController::hapusAbout'); 
+    
 });
+// Routes untuk CRUD Client
+$routes->post('/admin/client/tambah', 'DashboardController::tambahClient');
+$routes->post('/admin/client/edit', 'DashboardController::editClient');
+$routes->post('/admin/client/hapus', 'DashboardController::hapusClient');
+// Routes untuk CRUD Gallery
+$routes->post('/admin/gallery/tambah', 'DashboardController::tambahgallery');
+$routes->post('/admin/gallery/edit', 'DashboardController::editgallery');
+$routes->post('/admin/gallery/hapus', 'DashboardController::hapusgallery');

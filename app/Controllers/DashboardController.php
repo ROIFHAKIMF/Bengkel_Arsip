@@ -162,7 +162,7 @@ public function tambahAbout()
         'content' => $this->request->getPost('content')
     ]);
 
-    return redirect()->to('/admin')->with('success', 'Data About berhasil ditambahkan.');
+    return redirect()->to('/admin#about')->with('success', 'Data About berhasil ditambahkan.');
 }
 
 // Edit About
@@ -176,7 +176,7 @@ public function editAbout()
         'content' => $this->request->getPost('content')
     ]);
 
-    return redirect()->to('/admin')->with('success', 'Data About berhasil diedit.');
+    return redirect()->to('/admin#about')->with('success', 'Data About berhasil diedit.');
 }
 
 // Hapus About
@@ -186,9 +186,9 @@ public function hapusAbout()
     $model = new AboutModel();
 
     if ($model->delete($id)) {
-        return redirect()->back()->with('success', 'Data berhasil dihapus');
+        return redirect()->back()->with('success', 'Data berhasil dihapus')->to('/admin#about');
     } else {
-        return redirect()->back()->with('error', 'Gagal menghapus data');
+        return redirect()->back()->with('error', 'Gagal menghapus data')->to('/admin#about');
     }
 }
 
@@ -210,7 +210,7 @@ public function tambahClient()
     }
 
     $clientModel->save($data);
-    return redirect()->to('/admin')->with('success', 'Client berhasil ditambahkan.');
+    return redirect()->to('/admin#client')->with('success', 'Client berhasil ditambahkan.');
 }
 
 // Edit Client
@@ -232,7 +232,7 @@ public function editClient()
     }
 
     $clientModel->update($id, $data);
-    return redirect()->to('/admin')->with('success', 'Client berhasil diedit.');
+    return redirect()->to('/admin#client')->with('success', 'Client berhasil diedit.');
 }
 
 // Hapus Client
@@ -242,12 +242,21 @@ public function hapusClient()
     $id = $this->request->getPost('id');
 
     if ($clientModel->delete($id)) {
-        return redirect()->to('/admin')->with('success', 'Client berhasil dihapus.');
+        return redirect()->to('/admin')->with('success', 'Client berhasil dihapus.')->to('/admin#client');
     } else {
-        return redirect()->to('/admin')->with('error', 'Gagal menghapus client.');
+        return redirect()->to('/admin')->with('error', 'Gagal menghapus client.')->to('/admin#client');
     }
 }
 
+public function tambahgallery(){
+
+}
+public function editgallery(){
+
+}
+public function hapusgallery(){
+
+}
 
 
 }

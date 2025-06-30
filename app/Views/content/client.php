@@ -138,7 +138,7 @@ function fillEditClient(select) {
       <?php $carouselId = 1; ?>
       <?php foreach ($groupedClient as $judul => $items): ?>
         <div class="col-lg-6 col-md-10 col-sm-12">
-          <div id="minicarousel<?= $carouselId ?>" class="carousel carousel-dark carousel-client slide client-bg rounded-3 clientbg" data-bs-ride="carousel">
+          <div id="minicarousel<?= $carouselId ?>" class="carousel carousel-dark carousel-client slide client-bg rounded-3 clientbg d-flex justify-content-center align-items-center" data-bs-ride="carousel">
             <div class="carousel-inner text-center">
               <?php foreach ($items as $index => $item): ?>
                 <div class="carousel-item <?= $index === 0 ? 'active' : '' ?> p-4">
@@ -156,10 +156,10 @@ function fillEditClient(select) {
 
             <!-- Navigasi Carousel -->
             <button class="carousel-control-prev" type="button" data-bs-target="#minicarousel<?= $carouselId ?>" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="carousel-control-prev-icon bg-warning" aria-hidden="true"></span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#minicarousel<?= $carouselId ?>" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <button class="carousel-control-next h-25" type="button" data-bs-target="#minicarousel<?= $carouselId ?>" data-bs-slide="next">
+              <span class="carousel-control-next-icon bg-warning" aria-hidden="true"></span>
             </button>
 
             <!-- Tombol Admin -->
