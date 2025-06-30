@@ -120,16 +120,10 @@ class DashboardController extends BaseController
         return redirect()->to('/admin');
     }
 
-    public function editService($id)
+    public function editService()
     {
         $model = new ServiceModel();
-        $data['service'] = $model->find($id);
-        return view('service_edit', $data);
-    }
-
-    public function updateService($id)
-    {
-        $model = new ServiceModel();
+        $id = $this->request->getPost('id');
 
         $data = [
             'content' => $this->request->getPost('content')
@@ -138,12 +132,12 @@ class DashboardController extends BaseController
         $file = $this->request->getFile('title');
         if ($file && $file->isValid()) {
             $fileName = $file->getRandomName();
-            $file->move('img', $fileName);
+            $file->move('img/', $fileName);
             $data['title'] = $fileName;
         }
 
         $model->update($id, $data);
-        return redirect()->to('/admin');
+        return redirect()->to('/admin#service')->with('success', 'Service berhasil diedit.');
     }
 
     public function hapusService()

@@ -9,21 +9,17 @@
         <p class="mt-2">solusi kearsipan <br> profesional dan terpercaya</p>
         <ul class="example-2 ms-0">
             <li class="icon-content">
-                <a
-                href="https://www.spotify.com/"
-                aria-label="Spotify"
-                data-social="spotify"
-                >
-                    <div class="filled"></div>
-                    <i class="bi bi-whatsapp fs-3"></i>
-                </a>
-                <div class="tooltip">Whatsapp</div>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#whatsappModal" aria-label="whatsapp" data-social="whatsapp">
+                <div class="filled"></div>
+                <i class="bi bi-whatsapp fs-3"></i>
+              </a>
+              <div class="tooltip">Whatsapp</div>
             </li>
             <li class="icon-content">
                 <a
-                href="https://www.pinterest.com/"
-                aria-label="Pinterest"
-                data-social="pinterest"
+                href="https://www.instagram.com/bengkel.arsip/"
+                aria-label="Instagram"
+                data-social="Instagram"
                 >
                     <div class="filled"></div>
                     <i class="bi bi-instagram fs-3"></i>
@@ -32,9 +28,9 @@
             </li>
             <li class="icon-content">
                 <a
-                href="https://dribbble.com/"
-                aria-label="Dribbble"
-                data-social="dribbble"
+                href="https://www.facebook.com/bengkel.arsip/"
+                aria-label="Facebook"
+                data-social="Facebook"
                 >
                 <div class="filled"></div>
                 <i class="bi bi-facebook fs-3"></i>
@@ -43,14 +39,14 @@
             </li>
             <li class="icon-content">
                 <a
-                href="https://telegram.org/"
-                aria-label="Telegram"
-                data-social="telegram"
+                href="https://www.youtube.com/@bengkelarsip3676"
+                aria-label="Email"
+                data-social="Email"
                 >
                 <div class="filled"></div>
-                <i class="bi bi-youtube fs-3"></i>
+                <i class="bi bi-envelope fs-3"></i>
                 </a>
-                <div class="tooltip">Telegram</div>
+                <div class="tooltip">Youtube</div>
             </li>
         </ul>
       </div>
@@ -83,9 +79,71 @@
 </footer>
     <script src="<?=base_url("assets/index.js")?>"></script>
     <script src="<?= base_url('bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+
+    <!-- Modal Whatsapp -->
+<div class="modal fade" id="whatsappModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <form id="whatsappForm" onsubmit="sendToWhatsApp(event)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Kirim Pesan WhatsApp</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="namaUser" class="form-label">Nama</label>
+            <input type="text" class="form-control" id="namaUser" placeholder="Masukkan nama Anda" required>
+          </div>
+          <div class="mb-3">
+            <label for="serviceSelect" class="form-label">Pilih Layanan</label>
+            <select class="form-select" id="serviceSelect" required onchange="updateSelectedImage()">
+              <option value="">Pilih layanan</option>
+              <?php foreach ($data_services as $service): ?>
+                <option 
+                  value="<?= esc($service['content']) ?>" 
+                  data-img="<?= base_url('img/' . $service['title']) ?>">
+                  <?= esc($service['content']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Kirim</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 </body>
 </html>
 <script>
     // Set the current year in the footer
     document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script>
+let selectedImageUrl = '';
+
+function updateSelectedImage() {
+  const select = document.getElementById('serviceSelect');
+  const option = select.options[select.selectedIndex];
+  selectedImageUrl = option.getAttribute('data-img') || '';
+}
+
+function sendToWhatsApp(event) {
+  event.preventDefault();
+
+  const nama = document.getElementById('namaUser').value;
+  const layanan = document.getElementById('serviceSelect').value;
+
+  let pesan = `Halo, saya ${nama}. Saya tertarik dengan layanan: ${layanan}`;
+  if (selectedImageUrl) {
+    pesan += `\nBerikut adalah gambar layanan:\n${selectedImageUrl}`;
+  }
+
+  const nomorTujuan = "6282242502468"; // Ganti dengan nomor WA tujuan
+  const url = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(pesan)}`;
+
+  window.open(url, '_blank');
+}
 </script>
