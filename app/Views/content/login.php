@@ -1,15 +1,13 @@
 <section id="login">
-    <div class="container-fluid bg-hijau w-100 d-flex justify-content-center align-items-center vh-100 position-relative">
+    <div class="container-fluid bg-login w-100 d-flex justify-content-center align-items-center vh-100 position-relative">
         <a href="/" class="btn btn-warning rounded-5 position-absolute m-3 top-0 end-0 p-2">
             <i class="bi bi-person-circle me-2"></i>Guest
         </a>
-
-        <div class="w-50 bg-white p-5 rounded-4 shadow-lg d-flex justify-content-center align-items-center flex-column">
+        <div class="w-50 form-login p-5 rounded-4 shadow-lg d-flex justify-content-center align-items-center flex-column">
             <form method="post" action="/login" class="form-floating needs-validation w-100">
                 <?= csrf_field() ?> <!-- penting kalau CSRF aktif di config -->
-                
+                <h1 class="text-white text-center fw-bold">FORM LOGIN ADMIN</h1>
                 <h1 class="fw-bold text-center color-hijau mb-3">BENGKEL ARSIP</h1>
-
                 <?php if (session()->getFlashdata('failed')): ?>
                     <div class="alert alert-danger" role="alert">
                         <?= session()->getFlashdata('failed'); ?>

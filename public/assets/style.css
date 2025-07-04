@@ -882,3 +882,10 @@ footer{
 .list-group-item{
   background-color: var(--warna-kedua);
 }
+
+.bg-login{
+  background-color: var(--warna-keempat);
+}
+.form-login{
+  background-color: var(--warna-kedua);
+}
