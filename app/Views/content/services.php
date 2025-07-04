@@ -16,6 +16,14 @@
           <div class="bg">
             <img src="<?= base_url('img/' . $service['title']) ?>" class="card-img-top" alt="...">
             <h4 class="card-title fw-bolder text-center"><?= $service['content'] ?></h4>
+            <div class="button-container">
+              <button class="learn-more">
+                <span class="circle" aria-hidden="true">
+                <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">Learn More</span>
+              </button>
+            </div>
           </div>
           <div class="blob"></div>
         </div>
