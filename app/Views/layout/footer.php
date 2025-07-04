@@ -101,13 +101,13 @@ function sendToWhatsApp(event) {
   const nama = document.getElementById('namaUser').value;
   const layanan = document.getElementById('serviceSelect').value;
 
-  let pesan = `Halo, saya ${nama}. Saya tertarik dengan layanan: ${layanan}`;
+  let pesan = Halo, saya ${nama}. Saya tertarik dengan layanan: ${layanan};
   if (selectedImageUrl) {
-    pesan += `\nBerikut adalah gambar layanan:\n${selectedImageUrl}`;
+    pesan += \nBerikut adalah gambar layanan:\n${selectedImageUrl};
   }
 
   const nomorTujuan = "6282242502468"; // Ganti dengan nomor WA tujuan
-  const url = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(pesan)}`;
+  const url = https://wa.me/${nomorTujuan}?text=${encodeURIComponent(pesan)};
 
   window.open(url, '_blank');
 }
