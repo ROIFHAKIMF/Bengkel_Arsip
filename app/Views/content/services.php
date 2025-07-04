@@ -10,20 +10,24 @@
       </div>
     <?php endif; ?>
 
-    <div class="row gap-5 justify-content-center">
+      <div class="row gap-5 justify-content-center">
       <?php foreach ($data_services as $service): ?>
         <div class="card-sr col-lg-4 col-md-6 col-sm-12">
           <div class="bg">
             <img src="<?= base_url('img/' . $service['title']) ?>" class="card-img-top" alt="...">
             <h4 class="card-title fw-bolder text-center"><?= $service['content'] ?></h4>
             <div class="button-container">
-              <button class="learn-more">
+            <?php if (session()->get('isLoggedIn')): ?>
+              <a href="<?= base_url('admin?service=' . $service['id']) ?>#service" class="learn-more">
+            <?php else: ?>
+              <a href="<?= base_url('/?service=' . $service['id']) ?>#service" class="learn-more">
+            <?php endif; ?>
                 <span class="circle" aria-hidden="true">
-                <span class="icon arrow"></span>
+                  <span class="icon arrow"></span>
                 </span>
                 <span class="button-text">Learn More</span>
-              </button>
-            </div>
+              </a>
+</div>
           </div>
           <div class="blob"></div>
         </div>
@@ -31,6 +35,8 @@
     </div>
   </div>
 </section>
+
+
 
 <!-- Modal Tambah -->
 <div class="modal fade" id="addModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">

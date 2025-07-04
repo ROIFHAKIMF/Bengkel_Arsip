@@ -12,63 +12,27 @@ use Dompdf\Options;
 class DashboardController extends BaseController
 {
     // Halaman Utama (Home) - untuk pengunjung (belum login)
-    public function index()
-    {
-        $session = session();
+   public function index()
+{
+    $session = session();
 
-        // Jika sudah login dan role admin, redirect ke /admin
-        if ($session->get('isLoggedIn') && $session->get('role') === 'admin') {
-            return redirect()->to('/admin');
-        }
-
-        $model = new GambarModel();
-        $data_gallery = $model->findAll();
-        
-        $modelAbout = new AboutModel();
-        $data_about = $modelAbout->findAll();
-
-       $modelService = new ServiceModel();
-        $data_services = $modelService->findAll();
-
-        $clientModel = new ClientModel();
-        $clients = $clientModel->findAll();
-
-        $groupedClient = [];
-        foreach ($clients as $client) {
-            $judul = trim($client['judul']);
-            $groupedClient[$judul][] = $client;
-        }
-
-        echo view('layout/header');
-        echo view('content/nav');
-        echo view('content/home');
-        echo view('content/about', ['data_about' => $data_about]);
-        echo view('content/services', ['data_services' => $data_services]);
-        echo view('content/profile');
-        echo view('content/gallery', ['galeri' => $data_gallery]);
-        echo view('content/client', ['groupedClient' => $groupedClient]);
-        echo view('content/contact');
-        echo view('layout/footer');
+    // Jika sudah login dan role admin, redirect ke /admin
+    if ($session->get('isLoggedIn') && $session->get('role') === 'admin') {
+        return redirect()->to('/admin');
     }
 
-    // Admin Dashboard - hanya bisa diakses oleh admin yang sudah login
-   public function admin()
-{
     $model = new GambarModel();
     $data_gallery = $model->findAll();
-
+    
     $modelAbout = new AboutModel();
     $data_about = $modelAbout->findAll();
 
-    // Ambil ID dari URL (GET) untuk modal edit
-    $id = $this->request->getGet('id');
-    $selected_about = null;
-    if ($id) {
-        $selected_about = $modelAbout->find($id);
-    }
 
     $modelService = new ServiceModel();
     $data_services = $modelService->findAll();
+
+    $service_id = $this->request->getGet('service');
+    $selected_service = $service_id ? $modelService->find($service_id) : null;
 
     $clientModel = new ClientModel();
     $clients = $clientModel->findAll();
@@ -79,14 +43,99 @@ class DashboardController extends BaseController
         $groupedClient[$judul][] = $client;
     }
 
+    // ⬇ Cek apakah ingin menampilkan detail service
+    if ($service_id && in_array($service_id, ['1', '2', '3', '4', '5'])) {
+        echo view('layout/header');
+        echo view('content/nav');
+        echo view('content/home');
+        echo view('content/about', ['data_about' => $data_about]);
+        echo view("content/Services/Service{$service_id}"); // Tampilkan detail Service
+        echo view('content/profile');
+        echo view('content/gallery', ['galeri' => $data_gallery]);
+        echo view('content/client', ['groupedClient' => $groupedClient]);
+        echo view('content/contact');
+        echo view('layout/footer');
+        return;
+    }
+
+    // ⬇ Jika tidak klik tombol services, tampilkan normal
+    echo view('layout/header');
+    echo view('content/nav');
+    echo view('content/home');
+    echo view('content/about', ['data_about' => $data_about]);
+    echo view('content/services', ['data_services' => $data_services]);
+    echo view('content/profile');
+    echo view('content/gallery', ['galeri' => $data_gallery]);
+    echo view('content/client', ['groupedClient' => $groupedClient]);
+    echo view('content/contact');
+    echo view('layout/footer');
+}
+
+
+    // Admin Dashboard - hanya bisa diakses oleh admin yang sudah login
+   public function admin()
+{
+    $model = new GambarModel();
+    $data_gallery = $model->findAll();
+
+    $modelAbout = new AboutModel();
+    $data_about = $modelAbout->findAll();
+
+    // Ambil ID untuk edit about
+    $id = $this->request->getGet('id');
+    $selected_about = null;
+    if ($id) {
+        $selected_about = $modelAbout->find($id);
+    }
+
+    // Ambil semua service
+    $modelService = new ServiceModel();
+    $data_services = $modelService->findAll();
+
+
+    // Cek jika tombol service diklik
+    $service_id = $this->request->getGet('service');
+    $selected_service = null;
+    if ($service_id) {
+        $selected_service = $modelService->find($service_id);
+    }
+
+    // Client
+    $clientModel = new ClientModel();
+    $clients = $clientModel->findAll();
+
+    $groupedClient = [];
+    foreach ($clients as $client) {
+        $judul = trim($client['judul']);
+        $groupedClient[$judul][] = $client;
+    }
+
+
+      if ($service_id && in_array($service_id, ['1', '2', '3', '4', '5'])) {
+        echo view('layout/header');
+        echo view('content/nav');
+        echo view('content/home');
+        echo view('content/about', ['data_about' => $data_about]);
+        echo view("content/Services/Service{$service_id}"); // Tampilkan detail Service
+        echo view('content/profile');
+        echo view('content/gallery', ['galeri' => $data_gallery]);
+        echo view('content/client', ['groupedClient' => $groupedClient]);
+        echo view('content/contact');
+        echo view('layout/footer');
+        return;
+    }
+    // Render semua view
     echo view('layout/header');
     echo view('content/nav');
     echo view('content/home');
     echo view('content/about', [
         'data_about' => $data_about,
-        'selected_about' => $selected_about // <- Tambahkan ini
+        'selected_about' => $selected_about
     ]);
-    echo view('content/services', ['data_services' => $data_services]);
+    echo view('content/services', [
+        'data_services' => $data_services,
+        'selected_service' => $selected_service 
+    ]);
     echo view('content/profile');
     echo view('content/gallery', ['galeri' => $data_gallery]);
     echo view('content/client', ['groupedClient' => $groupedClient]);
@@ -296,5 +345,6 @@ public function hapusClient()
         return redirect()->back()->with('success', 'Galeri berhasil dihapus!')->to('/admin#gallery');
     }
 
+    
 
 }

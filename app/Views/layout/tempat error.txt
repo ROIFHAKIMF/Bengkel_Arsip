@@ -1,0 +1,36 @@
+
+    <!-- Modal Whatsapp -->
+<div class="modal fade" id="whatsappModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <form id="whatsappForm" onsubmit="sendToWhatsApp(event)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Kirim Pesan WhatsApp</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="namaUser" class="form-label">Nama</label>
+            <input type="text" class="form-control" id="namaUser" placeholder="Masukkan nama Anda" required>
+          </div>
+          <div class="mb-3">
+            <label for="serviceSelect" class="form-label">Pilih Layanan</label>
+            <select class="form-select" id="serviceSelect" required onchange="updateSelectedImage()">
+              <option value="">Pilih layanan</option>
+              <?php foreach ($data_services as $service): ?>
+                <option 
+                  value="<?= esc($service['content']) ?>" 
+                  data-img="<?= base_url('img/' . $service['title']) ?>">
+                  <?= esc($service['content']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Kirim</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
