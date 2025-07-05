@@ -89,26 +89,3 @@
 <script>
 let selectedImageUrl = '';
 
-function updateSelectedImage() {
-  const select = document.getElementById('serviceSelect');
-  const option = select.options[select.selectedIndex];
-  selectedImageUrl = option.getAttribute('data-img') || '';
-}
-
-function sendToWhatsApp(event) {
-  event.preventDefault();
-
-  const nama = document.getElementById('namaUser').value;
-  const layanan = document.getElementById('serviceSelect').value;
-
-  let pesan = `Halo, saya ${nama}. Saya tertarik dengan layanan: ${layanan}`;
-  if (selectedImageUrl) {
-    pesan += `\nBerikut adalah gambar layanan:\n${selectedImageUrl}`;
-  }
-
-  const nomorTujuan = "6282242502468"; // Ganti dengan nomor WA tujuan
-  const url = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(pesan)}`;
-
-  window.open(url, '_blank');
-}
-</script>
