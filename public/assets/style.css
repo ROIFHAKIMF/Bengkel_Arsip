@@ -987,3 +987,91 @@ footer{
   height: 80px;
   margin-top: 20px;
 }
+
+#service{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: max-content;
+  max-height: max-content !important;
+}
+#service h1{
+  color: var(--warna-teks-hijau);
+  font-weight: bold;
+  font-size: 2.4rem;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.service-1, .service-2, .service-3, .service-4 , .service-5{
+  width: 80%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  padding: 40px 20px 40px 20px;
+  background-color: var(--warna-kedua);
+}
+
+.img-group{
+  height: 450px;
+  width : 450px;
+  /* background-color: red; */
+}
+.img-group>img{
+  width: 90%;
+  height: 290px;
+  object-fit: cover;
+  border-radius: 10px;
+  background-color: var(--warna-ketiga);
+  padding: 0;
+}
+.img-mini{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  gap: 15px;
+}
+.img-mini img{
+  padding: 0;
+  width: calc(50% - 20px);
+  height: 140px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.desc{
+  width: 60%;
+  height: auto;
+  max-height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* background-color: violet; */
+}
+.desc p{
+  width: 90%;
+  color: var(--warna-teks-hitam);
+  font-size: 1.2rem;
+  text-align: justify;
+}
+
+@media screen and (max-width: 968px) {
+  .service-1, .service-2, .service-3, .service-4 , .service-5{
+    flex-direction: column;
+    align-items: center;
+  }
+  .img-group{
+    width: 450px;
+    height: 450px;
+    margin-bottom: 20px;
+  }
+  .desc{
+    width: 90%;
+    height: auto;
+  }
+}

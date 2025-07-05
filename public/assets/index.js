@@ -6,6 +6,9 @@
         if (localStorage.getItem('darkmode') === 'true') {
             toggle.checked = true;
             body.classList.add('darkmode');
+        }else {
+            toggle.checked = false;
+            body.classList.remove('darkmode');
         }
 
         toggle.addEventListener('change', function () {
