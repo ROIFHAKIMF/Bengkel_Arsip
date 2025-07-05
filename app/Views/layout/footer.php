@@ -12,28 +12,40 @@
 
         <ul class="example-2 ms-0 d-flex gap-3 list-unstyled mt-3">
           <li class="icon-content">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#whatsappModal" aria-label="Whatsapp">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#whatsappModal" aria-label="Whatsapp" data-social="Whatsapp">
               <div class="filled"></div>
               <i class="bi bi-whatsapp fs-3"></i>
             </a>
             <div class="tooltip">Whatsapp</div>
           </li>
           <li class="icon-content">
-            <a href="https://www.instagram.com/bengkel.arsip/" aria-label="Instagram">
+              <?php if (session()->get('isLoggedIn')): ?>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#instagramModal" aria-label="Instagram">
+              <?php else: ?>
+                <a href="https://www.instagram.com/bengkel.arsip/" target="_blank" aria-label="Instagram">
+              <?php endif; ?>
               <div class="filled"></div>
               <i class="bi bi-instagram fs-3"></i>
             </a>
             <div class="tooltip">Instagram</div>
           </li>
           <li class="icon-content">
-            <a href="https://www.facebook.com/bengkel.arsip/" aria-label="Facebook">
+              <?php if (session()->get('isLoggedIn')): ?>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#facebookModal" aria-label="Facebook">
+              <?php else: ?>
+                <a href="https://www.facebook.com/bengkel.arsip/" target="_blank" aria-label="Facebook">
+              <?php endif; ?>
               <div class="filled"></div>
               <i class="bi bi-facebook fs-3"></i>
             </a>
             <div class="tooltip">Facebook</div>
           </li>
           <li class="icon-content">
-            <a href="https://www.youtube.com/@bengkelarsip3676" aria-label="YouTube">
+              <?php if (session()->get('isLoggedIn')): ?>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#youtubeModal" aria-label="YouTube">
+              <?php else: ?>
+                <a href="https://www.youtube.com/@bengkelarsip3676" target="_blank" aria-label="YouTube">
+              <?php endif; ?>
               <div class="filled"></div>
               <i class="bi bi-youtube fs-3"></i>
             </a>
@@ -42,39 +54,123 @@
         </ul>
 
         <!-- Modal WhatsApp -->
-        <div class="modal fade" id="whatsappModal" tabindex="-1" data-bs-backdrop="static">
-          <div class="modal-dialog modal-dialog-centered">
-            <form id="whatsappForm" onsubmit="sendToWhatsApp(event)">
+                <?php if (session()->get('isLoggedIn')): ?>
+                    <div class="modal fade" id="whatsappModal" tabindex="-1" data-bs-backdrop="static">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <form id="whatsappForm" onsubmit="sendToWhatsApp(event)">
+                          <div class="modal-content modal-wa">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Mengganti nomor baru</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="mb-3">
+                                <label for="namaUser" class="form-label">Nomor Tujuan</label>
+                                <input type="text" name="namaUser" class="form-control" id="namaUser" placeholder="Masukkan Nomor Tujuan" required>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-success">Kirim</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                <?php else:?>
+                    <div class="modal fade" id="whatsappModal" tabindex="-1" data-bs-backdrop="static">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <form id="whatsappForm" onsubmit="sendToWhatsApp(event)">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Kirim Pesan WhatsApp</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="mb-3">
+                                <label for="namaUser" class="form-label">Nama</label>
+                                <input type="text" name="namaUser" class="form-control" id="namaUser" placeholder="Masukkan nama Anda" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="serviceSelect" class="form-label">Pilih Layanan</label>
+                                <select class="form-select" name="serviceSelect" id="serviceSelect" required>
+                                  <option value="">Pilih layanan</option>
+                                  <?php foreach ($data_services as $service): ?>
+                                    <option value="<?= esc($service['content']) ?>">
+                                      <?= esc($service['content']) ?>
+                                    </option>
+                                  <?php endforeach; ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-success">Kirim</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                <?php endif;?>
+
+                <?php if (session()->get('isLoggedIn')): ?>
+          <!-- Modal Instagram -->
+          <div class="modal fade" id="instagramModal" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Kirim Pesan WhatsApp</h5>
+                  <h5 class="modal-title">Edit Link Instagram</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="mb-3">
-                    <label for="namaUser" class="form-label">Nama</label>
-                    <input type="text" name="namaUser" class="form-control" id="namaUser" placeholder="Masukkan nama Anda" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="serviceSelect" class="form-label">Pilih Layanan</label>
-                    <select class="form-select" name="serviceSelect" id="serviceSelect" required>
-                      <option value="">Pilih layanan</option>
-                      <?php foreach ($data_services as $service): ?>
-                        <option value="<?= esc($service['content']) ?>">
-                          <?= esc($service['content']) ?>
-                        </option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
+                  <label for="instagramLink" class="form-label">Link Instagram Baru</label>
+                  <input type="text" id="instagramLink" class="form-control" placeholder="https://www.instagram.com/..." required>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-success">Kirim</button>
+                  <button type="button" class="btn btn-primary" onclick="saveInstagram()">Simpan</button>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
-        </div>
-      </div>
+
+          <!-- Modal Facebook -->
+          <div class="modal fade" id="facebookModal" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Link Facebook</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <label for="facebookLink" class="form-label">Link Facebook Baru</label>
+                  <input type="text" id="facebookLink" class="form-control" placeholder="https://www.facebook.com/..." required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" onclick="saveFacebook()">Simpan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal YouTube -->
+          <div class="modal fade" id="youtubeModal" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Link YouTube</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <label for="youtubeLink" class="form-label">Link YouTube Baru</label>
+                  <input type="text" id="youtubeLink" class="form-control" placeholder="https://www.youtube.com/..." required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" onclick="saveYouTube()">Simpan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php endif; ?>
 
       <!-- Kolom Navigasi -->
       <div class="col-lg-6 col-xl-4 col-sm-10 mb-4 pt-5 row d-flex flex-row justify-content-center align-items-start">
