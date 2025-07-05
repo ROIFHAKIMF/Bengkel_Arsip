@@ -2,10 +2,11 @@
     <h1>Service 4: PELATIHAN DAN KONSULTASI KEARSIPAN</h1>
     <div class="service-1">
           <a class="btn-exit" href="<?= base_url(relativePath: "#service") ?>"><i class="bi bi-x fw"></i></a>
-        <div class="img-group">
-            <img src="<?= base_url('img/sv-4.png') ?>" alt="Digitalisasi Arsip" class="img-group">
-            <div class="img-mini">
-                <img src="<?= base_url('img/slide1.jpg') ?>" alt="Digitalisasi Arsip" class="img-fluid">
+        <div class="img-group row">
+            <img src="<?= base_url('img/sv-4.png') ?>" alt="Pelatihan Dan Konsultasi Kearsipan" class="img-fluid col-12">
+            <div class="img-mini col-12">
+                <img src="<?= base_url('img/PELATIHAN DAN KONSULTASI KEARSIPAN.png') ?>" alt="Pelatihan Dan Konsultasi Kearsipan" class="img-fluid">
+                 <img src="<?= base_url('img/PELATIHAN DAN KONSULTASI KEARSIPAN1.png') ?>" alt="Pelatihan Dan Konsultasi Kearsipan" class="img-fluid">
             </div>
         </div>
         <div class="desc">

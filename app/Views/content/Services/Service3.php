@@ -2,9 +2,9 @@
     <h1>Service 3: PENGOLAHAN DAN PENATAAN ARSIP DAN RUANG ARSIP </h1>
     <div class="service-1">
           <a class="btn-exit" href="<?= base_url(relativePath: "#service") ?>"><i class="bi bi-x fw"></i></a>
-        <div class="img-group">
-            <img src="<?= base_url('img/sv-3.jpg') ?>" alt="Pengolahan Dan Penataan Arsip Dan Ruang Arsip" class="img-group">
-            <div class="img-mini">
+        <div class="img-group row">
+            <img src="<?= base_url('img/sv-3.jpg') ?>" alt="Pengolahan Dan Penataan Arsip Dan Ruang Arsip" class="img-fluid col-12">
+            <div class="img-mini col-12">
                 <img src="<?= base_url('img/slide4.jpg') ?>" alt="Pengolahan Dan Penataan Arsip Dan Ruang Arsip" class="img-fluid">
                 <img src="<?= base_url('img/slide5.jpg') ?>" alt="Pengolahan Dan Penataan Arsip Dan Ruang Arsip" class="img-fluid">
             </div>
