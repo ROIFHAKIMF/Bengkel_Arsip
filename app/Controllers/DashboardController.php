@@ -12,9 +12,8 @@ use Dompdf\Options;
 class DashboardController extends BaseController
 {
     // Halaman Utama (Home) - untuk pengunjung (belum login)
-   public function index()
-    {
-        $session = session();
+    public function index(){
+    $session = session();
 
         // Jika sudah login dan role admin, redirect ke /admin
         if ($session->get('isLoggedIn') && $session->get('role') === 'admin') {
@@ -54,7 +53,7 @@ class DashboardController extends BaseController
             echo view('content/gallery', ['galeri' => $data_gallery]);
             echo view('content/client', ['groupedClient' => $groupedClient]);
             echo view('content/contact');
-            echo view('layout/footer');
+            echo view('layout/footer', ['data_services' => $data_services]);
             return;
         }
 
@@ -68,15 +67,14 @@ class DashboardController extends BaseController
         echo view('content/gallery', ['galeri' => $data_gallery]);
         echo view('content/client', ['groupedClient' => $groupedClient]);
         echo view('content/contact');
-        echo view('layout/footer');
+        echo view('layout/footer', ['data_services' => $data_services]);
     }
 
 
-        // Admin Dashboard - hanya bisa diakses oleh admin yang sudah login
-    public function admin()
-    {
-        $model = new GambarModel();
-        $data_gallery = $model->findAll();
+    // Admin Dashboard - hanya bisa diakses oleh admin yang sudah login
+   public function admin(){
+    $model = new GambarModel();
+    $data_gallery = $model->findAll();
 
         $modelAbout = new AboutModel();
         $data_about = $modelAbout->findAll();
@@ -121,7 +119,8 @@ class DashboardController extends BaseController
             echo view('content/gallery', ['galeri' => $data_gallery]);
             echo view('content/client', ['groupedClient' => $groupedClient]);
             echo view('content/contact');
-            echo view('layout/footer');
+            echo view('layout/footer', ['data_services' => $data_services]);
+
             return;
         }
         // Render semua view
@@ -140,7 +139,7 @@ class DashboardController extends BaseController
         echo view('content/gallery', ['galeri' => $data_gallery]);
         echo view('content/client', ['groupedClient' => $groupedClient]);
         echo view('content/contact');
-        echo view('layout/footer');
+        echo view('layout/footer', ['data_services' => $data_services]);
     }
 
 
@@ -240,26 +239,36 @@ class DashboardController extends BaseController
         }
     }
 
-    // Tambah Client
-    public function tambahClient()
-    {
-        $clientModel = new ClientModel();
+// Tambah Client
+public function tambahClient()
+{
+    $clientModel = new ClientModel();
 
-        $data = [
-            'judul'     => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi')
-        ];
+    $judul = $this->request->getPost('judul');
+    $deskripsi = $this->request->getPost('deskripsi');
 
-        $file = $this->request->getFile('gambar');
-        if ($file && $file->isValid()) {
-            $fileName = $file->getRandomName();
-            $file->move('img/', $fileName);
-            $data['gambar'] = $fileName;
-        }
+    $data = [
+        'judul'     => $judul,
+        'deskripsi' => $deskripsi
+    ];
 
-        $clientModel->save($data);
-        return redirect()->to('/admin#client')->with('success', 'Client berhasil ditambahkan.');
+    $file = $this->request->getFile('gambar');
+    if ($file && $file->isValid()) {
+        // Hitung jumlah data client yang sudah ada
+        $jumlahClient = $clientModel->countAll();
+        $nextNumber = $jumlahClient + 1;
+
+        $ext = $file->getClientExtension();
+        $fileName = "client_{$nextNumber}." . $ext;
+
+        $file->move('img/', $fileName);
+        $data['gambar'] = $fileName;
     }
+
+    $clientModel->save($data);
+    return redirect()->to('/admin#client')->with('success', 'Client berhasil ditambahkan.');
+}
+
 
     // Edit Client
     public function editClient()
@@ -272,16 +281,19 @@ class DashboardController extends BaseController
             'deskripsi' => $this->request->getPost('deskripsi')
         ];
 
-        $file = $this->request->getFile('gambar');
-        if ($file && $file->isValid()) {
-            $fileName = $file->getRandomName();
-            $file->move('img/', $fileName);
-            $data['gambar'] = $fileName;
-        }
+    $file = $this->request->getFile('gambar');
+    if ($file && $file->isValid()) {
+        $extension = $file->getClientExtension();
+        $fileName = 'client_' . $id . '.' . $extension;
 
-        $clientModel->update($id, $data);
-        return redirect()->to('/admin#client')->with('success', 'Client berhasil diedit.');
+        $file->move('img/', $fileName, true); // overwrite = true
+        $data['gambar'] = $fileName;
     }
+
+    $clientModel->update($id, $data);
+    return redirect()->to('/admin#client')->with('success', 'Client berhasil diedit.');
+}
+
 
     // Hapus Client
     public function hapusClient()
@@ -289,12 +301,25 @@ class DashboardController extends BaseController
         $clientModel = new ClientModel();
         $id = $this->request->getPost('id');
 
-        if ($clientModel->delete($id)) {
-            return redirect()->to('/admin')->with('success', 'Client berhasil dihapus.')->to('/admin#client');
-        } else {
-            return redirect()->to('/admin')->with('error', 'Gagal menghapus client.')->to('/admin#client');
+    // Ambil data client terlebih dahulu
+    $client = $clientModel->find($id);
+
+    // Hapus data dari database
+    if ($clientModel->delete($id)) {
+        // Jika ada gambar, hapus file-nya juga
+        if (!empty($client->gambar)) {
+            $filePath = FCPATH . 'img/' . $client->gambar;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
         }
+
+        return redirect()->to('/admin#client')->with('success', 'Client berhasil dihapus.');
+    } else {
+        return redirect()->to('/admin#client')->with('error', 'Gagal menghapus client.');
     }
+}
+
 
         protected $gambarModel;
 
@@ -338,13 +363,10 @@ class DashboardController extends BaseController
             return redirect()->back()->with('success', 'Galeri berhasil diupdate!')->to('/admin#gallery');
         }
 
-        public function hapusgallery()
-        {
-            $id = $this->request->getPost('id');
-            $this->gambarModel->delete($id);
-            return redirect()->back()->with('success', 'Galeri berhasil dihapus!')->to('/admin#gallery');
-        }
-
-
-
+    public function hapusgallery()
+    {
+        $id = $this->request->getPost('id');
+        $this->gambarModel->delete($id);
+        return redirect()->back()->with('success', 'Galeri berhasil dihapus!')->to('/admin#gallery');
+    }
 }
