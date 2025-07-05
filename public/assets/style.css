@@ -1095,6 +1095,7 @@ footer{
   text-align: justify;
 }
 .btn-services{
+  height: 50px;
   text-decoration: none;
   text-transform: uppercase;
   color: var(--warna-utama);
@@ -1104,11 +1105,18 @@ footer{
   border-radius: 15px;
   margin: 10px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .btn-services:hover{
   background-color: var(--warna-utama);
   color: var(--warna-teks-putih);
   transition: all .3s;
+}
+.btn-services i{
+  font-size: 2.5rem;
+  margin-left: 5px;
 }
 .btn-exit{
   text-decoration: none;
