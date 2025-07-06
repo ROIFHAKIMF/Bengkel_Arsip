@@ -1,14 +1,4 @@
-:root{
---warna-utama: #3E9397;
---warna-kedua: #ffffff;
---warna-ketiga: #FFB300;
---warna-keempat: #f2f2f2;
---warna-teks-hijau: #3E9397;
---warna-teks-putih: #ffffff;
---warna-teks-hitam: #000000;
---warna-teks-kuning: #FFB300;
-}
-.darkmode{
+body.darkmode{
 --warna-utama: #FFB300;
 --warna-kedua: #263E4C;
 --warna-ketiga: #FFFFFF;
@@ -19,7 +9,18 @@
 --warna-teks-hijau: #FFB300;
 }
 body{
+--warna-utama: #3E9397;
+--warna-kedua: #ffffff;
+--warna-ketiga: #FFB300;
+--warna-keempat: #f2f2f2;
+--warna-teks-hijau: #3E9397;
+--warna-teks-putih: #ffffff;
+--warna-teks-hitam: #000000;
+--warna-teks-kuning: #FFB300;
 background-color: var(--warna-keempat);
+}
+.border{
+  border-color: var(--warna-utama) !important;
 }
 .text-profil{
 color: var(--warna-utama);
@@ -97,7 +98,7 @@ justify-content: center;
 align-items: center;
 }
 /* From Uiverse.io by SteveBloX */ 
-#Home, #about, #service, #contact,  #client, #profile #login{
+#Home, #about, #service, #contact,  #client, #profile, #login{
 background-color: var(--warna-keempat);
 min-height: 100vh;
 }
@@ -666,25 +667,27 @@ transition: all 0.3s ease-in-out;
 height: 100%;
 }
 .example-2 .icon-content a[data-social="whatsapp"] .filled,
-.example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip {
-background-color: #1ebe5d;
+.example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip,
+.modal-wa {
+background-color: #1ebe5d !important;
 }
 .example-2 .icon-content a[data-social="Instagram"] .filled,
-.example-2 .icon-content a[data-social="Instagram"] ~ .tooltip {
-background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+.example-2 .icon-content a[data-social="Instagram"] ~ .tooltip, .modal-ig {
+background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5) !important;
 }
 .example-2 .icon-content a[data-social="Facebook"] .filled,
-.example-2 .icon-content a[data-social="Facebook"] ~ .tooltip {
-background-color: #145dbf;
+.example-2 .icon-content a[data-social="Facebook"] ~ .tooltip,.modal-fb  {
+background-color: #145dbf !important;
 }
 .example-2 .icon-content a[data-social="Youtube"] .filled,
-.example-2 .icon-content a[data-social="Youtube"] ~ .tooltip {
-background-color: #cc0000;
+.example-2 .icon-content a[data-social="Youtube"] ~ .tooltip,.modal-yt  {
+background-color: #cc0000 !important;
 }
 .example-2 .icon-content a[data-social="Email"] .filled,
-.example-2 .icon-content a[data-social="Email"] ~ .tooltip {
-background-color: #D14836;
+.example-2 .icon-content a[data-social="Email"] ~ .tooltip,.modal-em {
+background-color: #1998d7 !important;
 }
+
 
 .location{
 background-color: var(--warna-kedua);
@@ -758,6 +761,9 @@ flex-direction: row;
 
 #client > .container-fluid{
   border-radius: 40px;
+}
+#client{
+  height: fit-content !important;
 }
 
 .cpout{
@@ -861,7 +867,7 @@ flex-direction: column! important;
 .modal-content{
     background-color: var(--warna-kedua);
     color: var(--warna-teks-hitam);
-    
+    min-width: 500px;
 }
 .modal-content button{
     background-color: var(--warna-utama);
@@ -1206,7 +1212,7 @@ flex-direction: column! important;
 
 .footer-links{
   font-weight: bold;
-  color: var(--warna-teks-hitam);
+  color: var(--warna-teks-putih);
   text-decoration: none;
 }
 
