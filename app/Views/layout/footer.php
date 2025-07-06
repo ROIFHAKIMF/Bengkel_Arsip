@@ -1,18 +1,20 @@
-<footer class="footer bg-hijau mt-5 py-4 px-5 text-white">
-  <div class="container-fluid w-100 d-flex justify-content-center align-items-center">
+<footer class="footer">
+  <div class="footer-container">
     <div class="row d-flex w-100 justify-content-center align-items-center">
-
       <!-- Kolom Logo dan Sosial Media -->
-      <div class="col-lg-6 col-xl-4 col-sm-10 mb-5 px-5 d-flex flex-column justify-content-center align-items-center">
+      <div class="col-lg-3 col-xl-3 col-sm-10 mb-5 px-5 d-flex flex-column justify-content-center align-items-start">
         <div class="logo d-flex align-items-center">
           <img src="<?= base_url('img/logo.jpg') ?>" alt="logo" width="40" height="40" class="rounded-circle me-3">
-          <h3 class="text-uppercase fw-bold">Bengkel Arsip</h3>
+          <h3 class="text-uppercase fw-bold ">Bengkel Arsip</h3>
         </div>
-        <p class="mt-2 text-center">Solusi kearsipan <br> profesional dan terpercaya</p>
-
+        <p class="mt-2 text-white text-start">Solusi kearsipan <br> profesional dan terpercaya</p>
+        <p class="mb-0 fs-6 text-secondary">&copy; <span id="year"></span> Bengkel Arsip. All rights reserved.</p>
+      </div>
+      <div class="col-lg-6 col-xl-6 col-sm-10 d-flex justify-content-center align-items-center flex-column">
+        <h5 class="fw-bold footer-links">SOCIAL MEDIA </h5>
         <ul class="example-2 ms-0 d-flex gap-3 list-unstyled mt-3">
           <li class="icon-content">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#whatsappModal" aria-label="Whatsapp" data-social="Whatsapp">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#whatsappModal" aria-label="whatsapp" data-social="whatsapp">
               <div class="filled"></div>
               <i class="bi bi-whatsapp fs-3"></i>
             </a>
@@ -20,9 +22,9 @@
           </li>
           <li class="icon-content">
               <?php if (session()->get('isLoggedIn')): ?>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#instagramModal" aria-label="Instagram">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#instagramModal" aria-label="Instagram" data-social="Instagram">
               <?php else: ?>
-                <a href="https://www.instagram.com/bengkel.arsip/" target="_blank" aria-label="Instagram">
+                <a href="https://www.instagram.com/bengkel.arsip/" target="_blank" aria-label="Instagram" data-social="Instagram">
               <?php endif; ?>
               <div class="filled"></div>
               <i class="bi bi-instagram fs-3"></i>
@@ -31,9 +33,9 @@
           </li>
           <li class="icon-content">
               <?php if (session()->get('isLoggedIn')): ?>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#facebookModal" aria-label="Facebook">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#facebookModal" aria-label="Facebook" data-social="Facebook">
               <?php else: ?>
-                <a href="https://www.facebook.com/bengkel.arsip/" target="_blank" aria-label="Facebook">
+                <a href="https://www.facebook.com/bengkel.arsip/" target="_blank" aria-label="Facebook" data-social="Facebook">
               <?php endif; ?>
               <div class="filled"></div>
               <i class="bi bi-facebook fs-3"></i>
@@ -42,16 +44,90 @@
           </li>
           <li class="icon-content">
               <?php if (session()->get('isLoggedIn')): ?>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#youtubeModal" aria-label="YouTube">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#youtubeModal" data-social="Youtube" aria-label="Youtube">
               <?php else: ?>
-                <a href="https://www.youtube.com/@bengkelarsip3676" target="_blank" aria-label="YouTube">
+                <a href="https://www.youtube.com/@bengkelarsip3676" target="_blank" aria-label="Youtube" data-social="Youtube">
               <?php endif; ?>
               <div class="filled"></div>
               <i class="bi bi-youtube fs-3"></i>
             </a>
             <div class="tooltip">YouTube</div>
           </li>
+          <li class="icon-content">
+            <?php if (session()->get('isLoggedIn')): ?>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#youtubeModal" data-social="Email" aria-label="Email">
+                <?php else: ?>
+                  <a href="https://www.youtube.com/@bengkelarsip3676" target="_blank" aria-label="Email" data-social="Email">
+              <?php endif; ?>
+              <div class="filled"></div>
+                  <i class="bi bi-envelope-at-fill fs-3"></i>
+            </a>
+              <div class="tooltip">Email</div>
+          </li>
         </ul>
+      </div>
+              <!-- Kolom Kontak -->
+      <div class="col-lg-3 col-xl-3 col-sm-10 mb-3 d-flex flex-column justify-content-center align-items-start text-start">
+        <h4 class="fw-bold footer-links">Kontak</h4>
+        <p class="footer-links">Email:<br> bengkelarsip@gmail.com</p>
+        <p class="footer-links">Telp/WA: <br>+6285701442698 / +6285701442699</p>
+        <p class="footer-links">Instagram: www.instagram.com/bengkel.arsip</p>
+      </div>
+      <!-- Kolom Navigasi -->
+      <div class="col-lg-6 col-xl-6 col-sm-10 mb-4 pt-5">
+        <h5 class="fw-bold footer-links">Navigasi</h5>
+        <ul class="list-unstyle row row-cols-4 footer-links">
+          <li><a href="#Home" class="footer-links">Home</a></li>
+          <li><a href="#about" class="footer-links">About</a></li>
+          <li><a href="#service" class="footer-links">Service</a></li>
+          <li><a href="#client" class="footer-links">Client</a></li>
+          <li><a href="#gallery" class="footer-links">Gallery</a></li>
+          <li><a href="#profile" class="footer-links">Profile</a></li>
+          <li><a href="#contact" class="footer-links">Contact</a></li>
+          <li><a href="#footer" class="footer-links">Footer</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-6 col-xl-6 col-sm-10 mb-4 pt-5">
+        <h5 class="fw-bold footer-links">Services</h5>
+          <ul class="row d-flex justify-content-start align-items-center flex-row footer-links">
+            <li class="col-4"><a href="#service" class="footer-links">All Service</a></li>
+              <?php foreach ($data_services as $service): ?>
+                  <?php if (session()->get('isLoggedIn')): ?>
+                    <li class="col-4"><a class="footer-links" href="<?= base_url('admin?service=' . $service['id']) ?>#service">Service-<?= $service['id'] ?></a></li>
+                  <?php else: ?>
+                    <li class="col-4"><a class="footer-links" href="<?= base_url('/?service=' . $service['id']) ?>#service">Service-<?= $service['id'] ?></a></li>
+                  <?php endif; ?>
+              <?php endforeach;?>
+          </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Script Bootstrap dan JS -->
+<script src="<?= base_url('bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= base_url('assets/index.js') ?>"></script>
+<!-- Script Set Tahun -->
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+function sendToWhatsApp(event) {
+  event.preventDefault();
+
+  const nama = document.getElementById('namaUser').value.trim();
+  const layanan = document.getElementById('serviceSelect').value;
+
+  if (!nama || !layanan) {
+    alert("Mohon isi semua field!");
+    return;
+  }
+
+  const message = `Halo, saya ${nama} ingin menggunakan layanan:\n\n${layanan}`;
+  const phone = '6282242502468'; // Ganti dengan nomor WA tujuan
+
+  const url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
+  window.open(url, '_blank');
+}
+</script>
 
         <!-- Modal WhatsApp -->
                 <?php if (session()->get('isLoggedIn')): ?>
@@ -171,62 +247,3 @@
             </div>
           </div>
         <?php endif; ?>
-
-      <!-- Kolom Navigasi -->
-      <div class="col-lg-6 col-xl-4 col-sm-10 mb-4 pt-5 row d-flex flex-row justify-content-center align-items-start">
-        <ul class="list-unstyled col-6">
-          <li><h5 class="fw-bold">Navigasi</h5></li>
-          <li><a href="#Home" class="text-white text-decoration-none">Home</a></li>
-          <li><a href="#About" class="text-white text-decoration-none">About</a></li>
-          <li><a href="#Service" class="text-white text-decoration-none">Service</a></li>
-        </ul>
-        <ul class="list-unstyled col-6">
-          <li><a href="#Client" class="text-white text-decoration-none">Client</a></li>
-          <li><a href="#Gallery" class="text-white text-decoration-none">Gallery</a></li>
-          <li><a href="#Profile" class="text-white text-decoration-none">Profile</a></li>
-          <li><a href="#Contact" class="text-white text-decoration-none">Contact</a></li>
-        </ul>
-      </div>
-
-      <!-- Kolom Kontak -->
-      <div class="col-lg-6 col-xl-4 col-sm-10 mb-3 d-flex flex-column justify-content-center align-items-center text-center">
-        <h5 class="fw-bold">Kontak</h5>
-        <p>Email: bengkelarsip@gmail.com</p>
-        <p>Telp/WA: +6285701442698 / +6285701442699</p>
-        <p>Instagram: www.instagram.com/bengkel.arsip</p>
-        <p class="mb-0">&copy; <span id="year"></span> Bengkel Arsip. All rights reserved.</p>
-      </div>
-
-    </div>
-  </div>
-</footer>
-
-<!-- Script Bootstrap dan JS -->
-<script src="<?= base_url('bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-<script src="<?= base_url('assets/index.js') ?>"></script>
-
-<!-- Script Set Tahun -->
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-<!-- Script WhatsApp Manual -->
-<script>
-function sendToWhatsApp(event) {
-  event.preventDefault();
-
-  const nama = document.getElementById('namaUser').value.trim();
-  const layanan = document.getElementById('serviceSelect').value;
-
-  if (!nama || !layanan) {
-    alert("Mohon isi semua field!");
-    return;
-  }
-
-  const message = `Halo, saya ${nama} ingin menggunakan layanan:\n\n${layanan}`;
-  const phone = '6282242502468'; // Ganti dengan nomor WA tujuan
-
-  const url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
-  window.open(url, '_blank');
-}
-</script>
