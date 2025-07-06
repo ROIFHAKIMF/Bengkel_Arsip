@@ -109,28 +109,28 @@
 <script src="<?= base_url('assets/index.js') ?>"></script>
 <!-- Script Set Tahun -->
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-function sendToWhatsApp(event) {
-  event.preventDefault();
+  function sendToWhatsApp(event) {
+    event.preventDefault();
 
-  const nama = document.getElementById('namaUser').value.trim();
-  const layanan = document.getElementById('serviceSelect').value;
+    const nama = document.getElementById('namaUser').value.trim();
+    const layanan = document.getElementById('serviceSelect').value;
 
-  if (!nama || !layanan) {
-    alert("Mohon isi semua field!");
-    return;
+    if (!nama || !layanan) {
+      alert("Mohon isi semua field!");
+      return;
+    }
+
+    const message = `Halo, saya ${nama} ingin menggunakan layanan:\n\n${layanan}`;
+    const phone = '<?= $social['wa_number'] ?>'; // ambil dari database
+
+    const url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
+    window.open(url, '_blank');
   }
-
-  const message = Halo, saya ${nama} ingin menggunakan layanan:\n\n${layanan};
-  const phone = '6282242502468'; // Ganti dengan nomor WA tujuan
-
-  const url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
-  window.open(url, '_blank');
-}
 </script>
 
-        <!-- Modal WhatsApp -->
-        <?php if (session()->get('isLoggedIn')): ?>
+      <!-- Modal WhatsApp -->
+      <?php if (session()->get('isLoggedIn')): ?>
+        <!-- Versi ADMIN: Edit nomor WA -->
         <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
@@ -151,7 +151,44 @@ function sendToWhatsApp(event) {
             </div>
           </div>
         </div>
-        <?php endif; ?>
+      <?php else: ?>
+        <!-- Modal WhatsApp untuk Guest -->
+        <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+              <!-- HEADER -->
+              <div class="modal-header">
+                <h5 class="modal-title">Konsultasi via WhatsApp</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+
+              <!-- FORM -->
+              <form onsubmit="sendToWhatsApp(event)">
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="namaUser" class="form-label">Nama Anda</label>
+                    <input type="text" class="form-control" id="namaUser" placeholder="Masukkan nama Anda" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="serviceSelect" class="form-label">Pilih Layanan</label>
+                    <select class="form-select" id="serviceSelect" required>
+                      <option value="" selected disabled>-- Pilih Layanan --</option>
+                      <?php foreach ($data_services as $service): ?>
+                        <option value="<?= esc($service['content']) ?>"><?= esc($service['content']) ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Kirim ke WhatsApp</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      <?php endif; ?>
 
 
         <?php if (session()->get('isLoggedIn')): ?>
