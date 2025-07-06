@@ -5,7 +5,7 @@
       <div class="col-lg-3 col-xl-3 col-sm-10 mb-5 px-5 d-flex flex-column justify-content-center align-items-start">
         <div class="logo d-flex align-items-center">
           <img src="<?= base_url('img/logo.jpg') ?>" alt="logo" width="40" height="40" class="rounded-circle me-3">
-          <h3 class="text-uppercase fw-bold ">Bengkel Arsip</h3>
+          <h3 class="text-uppercase fw-bold text-white">Bengkel Arsip</h3>
         </div>
         <p class="mt-2 text-white text-start">Solusi kearsipan <br> profesional dan terpercaya</p>
         <p class="mb-0 fs-6 text-secondary">&copy; <span id="year"></span> Bengkel Arsip. All rights reserved.</p>
@@ -139,13 +139,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
               <form method="post" action="<?= base_url('/update-social-media') ?>">
-                <div class="modal-body">
+                <div class="modal-body modal-wa">
                   <input type="hidden" name="id" value="<?= $social['id'] ?>">
                   <label for="wa_number" class="form-label">Nomor WhatsApp Baru</label>
                   <input type="text" name="wa_number" class="form-control" id="wa_number" value="<?= $social['wa_number'] ?>" required>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Simpan</button>
+                  <button type="submit" class="btn btn-dark">Simpan</button>
                 </div>
               </form>
             </div>
@@ -164,7 +164,7 @@
 
               <!-- FORM -->
               <form onsubmit="sendToWhatsApp(event)">
-                <div class="modal-body">
+                <div class="modal-body modal-wa">
                   <div class="mb-3">
                     <label for="namaUser" class="form-label">Nama Anda</label>
                     <input type="text" class="form-control" id="namaUser" placeholder="Masukkan nama Anda" required>
@@ -182,7 +182,7 @@
 
                 <!-- FOOTER -->
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Kirim ke WhatsApp</button>
+                  <button type="submit" class="btn btn-dark">Kirim ke WhatsApp</button>
                 </div>
               </form>
             </div>
@@ -196,18 +196,18 @@
           <div class="modal fade" id="instagramModal" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header ">
                   <h5 class="modal-title">Edit Link Instagram</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="post" action="<?= base_url('/update-social-media') ?>">
-                  <div class="modal-body">
+                  <div class="modal-body modal-ig">
                     <input type="hidden" name="id" value="<?= $social['id'] ?>">
                     <label for="instagram" class="form-label">Link Instagram Baru</label>
                     <input type="text" name="instagram" class="form-control" id="instagram" value="<?= $social['instagram'] ?>" required>
                   </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  <div class="modal-footer ">
+                    <button type="submit" class="btn btn-dark">Simpan</button>
                   </div>
                 </form>
               </div>
@@ -218,18 +218,18 @@
           <div class="modal fade" id="facebookModal" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header ">
                   <h5 class="modal-title">Edit Link Facebook</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="post" action="<?= base_url('/update-social-media') ?>">
-                  <div class="modal-body">
+                  <div class="modal-body modal-fb">
                     <input type="hidden" name="id" value="<?= $social['id'] ?>">
                     <label for="facebook" class="form-label">Link Facebook Baru</label>
                     <input type="text" name="facebook" class="form-control" id="facebook" value="<?= $social['facebook'] ?>" required>
                   </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  <div class="modal-footer ">
+                    <button type="submit" class="btn btn-dark">Simpan</button>
                   </div>
                 </form>
               </div>
@@ -240,18 +240,18 @@
           <div class="modal fade" id="youtubeModal" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header ">
                   <h5 class="modal-title">Edit Link YouTube</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="post" action="<?= base_url('/update-social-media') ?>">
-                  <div class="modal-body">
+                  <div class="modal-body modal-yt">
                     <input type="hidden" name="id" value="<?= $social['id'] ?>">
                     <label for="youtube" class="form-label">Link YouTube Baru</label>
                     <input type="text" name="youtube" class="form-control" id="youtube" value="<?= $social['youtube'] ?>" required>
                   </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  <div class="modal-footer ">
+                    <button type="submit" class="btn btn-dark">Simpan</button>
                   </div>
                 </form>
               </div>
@@ -262,18 +262,18 @@
           <div class="modal fade" id="emailModal" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header ">
                   <h5 class="modal-title">Edit Email</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="post" action="<?= base_url('/update-social-media') ?>">
-                  <div class="modal-body">
+                  <div class="modal-body modal-em">
                     <input type="hidden" name="id" value="<?= $social['id'] ?>">
                     <label for="email" class="form-label">Email Baru</label>
                     <input type="email" name="email" class="form-control" id="email" value="<?= $social['email'] ?>" required>
                   </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  <div class="modal-footer ">
+                    <button type="submit" class="btn btn-dark">Simpan</button>
                   </div>
                 </form>
               </div>
