@@ -55,9 +55,9 @@
           </li>
           <li class="icon-content">
             <?php if (session()->get('isLoggedIn')): ?>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#youtubeModal" data-social="Email" aria-label="Email">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#emailModal" data-social="Email" aria-label="Email">
                 <?php else: ?>
-                  <a href="https://www.youtube.com/@bengkelarsip3676" target="_blank" aria-label="Email" data-social="Email">
+                  <a href="bengkelarsip@gmail.com" target="_blank" aria-label="Email" data-social="Email">
               <?php endif; ?>
               <div class="filled"></div>
                   <i class="bi bi-envelope-at-fill fs-3"></i>
@@ -121,7 +121,7 @@ function sendToWhatsApp(event) {
     return;
   }
 
-  const message = `Halo, saya ${nama} ingin menggunakan layanan:\n\n${layanan}`;
+  const message = Halo, saya ${nama} ingin menggunakan layanan:\n\n${layanan};
   const phone = '6282242502468'; // Ganti dengan nomor WA tujuan
 
   const url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
@@ -130,66 +130,31 @@ function sendToWhatsApp(event) {
 </script>
 
         <!-- Modal WhatsApp -->
-                <?php if (session()->get('isLoggedIn')): ?>
-                    <div class="modal fade" id="whatsappModal" tabindex="-1" data-bs-backdrop="static">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <form id="whatsappForm" onsubmit="sendToWhatsApp(event)">
-                          <div class="modal-content modal-wa">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Mengganti nomor baru</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="mb-3">
-                                <label for="namaUser" class="form-label">Nomor Tujuan</label>
-                                <input type="text" name="namaUser" class="form-control" id="namaUser" placeholder="Masukkan Nomor Tujuan" required>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="submit" class="btn btn-success">Kirim</button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                <?php else:?>
-                    <div class="modal fade" id="whatsappModal" tabindex="-1" data-bs-backdrop="static">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <form id="whatsappForm" onsubmit="sendToWhatsApp(event)">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Kirim Pesan WhatsApp</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="mb-3">
-                                <label for="namaUser" class="form-label">Nama</label>
-                                <input type="text" name="namaUser" class="form-control" id="namaUser" placeholder="Masukkan nama Anda" required>
-                              </div>
-                              <div class="mb-3">
-                                <label for="serviceSelect" class="form-label">Pilih Layanan</label>
-                                <select class="form-select" name="serviceSelect" id="serviceSelect" required>
-                                  <option value="">Pilih layanan</option>
-                                  <?php foreach ($data_services as $service): ?>
-                                    <option value="<?= esc($service['content']) ?>">
-                                      <?= esc($service['content']) ?>
-                                    </option>
-                                  <?php endforeach; ?>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="submit" class="btn btn-success">Kirim</button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                <?php endif;?>
+        <?php if (session()->get('isLoggedIn')): ?>
+        <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Nomor WhatsApp</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <form method="post" action="<?= base_url('/update-social-media') ?>">
+                <div class="modal-body">
+                  <input type="hidden" name="id" value="<?= $social['id'] ?>">
+                  <label for="wa_number" class="form-label">Nomor WhatsApp Baru</label>
+                  <input type="text" name="wa_number" class="form-control" id="wa_number" value="<?= $social['wa_number'] ?>" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
 
-                <?php if (session()->get('isLoggedIn')): ?>
+
+        <?php if (session()->get('isLoggedIn')): ?>
           <!-- Modal Instagram -->
           <div class="modal fade" id="instagramModal" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
@@ -198,13 +163,16 @@ function sendToWhatsApp(event) {
                   <h5 class="modal-title">Edit Link Instagram</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                  <label for="instagramLink" class="form-label">Link Instagram Baru</label>
-                  <input type="text" id="instagramLink" class="form-control" placeholder="https://www.instagram.com/..." required>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" onclick="saveInstagram()">Simpan</button>
-                </div>
+                <form method="post" action="<?= base_url('/update-social-media') ?>">
+                  <div class="modal-body">
+                    <input type="hidden" name="id" value="<?= $social['id'] ?>">
+                    <label for="instagram" class="form-label">Link Instagram Baru</label>
+                    <input type="text" name="instagram" class="form-control" id="instagram" value="<?= $social['instagram'] ?>" required>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -217,13 +185,16 @@ function sendToWhatsApp(event) {
                   <h5 class="modal-title">Edit Link Facebook</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                  <label for="facebookLink" class="form-label">Link Facebook Baru</label>
-                  <input type="text" id="facebookLink" class="form-control" placeholder="https://www.facebook.com/..." required>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" onclick="saveFacebook()">Simpan</button>
-                </div>
+                <form method="post" action="<?= base_url('/update-social-media') ?>">
+                  <div class="modal-body">
+                    <input type="hidden" name="id" value="<?= $social['id'] ?>">
+                    <label for="facebook" class="form-label">Link Facebook Baru</label>
+                    <input type="text" name="facebook" class="form-control" id="facebook" value="<?= $social['facebook'] ?>" required>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -236,14 +207,40 @@ function sendToWhatsApp(event) {
                   <h5 class="modal-title">Edit Link YouTube</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                  <label for="youtubeLink" class="form-label">Link YouTube Baru</label>
-                  <input type="text" id="youtubeLink" class="form-control" placeholder="https://www.youtube.com/..." required>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" onclick="saveYouTube()">Simpan</button>
-                </div>
+                <form method="post" action="<?= base_url('/update-social-media') ?>">
+                  <div class="modal-body">
+                    <input type="hidden" name="id" value="<?= $social['id'] ?>">
+                    <label for="youtube" class="form-label">Link YouTube Baru</label>
+                    <input type="text" name="youtube" class="form-control" id="youtube" value="<?= $social['youtube'] ?>" required>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
+
+          <!-- Modal Email -->
+          <div class="modal fade" id="emailModal" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Email</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="post" action="<?= base_url('/update-social-media') ?>">
+                  <div class="modal-body">
+                    <input type="hidden" name="id" value="<?= $social['id'] ?>">
+                    <label for="email" class="form-label">Email Baru</label>
+                    <input type="email" name="email" class="form-control" id="email" value="<?= $social['email'] ?>" required>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
         <?php endif; ?>
