@@ -7,7 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // Halaman publik (untuk pengunjung / guest)
-$routes->get('/', 'DashboardController::index');
+$routes->get('/', 'GuestController::index');
+$routes->get('/admin', 'AdminController::index');
 
 // Autentikasi
 $routes->get('login', 'AuthController::login');
@@ -16,25 +17,25 @@ $routes->get('logout', 'AuthController::logout');
 
 // Halaman dashboard dan manajemen data (khusus admin)
 $routes->group('admin', ['filter' => 'rolefilter'], function ($routes) {
-    $routes->get('/', 'DashboardController::admin');
+    $routes->get('/', 'AdminController::admin');
     // Service (Layanan)
-    $routes->post('service/tambah', 'DashboardController::tambahService');
-    $routes->post('service/edit', 'DashboardController::editService');
-    $routes->post('service/hapus', 'DashboardController::hapusService');
+    $routes->post('service/tambah', 'AdminController::tambahService');
+    $routes->post('service/edit', 'AdminController::editService');
+    $routes->post('service/hapus', 'AdminController::hapusService');
     // About
-    $routes->post('about/tambah', 'DashboardController::tambahAbout');
-    $routes->post('about/edit', 'DashboardController::editAbout');
-    $routes->post('about/hapus', 'DashboardController::hapusAbout'); 
+    $routes->post('about/tambah', 'AdminController::tambahAbout');
+    $routes->post('about/edit', 'AdminController::editAbout');
+    $routes->post('about/hapus', 'AdminController::hapusAbout'); 
     
-    $routes->post('client/tambah', 'DashboardController::tambahClient');
-    $routes->post('client/edit', 'DashboardController::editClient');
-    $routes->post('client/hapus', 'DashboardController::hapusClient');
+    $routes->post('client/tambah', 'AdminController::tambahClient');
+    $routes->post('client/edit', 'AdminController::editClient');
+    $routes->post('client/hapus', 'AdminController::hapusClient');
     // Routes untuk CRUD Gallery
-    $routes->post('gallery/tambah', 'DashboardController::tambahgallery');
-    $routes->post('gallery/edit', 'DashboardController::editgallery');
-    $routes->post('gallery/hapus', 'DashboardController::hapusgallery');
+    $routes->post('gallery/tambah', 'AdminController::tambahgallery');
+    $routes->post('gallery/edit', 'AdminController::editgallery');
+    $routes->post('gallery/hapus', 'AdminController::hapusgallery');
 });
 // Routes untuk CRUD Client
 
-$routes->get('/footer', 'DashboardController::footer');
-$routes->post('/update-social-media', 'DashboardController::updateSocialMedia');
+$routes->get('/footer', 'AdminController::footer');
+$routes->post('/update-social-media', 'AdminController::updateSocialMedia');
