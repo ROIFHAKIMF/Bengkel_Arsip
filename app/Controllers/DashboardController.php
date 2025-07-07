@@ -6,26 +6,32 @@ use App\Models\GambarModel;
 use App\Models\AboutModel;
 use App\Models\ServiceModel;
 use App\Models\ClientModel;
+use App\Models\SocialMediaModel;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 class DashboardController extends BaseController
 {
-    // Halaman Utama (Home) - untuk pengunjung (belum login)
-    public function index(){
-    $session = session();
+    protected $gambarModel;
 
-        // Jika sudah login dan role admin, redirect ke /admin
+    public function __construct()
+    {
+        $this->gambarModel = new GambarModel();
+    }
+
+    public function index()
+    {
+        $session = session();
+
         if ($session->get('isLoggedIn') && $session->get('role') === 'admin') {
             return redirect()->to('/admin');
         }
 
         $model = new GambarModel();
         $data_gallery = $model->findAll();
-        
+
         $modelAbout = new AboutModel();
         $data_about = $modelAbout->findAll();
-
 
         $modelService = new ServiceModel();
         $data_services = $modelService->findAll();
@@ -42,22 +48,23 @@ class DashboardController extends BaseController
             $groupedClient[$judul][] = $client;
         }
 
-        // ⬇ Cek apakah ingin menampilkan detail service
+        $socialModel = new SocialMediaModel();
+        $social = $socialModel->first();
+
         if ($service_id && in_array($service_id, ['1', '2', '3', '4', '5'])) {
             echo view('layout/header');
             echo view('content/nav');
             echo view('content/home');
             echo view('content/about', ['data_about' => $data_about]);
-            echo view("content/Services/Service{$service_id}"); // Tampilkan detail Service
+            echo view("content/Services/Service{$service_id}");
             echo view('content/profile');
             echo view('content/gallery', ['galeri' => $data_gallery]);
             echo view('content/client', ['groupedClient' => $groupedClient]);
             echo view('content/contact');
-            echo view('layout/footer', ['data_services' => $data_services]);
+            echo view('layout/footer', ['data_services' => $data_services, 'social' => $social]);
             return;
         }
 
-        // ⬇ Jika tidak klik tombol services, tampilkan normal
         echo view('layout/header');
         echo view('content/nav');
         echo view('content/home');
@@ -67,38 +74,26 @@ class DashboardController extends BaseController
         echo view('content/gallery', ['galeri' => $data_gallery]);
         echo view('content/client', ['groupedClient' => $groupedClient]);
         echo view('content/contact');
-        echo view('layout/footer', ['data_services' => $data_services]);
+        echo view('layout/footer', ['data_services' => $data_services, 'social' => $social]);
     }
 
-
-    // Admin Dashboard - hanya bisa diakses oleh admin yang sudah login
-   public function admin(){
-    $model = new GambarModel();
-    $data_gallery = $model->findAll();
+    public function admin()
+    {
+        $model = new GambarModel();
+        $data_gallery = $model->findAll();
 
         $modelAbout = new AboutModel();
         $data_about = $modelAbout->findAll();
 
-        // Ambil ID untuk edit about
         $id = $this->request->getGet('id');
-        $selected_about = null;
-        if ($id) {
-            $selected_about = $modelAbout->find($id);
-        }
+        $selected_about = $id ? $modelAbout->find($id) : null;
 
-        // Ambil semua service
         $modelService = new ServiceModel();
         $data_services = $modelService->findAll();
 
-
-        // Cek jika tombol service diklik
         $service_id = $this->request->getGet('service');
-        $selected_service = null;
-        if ($service_id) {
-            $selected_service = $modelService->find($service_id);
-        }
+        $selected_service = $service_id ? $modelService->find($service_id) : null;
 
-        // Client
         $clientModel = new ClientModel();
         $clients = $clientModel->findAll();
 
@@ -108,22 +103,23 @@ class DashboardController extends BaseController
             $groupedClient[$judul][] = $client;
         }
 
+        $socialModel = new SocialMediaModel();
+        $social = $socialModel->first();
 
         if ($service_id && in_array($service_id, ['1', '2', '3', '4', '5'])) {
             echo view('layout/header');
             echo view('content/nav');
             echo view('content/home');
             echo view('content/about', ['data_about' => $data_about]);
-            echo view("content/Services/Service{$service_id}"); // Tampilkan detail Service
+            echo view("content/Services/Service{$service_id}");
             echo view('content/profile');
             echo view('content/gallery', ['galeri' => $data_gallery]);
             echo view('content/client', ['groupedClient' => $groupedClient]);
             echo view('content/contact');
-            echo view('layout/footer', ['data_services' => $data_services]);
-
+            echo view('layout/footer', ['data_services' => $data_services, 'social' => $social]);
             return;
         }
-        // Render semua view
+
         echo view('layout/header');
         echo view('content/nav');
         echo view('content/home');
@@ -133,74 +129,70 @@ class DashboardController extends BaseController
         ]);
         echo view('content/services', [
             'data_services' => $data_services,
-            'selected_service' => $selected_service 
+            'selected_service' => $selected_service
         ]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
         echo view('content/client', ['groupedClient' => $groupedClient]);
         echo view('content/contact');
-        echo view('layout/footer', ['data_services' => $data_services]);
+        echo view('layout/footer', ['data_services' => $data_services, 'social' => $social]);
     }
 
+    public function createService()
+    {
+        return view('service_form');
+    }
 
+    public function tambahService()
+    {
+        $model = new ServiceModel();
+        $file = $this->request->getFile('title');
 
-        // CRUD service
-        public function createService()
-        {
-            return view('service_form');
+        if ($file && $file->isValid()) {
+            $fileName = $file->getRandomName();
+            $file->move('img', $fileName);
         }
 
-        public function tambahService()
-        {
-            $model = new ServiceModel();
-            $file = $this->request->getFile('title');
-            
-            if ($file && $file->isValid()) {
-                $fileName = $file->getRandomName();
-                $file->move('img', $fileName);
-            }
+        $model->save([
+            'title' => $fileName ?? '',
+            'content' => $this->request->getPost('content')
+        ]);
 
-            $model->save([
-                'title' => $fileName ?? '',
-                'content' => $this->request->getPost('content')
-            ]);
+        return redirect()->to('/admin');
+    }
 
-            return redirect()->to('/admin');
+    public function editService()
+    {
+        $model = new ServiceModel();
+        $id = $this->request->getPost('id');
+
+        $data = [
+            'content' => $this->request->getPost('content')
+        ];
+
+        $file = $this->request->getFile('title');
+        if ($file && $file->isValid()) {
+            $fileName = $file->getRandomName();
+            $file->move('img/', $fileName);
+            $data['title'] = $fileName;
         }
 
-        public function editService()
-        {
-            $model = new ServiceModel();
-            $id = $this->request->getPost('id');
+        $model->update($id, $data);
+        return redirect()->to('/admin#service')->with('success', 'Service berhasil diedit.');
+    }
 
-            $data = [
-                'content' => $this->request->getPost('content')
-            ];
+    public function hapusService()
+    {
+        $id = $this->request->getPost('id');
+        $model = new ServiceModel();
 
-            $file = $this->request->getFile('title');
-            if ($file && $file->isValid()) {
-                $fileName = $file->getRandomName();
-                $file->move('img/', $fileName);
-                $data['title'] = $fileName;
-            }
-
-            $model->update($id, $data);
-            return redirect()->to('/admin#service')->with('success', 'Service berhasil diedit.');
+        if ($model->delete($id)) {
+            return redirect()->back()->with('success', 'Service berhasil dihapus.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menghapus service.');
         }
+    }
 
-        public function hapusService()
-        {
-            $id = $this->request->getPost('id');
-            $model = new ServiceModel();
-
-            if ($model->delete($id)) {
-                return redirect()->back()->with('success', 'Service berhasil dihapus.');
-            } else {
-                return redirect()->back()->with('error', 'Gagal menghapus service.');
-            }
-        }
-
-        // Tambah About
     public function tambahAbout()
     {
         $model = new AboutModel();
@@ -212,7 +204,6 @@ class DashboardController extends BaseController
         return redirect()->to('/admin#about')->with('success', 'Data About berhasil ditambahkan.');
     }
 
-    // Edit About
     public function editAbout()
     {
         $model = new AboutModel();
@@ -226,7 +217,6 @@ class DashboardController extends BaseController
         return redirect()->to('/admin#about')->with('success', 'Data About berhasil diedit.');
     }
 
-    // Hapus About
     public function hapusAbout()
     {
         $id = $this->request->getPost('id');
@@ -239,38 +229,34 @@ class DashboardController extends BaseController
         }
     }
 
-// Tambah Client
-public function tambahClient()
-{
-    $clientModel = new ClientModel();
+    public function tambahClient()
+    {
+        $clientModel = new ClientModel();
 
-    $judul = $this->request->getPost('judul');
-    $deskripsi = $this->request->getPost('deskripsi');
+        $judul = $this->request->getPost('judul');
+        $deskripsi = $this->request->getPost('deskripsi');
 
-    $data = [
-        'judul'     => $judul,
-        'deskripsi' => $deskripsi
-    ];
+        $data = [
+            'judul'     => $judul,
+            'deskripsi' => $deskripsi
+        ];
 
-    $file = $this->request->getFile('gambar');
-    if ($file && $file->isValid()) {
-        // Hitung jumlah data client yang sudah ada
-        $jumlahClient = $clientModel->countAll();
-        $nextNumber = $jumlahClient + 1;
+        $file = $this->request->getFile('gambar');
+        if ($file && $file->isValid()) {
+            $jumlahClient = $clientModel->countAll();
+            $nextNumber = $jumlahClient + 1;
 
-        $ext = $file->getClientExtension();
-        $fileName = "client_{$nextNumber}." . $ext;
+            $ext = $file->getClientExtension();
+            $fileName = "client_{$nextNumber}." . $ext;
 
-        $file->move('img/', $fileName);
-        $data['gambar'] = $fileName;
+            $file->move('img/', $fileName);
+            $data['gambar'] = $fileName;
+        }
+
+        $clientModel->save($data);
+        return redirect()->to('/admin#client')->with('success', 'Client berhasil ditambahkan.');
     }
 
-    $clientModel->save($data);
-    return redirect()->to('/admin#client')->with('success', 'Client berhasil ditambahkan.');
-}
-
-
-    // Edit Client
     public function editClient()
     {
         $clientModel = new ClientModel();
@@ -281,87 +267,72 @@ public function tambahClient()
             'deskripsi' => $this->request->getPost('deskripsi')
         ];
 
-    $file = $this->request->getFile('gambar');
-    if ($file && $file->isValid()) {
-        $extension = $file->getClientExtension();
-        $fileName = 'client_' . $id . '.' . $extension;
+        $file = $this->request->getFile('gambar');
+        if ($file && $file->isValid()) {
+            $extension = $file->getClientExtension();
+            $fileName = 'client_' . $id . '.' . $extension;
 
-        $file->move('img/', $fileName, true); // overwrite = true
-        $data['gambar'] = $fileName;
+            $file->move('img/', $fileName, true);
+            $data['gambar'] = $fileName;
+        }
+
+        $clientModel->update($id, $data);
+        return redirect()->to('/admin#client')->with('success', 'Client berhasil diedit.');
     }
 
-    $clientModel->update($id, $data);
-    return redirect()->to('/admin#client')->with('success', 'Client berhasil diedit.');
-}
-
-
-    // Hapus Client
     public function hapusClient()
     {
         $clientModel = new ClientModel();
         $id = $this->request->getPost('id');
+        $client = $clientModel->find($id);
 
-    // Ambil data client terlebih dahulu
-    $client = $clientModel->find($id);
-
-    // Hapus data dari database
-    if ($clientModel->delete($id)) {
-        // Jika ada gambar, hapus file-nya juga
-        if (!empty($client->gambar)) {
-            $filePath = FCPATH . 'img/' . $client->gambar;
-            if (file_exists($filePath)) {
-                unlink($filePath);
+        if ($clientModel->delete($id)) {
+            if (!empty($client->gambar)) {
+                $filePath = FCPATH . 'img/' . $client->gambar;
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
             }
+            return redirect()->to('/admin#client')->with('success', 'Client berhasil dihapus.');
+        } else {
+            return redirect()->to('/admin#client')->with('error', 'Gagal menghapus client.');
         }
-
-        return redirect()->to('/admin#client')->with('success', 'Client berhasil dihapus.');
-    } else {
-        return redirect()->to('/admin#client')->with('error', 'Gagal menghapus client.');
     }
-}
 
+    public function tambahgallery()
+    {
+        $gambar = $this->request->getFile('gambar');
+        $gambarName = $gambar->getRandomName();
+        $gambar->move('img', $gambarName);
 
-        protected $gambarModel;
+        $this->gambarModel->save([
+            'gambar'     => $gambarName,
+            'deskripsi'  => $this->request->getPost('deskripsi'),
+            'judul'      => $this->request->getPost('judul'),
+        ]);
 
-        public function __construct()
-        {
-            $this->gambarModel = new GambarModel();
-        }
+        return redirect()->back()->with('success', 'Galeri berhasil ditambahkan!')->to('/admin#gallery');
+    }
 
-        public function tambahgallery()
-        {
-            $gambar = $this->request->getFile('gambar');
+    public function editgallery()
+    {
+        $id = $this->request->getPost('id');
+        $data = [
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'judul'     => $this->request->getPost('judul'),
+        ];
+
+        $gambar = $this->request->getFile('gambar');
+        if ($gambar && $gambar->isValid()) {
             $gambarName = $gambar->getRandomName();
             $gambar->move('img', $gambarName);
-
-            $this->gambarModel->save([
-                'gambar'     => $gambarName,
-                'deskripsi'  => $this->request->getPost('deskripsi'),
-                'judul'      => $this->request->getPost('judul'), // kalau tabel `gambar` punya kolom 'judul'
-            ]);
-
-            return redirect()->back()->with('success', 'Galeri berhasil ditambahkan!')->to('/admin#gallery');
+            $data['gambar'] = $gambarName;
         }
 
-        public function editgallery()
-        {
-            $id = $this->request->getPost('id');
-            $data = [
-                'deskripsi' => $this->request->getPost('deskripsi'),
-                'judul'     => $this->request->getPost('judul'),
-            ];
+        $this->gambarModel->update($id, $data);
 
-            $gambar = $this->request->getFile('gambar');
-            if ($gambar && $gambar->isValid()) {
-                $gambarName = $gambar->getRandomName();
-                $gambar->move('img', $gambarName);
-                $data['gambar'] = $gambarName;
-            }
-
-            $this->gambarModel->update($id, $data);
-
-            return redirect()->back()->with('success', 'Galeri berhasil diupdate!')->to('/admin#gallery');
-        }
+        return redirect()->back()->with('success', 'Galeri berhasil diupdate!')->to('/admin#gallery');
+    }
 
     public function hapusgallery()
     {
@@ -369,4 +340,56 @@ public function tambahClient()
         $this->gambarModel->delete($id);
         return redirect()->back()->with('success', 'Galeri berhasil dihapus!')->to('/admin#gallery');
     }
+
+    public function updateSocialMedia()
+    {
+        $model = new SocialMediaModel();
+        $id = $this->request->getPost('id');
+
+        // Ambil data lama dari database
+        $oldData = $model->find($id);
+
+        if (!$oldData) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
+
+        // Ambil data dari POST tapi hanya isi kolom yang dikirim
+        $newData = [];
+
+        if ($this->request->getPost('wa_number') !== null) {
+            $newData['wa_number'] = $this->request->getPost('wa_number');
+        } else {
+            $newData['wa_number'] = $oldData['wa_number'];
+        }
+
+        if ($this->request->getPost('instagram') !== null) {
+            $newData['instagram'] = $this->request->getPost('instagram');
+        } else {
+            $newData['instagram'] = $oldData['instagram'];
+        }
+
+        if ($this->request->getPost('facebook') !== null) {
+            $newData['facebook'] = $this->request->getPost('facebook');
+        } else {
+            $newData['facebook'] = $oldData['facebook'];
+        }
+
+        if ($this->request->getPost('youtube') !== null) {
+            $newData['youtube'] = $this->request->getPost('youtube');
+        } else {
+            $newData['youtube'] = $oldData['youtube'];
+        }
+
+        if ($this->request->getPost('email') !== null) {
+            $newData['email'] = $this->request->getPost('email');
+        } else {
+            $newData['email'] = $oldData['email'];
+        }
+
+        $model->update($id, $newData);
+
+        return redirect()->back()->with('success', 'Data media sosial berhasil diperbarui!');
+    }
+
+    
 }

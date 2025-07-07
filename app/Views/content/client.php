@@ -1,5 +1,5 @@
-<section id="client" class="mb-5 pt-3">
-  <div class="container-fluid pt-5 mt-5 w-100 d-flex justify-content-center align-items-center text-center flex-column">
+<section id="client" class="pt-5">
+  <div class="mt-5 container-fluid w-100 d-flex justify-content-center align-items-center text-center flex-column">
     <h1 class="text-center fw-bold color-hijau pb-4 text-uppercase">Client</h1>
 <?php if (session()->get('isLoggedIn')): ?>
   <div class="row w-50 gap-4 mb-5">
@@ -133,7 +133,7 @@ function fillEditClient(select) {
 
 <?php endif; ?>
 
-    <div class="row gy-5 w-100">
+    <div class="row w-100">
 
       <?php $carouselId = 1; ?>
       <?php foreach ($groupedClient as $judul => $items): ?>

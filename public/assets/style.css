@@ -1,14 +1,4 @@
-:root{
---warna-utama: #3E9397;
---warna-kedua: #ffffff;
---warna-ketiga: #FFB300;
---warna-keempat: #f2f2f2;
---warna-teks-hijau: #3E9397;
---warna-teks-putih: #ffffff;
---warna-teks-hitam: #000000;
---warna-teks-kuning: #FFB300;
-}
-.darkmode{
+body.darkmode{
 --warna-utama: #FFB300;
 --warna-kedua: #263E4C;
 --warna-ketiga: #FFFFFF;
@@ -19,7 +9,18 @@
 --warna-teks-hijau: #FFB300;
 }
 body{
+--warna-utama: #3E9397;
+--warna-kedua: #ffffff;
+--warna-ketiga: #FFB300;
+--warna-keempat: #f2f2f2;
+--warna-teks-hijau: #3E9397;
+--warna-teks-putih: #ffffff;
+--warna-teks-hitam: #000000;
+--warna-teks-kuning: #FFB300;
 background-color: var(--warna-keempat);
+}
+.border{
+  border-color: var(--warna-utama) !important;
 }
 .text-profil{
 color: var(--warna-utama);
@@ -77,14 +78,17 @@ border-bottom: 2px solid var(--warna-utama) !important;
 }
 
 .foto-awal{
-width: 500px;
-height: 500px;
+height: 100%;
+width: auto;
 border-radius: 50%;
+box-shadow: 0 0 20px var(--warna-utama);
+z-index: 10;
+padding: 20px;
 }
 
 .foto-awal img{
-width: 100%;
-height: 100%;
+width: 480px;
+height: auto;
 object-fit: cover;
 border-radius: 50%;
 }
@@ -94,7 +98,7 @@ justify-content: center;
 align-items: center;
 }
 /* From Uiverse.io by SteveBloX */ 
-#Home, #about, #service, #contact,  #client, #profile #login{
+#Home, #about, #service, #contact,  #client, #profile, #login{
 background-color: var(--warna-keempat);
 min-height: 100vh;
 }
@@ -234,7 +238,8 @@ transform: translate(-100%, -100%) translate3d(0, 0, 0);
 cursor: pointer;
 padding: 12px 28px;
 position: relative;
-width: 60%;
+width: 480px;
+min-width: 50%;
 height: 100px;
 background: transparent;
 font-size: 12px;
@@ -309,7 +314,7 @@ display: block;
 position: absolute;
 height: 4px;
 width: 100%;
-background: black;
+background: var(--warna-teks-hijau);
 border-radius: 9px;
 opacity: 1;
 left: 0;
@@ -356,6 +361,9 @@ position: relative;
 .s-down{
 display: block;
 position: absolute;
+display: flex;
+justify-content: center;
+align-items: center;
 bottom: 30px;
 left: 50%;
 width: 60px;
@@ -365,6 +373,7 @@ background-color: var(--warna-utama);
 border-radius: 50%;
 color: var(--warna-teks-putih);
 font-size: 2rem;
+font-weight: bolder;
 box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.4), -5px -5px 12px rgba(255, 255, 255, 0.4);
 }
 .s-down:hover{
@@ -373,10 +382,12 @@ border: 2px solid var(--warna-kedua);
 transition: all .4s;
 }
 
-.s-down a{
+.s-down i{
 color: var(--warna-teks-putih);
 text-decoration: none;
 text-align: center;
+font-size: 2rem;
+font-weight: bolder;  
 }
 
 .carousel-item img{
@@ -575,7 +586,7 @@ text-decoration: none;
 /* From Uiverse.io by jamik-dev */ 
 .example-2{
 list-style: none;
-width: 50%;
+height: 100px;
 }
 
 .icon-content::after {
@@ -656,21 +667,27 @@ transition: all 0.3s ease-in-out;
 height: 100%;
 }
 .example-2 .icon-content a[data-social="whatsapp"] .filled,
-.example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip {
-background-color: #248044;
+.example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip,
+.modal-wa {
+background-color: #1ebe5d !important;
 }
 .example-2 .icon-content a[data-social="Instagram"] .filled,
-.example-2 .icon-content a[data-social="Instagram"] ~ .tooltip {
-background-color: #ea4c89;
+.example-2 .icon-content a[data-social="Instagram"] ~ .tooltip, .modal-ig {
+background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5) !important;
 }
 .example-2 .icon-content a[data-social="Facebook"] .filled,
-.example-2 .icon-content a[data-social="Facebook"] ~ .tooltip {
-background-color: #454e96;
+.example-2 .icon-content a[data-social="Facebook"] ~ .tooltip,.modal-fb  {
+background-color: #145dbf !important;
+}
+.example-2 .icon-content a[data-social="Youtube"] .filled,
+.example-2 .icon-content a[data-social="Youtube"] ~ .tooltip,.modal-yt  {
+background-color: #cc0000 !important;
 }
 .example-2 .icon-content a[data-social="Email"] .filled,
-.example-2 .icon-content a[data-social="Email"] ~ .tooltip {
-background-color: #ff0000;
+.example-2 .icon-content a[data-social="Email"] ~ .tooltip,.modal-em {
+background-color: #1998d7 !important;
 }
+
 
 .location{
 background-color: var(--warna-kedua);
@@ -745,6 +762,9 @@ flex-direction: row;
 #client > .container-fluid{
   border-radius: 40px;
 }
+#client{
+  height: fit-content !important;
+}
 
 .cpout{
   position: relative;
@@ -817,9 +837,6 @@ flex-direction: column! important;
     display: block;
 }
 
-footer{
-    display: block;
-}
 .img-2{
     width: 90%;
     height: auto;
@@ -828,6 +845,15 @@ footer{
     border-radius: 20px;
     border: 3px solid var(--warna-utama);
 }
+  .footer{
+    padding: 70px 0 !important;
+    height:fit-content !important;
+  }
+  .footer-container{
+    text-wrap: wrap !important;
+    overflow: hidden !important;
+    width: 100% !important;
+  }
 }
 .modal {
   z-index: 9999 !important;
@@ -841,7 +867,7 @@ footer{
 .modal-content{
     background-color: var(--warna-kedua);
     color: var(--warna-teks-hitam);
-    
+    min-width: 500px;
 }
 .modal-content button{
     background-color: var(--warna-utama);
@@ -1149,6 +1175,47 @@ footer{
   transform: scale(1.12);
 }
 
+.home{
+  width: 100%;
+  height: fit-content;
+  margin-top: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+}
+
+.home-img{
+  width: 56%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 0;
+}
+
+.home-img .foto-awal:hover{
+  transform: rotate(3.60deg);
+  box-shadow: 5px 5px 50px var(--warna-utama);
+  transition: all .3s;
+}
+
+.home-text{
+  width: 44% ;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.footer-links{
+  font-weight: bold;
+  color: var(--warna-teks-putih);
+  text-decoration: none;
+}
+
 @media screen and (max-width: 968px) {
   .service-1, .service-2, .service-3, .service-4 , .service-5{
     flex-direction: column;
@@ -1163,4 +1230,65 @@ footer{
     width: 90%;
     height: auto;
   }
+
+  .home{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 100px;
+    position: relative;
+  }
+  .s-down{
+    position: absolute;
+    z-index: 100;
+    bottom: 0;
+    left: 45%;
+  }
+  .home-text{
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .button{
+    width: 80%;
+  }
+
+  .home-img{
+    width: 100%;
+    height: auto;
+    margin-bottom: 25px;
+  }
+  .home-img .foto-awal{
+    width: 300px;
+    height: 300px;
+    padding: 10px;
+    box-shadow: 0 0 20px var(--warna-utama);
+  }
+  .home-img .foto-awal img{
+    width: 100%;
+    height: auto;
+  }
+
+}
+.footer{
+  width: 100%;
+  height: 70vh;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer-container{
+  background-color: var(--warna-utama);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: fit-content;
+  padding: 20px;
+  bottom:  100px;
+  border-radius: 20px;
+  border: 4px solid var(--warna-utama);
+  box-shadow: 0 0  30px var(--warna-utama);
 }

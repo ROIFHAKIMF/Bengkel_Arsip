@@ -10,7 +10,7 @@
       </div>
     <?php endif; ?>
 
-      <div class="row gap-5 justify-content-center">
+ <div class="row gap-5 justify-content-center">
       <?php foreach ($data_services as $service): ?>
         <div class="card-sr col-lg-4 col-md-6 col-sm-12">
           <div class="bg">
@@ -35,8 +35,6 @@
     </div>
   </div>
 </section>
-
-
 
 <!-- Modal Tambah -->
 <div class="modal fade" id="addModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">

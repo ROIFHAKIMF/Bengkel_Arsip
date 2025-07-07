@@ -38,3 +38,5 @@ $routes->post('/admin/gallery/tambah', 'DashboardController::tambahgallery');
 $routes->post('/admin/gallery/edit', 'DashboardController::editgallery');
 $routes->post('/admin/gallery/hapus', 'DashboardController::hapusgallery');
 
+$routes->get('/footer', 'DashboardController::footer');
+$routes->post('/update-social-media', 'DashboardController::updateSocialMedia');
