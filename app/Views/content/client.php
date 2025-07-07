@@ -137,7 +137,7 @@ function fillEditClient(select) {
 
       <?php $carouselId = 1; ?>
       <?php foreach ($groupedClient as $judul => $items): ?>
-        <div class="col-lg-6 col-md-10 col-sm-12">
+        <div class="col-lg-6 col-md-10 col-sm-12 mb-5">
           <div id="minicarousel<?= $carouselId ?>" class="carousel carousel-dark carousel-client slide client-bg rounded-3 clientbg d-flex justify-content-center align-items-center" data-bs-ride="carousel">
             <div class="carousel-inner text-center">
               <?php foreach ($items as $index => $item): ?>
