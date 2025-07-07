@@ -54,11 +54,7 @@
             <div class="tooltip">YouTube</div>
           </li>
           <li class="icon-content">
-            <?php if (session()->get('isLoggedIn')): ?>
               <a href="#" data-bs-toggle="modal" data-bs-target="#emailModal" data-social="Email" aria-label="Email">
-                <?php else: ?>
-                  <a href="bengkelarsip@gmail.com" target="_blank" aria-label="Email" data-social="Email">
-              <?php endif; ?>
               <div class="filled"></div>
                   <i class="bi bi-envelope-at-fill fs-3"></i>
             </a>
@@ -128,6 +124,26 @@
   }
 </script>
 
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const subject = encodeURIComponent(document.getElementById('subject').value.trim());
+    const message = encodeURIComponent(document.getElementById('message').value.trim());
+
+    if (!subject || !message) {
+      alert("Semua field wajib diisi.");
+      return;
+    }
+
+    const email = "<?= $social['email'] ?>"; // ambil dari database
+    const mailtoLink = `mailto:${email}?subject=${subject}&body=${message}`;
+
+    window.location.href = mailtoLink;
+  });
+</script>
+
+
       <!-- Modal WhatsApp -->
       <?php if (session()->get('isLoggedIn')): ?>
         <!-- Versi ADMIN: Edit nomor WA -->
@@ -188,6 +204,39 @@
             </div>
           </div>
         </div>
+                <!-- Modal Email untuk Guest -->
+<!-- Modal Email untuk Guest -->
+<div class="modal fade" id="emailModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <!-- HEADER -->
+      <div class="modal-header">
+        <h5 class="modal-title">Kirim Feedback via Email</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- FORM -->
+      <form id="contactForm">
+        <div class="modal-body modal-em">
+          <div class="mb-3">
+            <label for="subject" class="form-label">Label :</label>
+            <input type="text" class="form-control" id="subject" placeholder="Masukkan label/judul" required>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Pesan :</label>
+            <textarea class="form-control" id="message" rows="4" placeholder="Masukkan pesan" required></textarea>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-dark">Kirim ke Email</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
       <?php endif; ?>
 
 
