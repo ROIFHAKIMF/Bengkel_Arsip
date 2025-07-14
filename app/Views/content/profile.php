@@ -7,7 +7,7 @@
                     <h2 class="text-center fw-bold">History Bengkel Arsip</h2>
                     <p class="">Bengkel Arsip adalah sebuah usaha dalam bidang Layanan Jasa Manajemen Kearsipan yang Profesional dan Terpercaya. Bengkel Arsip didirikan pada tahun 2016 di Kota Ungaran oleh puji Indradi. Customer Bengkel Arsip adalah semua organisasi dan perseorangan yang dalam kegiatannya menghasilkan arsip baik itu lembaga pemerintahan Pusat maupun Daerah, Organisasi Politik , Organisasi Kemasyarakatan, Perusahaan Milik Negara maupun Swasta serta Perseorangan.</p>
                     <p class="">Proses pekerjaan tergantung kwantitas atau banyaknya arsip serta tingkat kesulitannya baik pengolahan dan penataan arsip, Digitalisasi arsip maupun Restorasi arsip. Ini Bengkel Arsip adalah Jasa Layanan Kearsipan yang Modern, Professional dan terpercaya. Pemrosesan suatu arsip tergantung jenis layanan kearsipan antara lain Pengolahan dan Penataan arsip, Digitalisasi arsip maupun Restorasi arsip. Setiap kegiatan layanan membutuhkan proses khusus jadi tergantung jenis layanan kearsipan yang dibutuhkan.</p>
-                    <a href="<?= base_url('assets/COMPANY PROFILE BENGKEL ARSIP.pdf') ?>" target="_blank" class="btn btn-outline-dark border border-3 border-dark fw-bold fs-4 rounded-3"><i class="bi bi-download" Download="COMPANY PROFILE BENGKEL ARSIP.pdf"></i> Download Company Profile</a>
+                    <a href="<?= base_url('assets/COMPANY PROFILE BENGKEL ARSIP.pdf') ?>" target="_blank" class="btn btn-dark fw-bold fs-4 rounded-3 color-light"><i class="bi bi-download" Download="COMPANY PROFILE BENGKEL ARSIP.pdf"></i> Download Company Profile</a>
                 </div>
             </div>
         </div>

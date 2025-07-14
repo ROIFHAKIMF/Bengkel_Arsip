@@ -49,7 +49,7 @@ class AdminController extends BaseController
         if ($service_id && in_array($service_id, ['1', '2', '3', '4', '5'])) {
             echo view('layout/header');
             echo view('content/nav');
-            echo view('content/home');
+            echo view('content/home', ['data_services' => $data_services, 'social' => $social]);
             echo view('content/about', ['data_about' => $data_about]);
             echo view("content/Services/Service{$service_id}");
             echo view('content/profile');

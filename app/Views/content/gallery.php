@@ -147,10 +147,10 @@ function fillEditGallery(select) {
 
             <!-- CONTROLS -->
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                <span class="bg-light d-flex justify-content-center align-items-center text-light fs-3 p-4 rounded-pill carousel-control-prev-icon" aria-hidden="true"><i class="bi bi-caret-left-fill"></i></span>
+                <span class="bg-light text-dark d-flex justify-content-center align-items-center fs-3 p-4 rounded-pill carousel-control-prev-icon" aria-hidden="true"><i class="bi bi-caret-left-fill color-white"></i></span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                <span class="bg-light text-light d-flex justify-content-center align-items-center fs-3 p-4 rounded-pill carousel-control-next-icon" aria-hidden="true"><i class="bi bi-caret-right-fill"></i></span>
+                <span class="bg-light text-dark d-flex justify-content-center align-items-center fs-3 p-4 rounded-pill carousel-control-next-icon" aria-hidden="true"><i class="bi bi-caret-right-fill color-white"></i></span>
             </button>
         </div>
     </div>

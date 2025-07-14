@@ -254,9 +254,6 @@ border: 5px solid var(--warna-utama);
 border-radius: 50px;
 overflow: hidden;
 z-index: 1;}
-.boton i{
-position: relative;
-}
 
 .button span {
 position: absolute;

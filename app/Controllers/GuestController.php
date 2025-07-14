@@ -35,7 +35,8 @@ class GuestController extends BaseController
 
         echo view('layout/header');
         echo view('content/nav');
-        echo view('content/home');
+        echo view('content/home', ['data_services' => $data_services, 'social' => $social]);
+
         echo view('content/about', ['data_about' => $data_about]);
 
         if ($service_id && in_array($service_id, ['1','2','3','4','5'])) {
