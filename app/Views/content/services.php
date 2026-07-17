@@ -2,39 +2,81 @@
   <div class="container-fluid py-2 pt-5 mt-5 d-flex flex-column align-items-center">
     <h1 class="fw-bold color-hijau pb-3 text-center">SERVICES BENGKEL ARSIP</h1>
 
-    <?php if (session()->get('isLoggedIn')): ?>
-      <div class="row w-50 gap-3 mb-4 justify-content-center">
-        <button type="button" class="btngallery col-3" data-bs-toggle="modal" data-bs-target="#hapusModal">Hapus</button>
-        <button type="button" class="btngallery col-3" data-bs-toggle="modal" data-bs-target="#addModal">Tambah</button>
-        <button type="button" class="btngallery col-3" data-bs-toggle="modal" data-bs-target="#modalEditService">Edit</button>
-      </div>
-    <?php endif; ?>
+    <div id="services-grid">
+      <?php if (session()->get('isLoggedIn')): ?>
+        <div class="row w-50 gap-3 mb-4 mx-auto justify-content-center">
+          <button type="button" class="btngallery col-3" data-bs-toggle="modal" data-bs-target="#hapusModal">Hapus</button>
+          <button type="button" class="btngallery col-3" data-bs-toggle="modal" data-bs-target="#addModal">Tambah</button>
+          <button type="button" class="btngallery col-3" data-bs-toggle="modal" data-bs-target="#modalEditService">Edit</button>
+        </div>
+      <?php endif; ?>
 
- <div class="row gap-5 justify-content-center">
-      <?php foreach ($data_services as $service): ?>
-        <div class="card-sr col-lg-4 col-md-6 col-sm-12">
-          <div class="bg">
-            <img src="<?= base_url('img/' . $service['title']) ?>" class="card-img-top" alt="...">
-            <h4 class="card-title fw-bolder text-center"><?= $service['content'] ?></h4>
-            <div class="button-container">
-            <?php if (session()->get('isLoggedIn')): ?>
-              <a href="<?= base_url('admin?service=' . $service['id']) ?>#service" class="learn-more">
-            <?php else: ?>
-              <a href="<?= base_url('/?service=' . $service['id']) ?>#service" class="learn-more">
-            <?php endif; ?>
-                <span class="circle" aria-hidden="true">
-                  <span class="icon arrow"></span>
-                </span>
-                <span class="button-text">Learn More</span>
-              </a>
-</div>
+      <div class="row gap-5 justify-content-center">
+        <?php foreach ($data_services as $service): ?>
+          <div class="card-sr col-lg-4 col-md-6 col-sm-12">
+            <div class="bg">
+              <img src="<?= base_url('img/' . $service['title']) ?>" class="card-img-top" alt="...">
+              <h4 class="card-title fw-bolder text-center"><?= $service['content'] ?></h4>
+              <div class="button-container">
+                <a href="#service" class="learn-more" onclick="showServiceDetail(<?= (int) $service['id'] ?>); return false;">
+                  <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                  </span>
+                  <span class="button-text">Learn More</span>
+                </a>
+              </div>
+            </div>
+            <div class="blob"></div>
           </div>
-          <div class="blob"></div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+
+    <div id="services-detail-container">
+      <?php foreach ([1, 2, 3, 4, 5] as $sid): ?>
+        <div class="service-detail" id="service-detail-<?= $sid ?>" style="display:none;">
+          <?= view("content/Services/Service{$sid}") ?>
         </div>
       <?php endforeach; ?>
     </div>
   </div>
 </section>
+
+<script>
+function scrollToServiceSection() {
+  var target = document.getElementById('service');
+  if (!target) return;
+  var navbar = document.querySelector('.navbar');
+  var offset = navbar ? navbar.offsetHeight : 0;
+  var top = target.getBoundingClientRect().top + window.pageYOffset - offset - 10;
+  window.scrollTo({ top: top, behavior: 'smooth' });
+}
+
+function showServiceDetail(id) {
+  var grid = document.getElementById('services-grid');
+  if (grid) grid.style.display = 'none';
+
+  document.querySelectorAll('.service-detail').forEach(function (el) {
+    el.style.display = 'none';
+  });
+
+  var target = document.getElementById('service-detail-' + id);
+  if (target) target.style.display = 'flex';
+
+  scrollToServiceSection();
+}
+
+function hideServiceDetail() {
+  document.querySelectorAll('.service-detail').forEach(function (el) {
+    el.style.display = 'none';
+  });
+
+  var grid = document.getElementById('services-grid');
+  if (grid) grid.style.display = '';
+
+  scrollToServiceSection();
+}
+</script>
 
 <!-- Modal Tambah -->
 <div class="modal fade" id="addModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">

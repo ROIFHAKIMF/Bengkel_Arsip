@@ -1009,6 +1009,14 @@ flex-direction: column! important;
   margin-top: 20px;
 }
 
+#services-detail-container,
+.service-detail{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #service{
   display: flex;
   justify-content: center;
@@ -1211,6 +1219,110 @@ flex-direction: column! important;
   text-decoration: none;
 }
 
+
+.footer-nav-grid,
+.footer-service-grid{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px 30px;
+}
+
+.footer-nav-grid{
+  grid-template-columns: repeat(2, auto);
+}
+
+.footer-service-grid{
+  grid-template-columns: repeat(2, auto);
+}
+
+.footer-nav-grid li a,
+.footer-service-grid li a{
+  position: relative;
+  padding-left: 14px;
+  font-weight: 600;
+  opacity: 0.9;
+  transition: opacity 0.2s ease, padding-left 0.2s ease;
+}
+
+.footer-nav-grid li a::before,
+.footer-service-grid li a::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--warna-teks-putih);
+}
+
+.footer-nav-grid li a:hover,
+.footer-service-grid li a:hover{
+  opacity: 1;
+  padding-left: 18px;
+}
+
+@media screen and (max-width: 576px){
+  .footer-nav-grid,
+  .footer-service-grid{
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+.footer-kontak-row{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px 50px;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.footer-kontak-title{
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.footer-kontak-items{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 20px 40px;
+}
+
+.footer-kontak-item{
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.footer-kontak-label{
+  font-weight: 700;
+  color: var(--warna-teks-putih);
+  opacity: 0.75;
+}
+
+@media screen and (max-width: 768px){
+  .footer-kontak-row{
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-kontak-item{
+    white-space: normal;
+  }
+  .footer-logo{
+    justify-content: center !important;
+  }
+}
+
 @media screen and (max-width: 968px) {
   .service-1, .service-2, .service-3, .service-4 , .service-5{
     flex-direction: column;
@@ -1225,7 +1337,9 @@ flex-direction: column! important;
     width: 90%;
     height: auto;
   }
-
+  .footer-logo{
+    justify-content: center !important;
+  }
   .home{
     flex-direction: column;
     align-items: center;
@@ -1278,12 +1392,18 @@ flex-direction: column! important;
   background-color: var(--warna-utama);
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 90%;
   height: fit-content;
   padding: 20px;
-  bottom:  100px;
   border-radius: 20px;
   border: 4px solid var(--warna-utama);
   box-shadow: 0 0  30px var(--warna-utama);
+}
+
+.footer-bottom-row{
+  margin: 0;
+  padding: 0;
+  gap:0
 }

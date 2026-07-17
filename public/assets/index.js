@@ -37,3 +37,9 @@
   document.addEventListener('DOMContentLoaded', adjustAllRows);
   window.addEventListener('resize', adjustAllRows);
 
+    document.getElementById("tombol-utama").addEventListener("click", function () {
+        const footer = document.getElementById("footer");
+        if (footer) {
+            footer.scrollIntoView({ behavior: "smooth" });
+        }
+    });

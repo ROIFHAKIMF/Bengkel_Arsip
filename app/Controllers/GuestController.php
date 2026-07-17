@@ -21,8 +21,6 @@ class GuestController extends BaseController
         $data_gallery = $gambarModel->findAll();
         $data_about = $aboutModel->findAll();
         $data_services = $serviceModel->findAll();
-        $service_id = $this->request->getGet('service');
-        $selected_service = $service_id ? $serviceModel->find($service_id) : null;
 
         $clients = $clientModel->findAll();
         $groupedClient = [];
@@ -39,11 +37,7 @@ class GuestController extends BaseController
 
         echo view('content/about', ['data_about' => $data_about]);
 
-        if ($service_id && in_array($service_id, ['1','2','3','4','5'])) {
-            echo view("content/Services/Service{$service_id}");
-        } else {
-            echo view('content/services', ['data_services' => $data_services]);
-        }
+        echo view('content/services', ['data_services' => $data_services]);
 
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);

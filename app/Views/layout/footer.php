@@ -1,16 +1,45 @@
 <footer class="footer">
   <div class="footer-container">
-    <div class="row d-flex w-100 justify-content-center align-items-center">
+    <div class="row d-flex w-100 justify-content-around align-items-center m-3">
       <!-- Kolom Logo dan Sosial Media -->
-      <div class="col-lg-3 col-xl-3 col-sm-10 mb-5 px-5 d-flex flex-column justify-content-center align-items-start">
+      <div class="col-lg-3 col-xl-3 col-sm-12 mb-5 d-flex flex-column justify-content-center align-items-center footer-logo">
         <div class="logo d-flex align-items-center">
           <img src="<?= base_url('img/logo.jpg') ?>" alt="logo" width="40" height="40" class="rounded-circle me-3">
-          <h3 class="text-uppercase fw-bold text-white">Bengkel Arsip</h3>
+          <h3 class="text-uppercase fw-bold text-white text-nowrap">Bengkel Arsip</h3>
         </div>
         <p class="mt-2 text-white text-start">Solusi kearsipan <br> profesional dan terpercaya</p>
-        <p class="mb-0 fs-6 text-secondary">&copy; <span id="year"></span> Bengkel Arsip. All rights reserved.</p>
       </div>
-      <div class="col-lg-6 col-xl-6 col-sm-10 d-flex justify-content-center align-items-center flex-column">
+              <div class="footer-bottom-row mb-2 p-0 w-auto d-flex justify-content-center align-items-start gap-3 col-lg-4 col-xl-4 col-sm-12 ">
+        <!-- Kolom Navigasi -->
+        <div class="footer-bottom-col ">
+          <h5 class="fw-bold footer-links">Navigasi</h5>
+          <ul class="footer-nav-grid">
+            <li><a href="#Home" class="footer-links">Home</a></li>
+            <li><a href="#about" class="footer-links">About</a></li>
+            <li><a href="#service" class="footer-links">Service</a></li>
+            <li><a href="#client" class="footer-links">Client</a></li>
+            <li><a href="#gallery" class="footer-links">Gallery</a></li>
+            <li><a href="#profile" class="footer-links">Profile</a></li>
+            <li><a href="#contact" class="footer-links">Contact</a></li>
+            <li><a href="#footer" class="footer-links">Footer</a></li>
+          </ul>
+        </div>
+                <!-- Kolom Services -->
+        <div class="footer-bottom-col ">
+          <h5 class="fw-bold footer-links">Services</h5>
+          <ul class="footer-service-grid">
+            <li><a href="#service" class="footer-links">Services</a></li>
+            <?php foreach ($data_services as $service): ?>
+              <?php if (session()->get('isLoggedIn')): ?>
+                <li><a class="footer-links text-nowrap" href="<?= base_url('admin?service=' . $service['id']) ?>#service">Service-<?= $service['id'] ?></a></li>
+              <?php else: ?>
+                <li><a class="footer-links text-nowrap" href="#service" onclick="showServiceDetail(<?= (int) $service['id'] ?>); return false;">Service-<?= $service['id'] ?></a></li>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-12 col-xl-12 col-xxl-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center flex-column" >
         <h5 class="fw-bold footer-links">SOCIAL MEDIA </h5>
         <ul class="example-2 ms-0 d-flex gap-3 list-unstyled mt-3">
           <li class="icon-content">
@@ -59,43 +88,12 @@
                   <i class="bi bi-envelope-at-fill fs-3"></i>
             </a>
               <div class="tooltip">Email</div>
-          </li>
-        </ul>
-      </div>
-              <!-- Kolom Kontak -->
-      <div class="col-lg-3 col-xl-3 col-sm-10 mb-3 d-flex flex-column justify-content-center align-items-start text-start">
-        <h4 class="fw-bold footer-links">Kontak</h4>
-        <p class="footer-links">Email:<br> bengkelarsip@gmail.com</p>
-        <p class="footer-links">Telp/WA: <br>+6285701442698 / +6285701442699</p>
-        <p class="footer-links">Instagram: www.instagram.com/bengkel.arsip</p>
-      </div>
-      <!-- Kolom Navigasi -->
-      <div class="col-lg-6 col-xl-6 col-sm-10 mb-4 pt-5">
-        <h5 class="fw-bold footer-links">Navigasi</h5>
-        <ul class="list-unstyle row row-cols-4 footer-links">
-          <li><a href="#Home" class="footer-links">Home</a></li>
-          <li><a href="#about" class="footer-links">About</a></li>
-          <li><a href="#service" class="footer-links">Service</a></li>
-          <li><a href="#client" class="footer-links">Client</a></li>
-          <li><a href="#gallery" class="footer-links">Gallery</a></li>
-          <li><a href="#profile" class="footer-links">Profile</a></li>
-          <li><a href="#contact" class="footer-links">Contact</a></li>
-          <li><a href="#footer" class="footer-links">Footer</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-6 col-xl-6 col-sm-10 mb-4 pt-5">
-        <h5 class="fw-bold footer-links">Services</h5>
-          <ul class="row d-flex justify-content-start align-items-center flex-row footer-links">
-            <li class="col-4"><a href="#service" class="footer-links">All Service</a></li>
-              <?php foreach ($data_services as $service): ?>
-                  <?php if (session()->get('isLoggedIn')): ?>
-                    <li class="col-4"><a class="footer-links" href="<?= base_url('admin?service=' . $service['id']) ?>#service">Service-<?= $service['id'] ?></a></li>
-                  <?php else: ?>
-                    <li class="col-4"><a class="footer-links" href="<?= base_url('/?service=' . $service['id']) ?>#service">Service-<?= $service['id'] ?></a></li>
-                  <?php endif; ?>
-              <?php endforeach;?>
+            </li>
           </ul>
-      </div>
+        </div>
+
+    <div class="footer-kontak-row">
+      <h5 class="fw-bold footer-links">&copy;<?= date('Y') ?> Bengkel Arsip. All rights reserved.</h5>
     </div>
   </div>
 </footer>
