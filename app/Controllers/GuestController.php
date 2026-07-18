@@ -8,6 +8,7 @@ use App\Models\ServiceModel;
 use App\Models\ClientModel;
 use App\Models\SocialMediaModel;
 use App\Models\BarangModel;
+use App\Models\TestimoniModel;
 
 class GuestController extends BaseController
 {
@@ -19,11 +20,12 @@ class GuestController extends BaseController
         $clientModel = new ClientModel();
         $socialModel = new SocialMediaModel();
         $barangModel = new BarangModel();
-
+        $testimoniModel = new TestimoniModel();
         $data_gallery = $gambarModel->findAll();
         $data_about = $aboutModel->findAll();
         $data_services = $serviceModel->findAll();
         $data_barang = $barangModel->findAll();
+        $data_testimoni = $testimoniModel->findAll();
         $clients = $clientModel->findAll();
         $groupedClient = [];
         foreach ($clients as $client) {
@@ -42,6 +44,7 @@ class GuestController extends BaseController
         echo view('content/services', ['data_services' => $data_services]);
 
         echo view('content/partner');
+        echo view('content/testimoni', ['data_testimoni' => $data_testimoni]);
         echo view('content/barang', ['data_barang' => $data_barang, 'social' => $social]);
         
         echo view('content/profile');

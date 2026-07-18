@@ -7,6 +7,7 @@ use App\Models\AboutModel;
 use App\Models\ServiceModel;
 use App\Models\ClientModel;
 use App\Models\SocialMediaModel;
+use App\Models\TestimoniModel;
 
 class AdminController extends BaseController
 {
@@ -34,6 +35,8 @@ class AdminController extends BaseController
         $barangModel = new BarangModel();
         $data_barang = $barangModel->findAll();
 
+        $testimoniModel = new TestimoniModel(); $data_testimoni = $testimoniModel->findAll();
+
         $clientModel = new ClientModel();
         $clients = $clientModel->findAll();
 
@@ -55,6 +58,7 @@ class AdminController extends BaseController
         ]);
         echo view('content/services', ['data_services' => $data_services]);
         echo view('content/partner');
+        echo view('content/testimoni', ['data_testimoni' => $data_testimoni]);
         echo view('content/barang', ['data_barang' => $data_barang, 'social' => $social]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
@@ -478,5 +482,81 @@ public function editBarang()
         }
 
         return redirect()->to('/admin#barang');
+    }
+
+    //fungsi testimoni
+    public function tambahTestimoni(){
+        $model = new TestimoniModel();
+        $file = $this->request->getFile('foto');
+        $fileName = '';
+
+        if ($file && $file->isValid()) {
+            $jumlahTestimoni = $model->countAll();
+            $nextNumber = $jumlahTestimoni + 1;
+
+            $ext = $file->getClientExtension();
+            $fileName = "testimoni_{$nextNumber}." . $ext;
+            $file->move('img', $fileName);
+        }
+
+        $model->save([
+            'nama' => $this->request->getPost('nama'),
+            'ulasan' => $this->request->getPost('ulasan'),
+            'rating' => $this->request->getPost('rating'),
+            'foto' => $fileName,
+        ]);
+
+        return redirect()->to('/admin#testimoni')->with('success', 'Testimoni berhasil ditambahkan.');
+    }
+    public function editTestimoni(){
+        $model = new TestimoniModel();
+        $id = $this->request->getPost('id');
+
+        $data = [
+            'nama' => $this->request->getPost('nama'),
+            'ulasan' => $this->request->getPost('ulasan'),
+            'rating' => $this->request->getPost('rating'),
+        ];
+
+        $file = $this->request->getFile('foto');
+        if ($file && $file->isValid()) {
+            $oldTestimoni = $model->find($id);
+
+            if (!empty($oldTestimoni['foto'])) {
+                $oldPath = FCPATH . 'img/' . $oldTestimoni['foto'];
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            $ext = $file->getClientExtension();
+            $fileName = "testimoni_{$id}." . $ext;
+            $file->move('img/', $fileName, true);
+            $data['foto'] = $fileName;
+        }
+
+        $model->update($id, $data);
+        return redirect()->to('/admin#testimoni')->with('success', 'Testimoni berhasil diedit.');
+    }
+
+    public function hapusTestimoni(){
+        $id = $this->request->getPost('id');
+        $model = new TestimoniModel();
+
+        $testimoni = $model->find($id);
+
+        if ($model->delete($id)) {
+            if (!empty($testimoni['foto'])) {
+                $filePath = FCPATH . 'img/' . $testimoni['foto'];
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+            session()->setFlashdata('alert', 'Testimoni berhasil dihapus.');
+        } else {
+            session()->setFlashdata('alert', 'Gagal menghapus testimoni.');
+        }
+
+        return redirect()->to('/admin#testimoni');
     }
 }

@@ -1481,6 +1481,7 @@ flex-direction: column! important;
 /* ===== Barang / Dropship Marketplace ===== */
 .barang-card{
   background-color: var(--warna-kedua);
+  border: 2px solid var(--warna-utama);
   border-radius: 16px;
   padding: 16px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
@@ -1493,7 +1494,9 @@ flex-direction: column! important;
 
 .barang-card:hover{
   transform: translateY(-6px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.42);
+  border: 3px solid var(--warna-utama);
+  transition: all 0.3s ease;
 }
 
 .barang-img{
@@ -1502,6 +1505,7 @@ flex-direction: column! important;
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 12px;
+  aspect-ratio: 16/9;
 }
 
 .barang-img-placeholder{
@@ -1603,8 +1607,9 @@ flex-direction: column! important;
   height: 56px;
   border-radius: 50%;
   border: none;
-  background-color: var(--warna-utama);
-  color: #fff;
+  background-color: var(--warna-kedua);
+  border: 3px solid var(--warna-utama);
+  color: var(--warna-ketiga);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1657,4 +1662,65 @@ flex-direction: column! important;
   color: #E63946;
   font-size: 1.1rem;
   cursor: pointer;
+}
+
+/* ===== Testimoni ===== */
+.testimoni-title{
+  color: var(--warna-utama);
+}
+
+.testimoni-card{
+  background-color: var(--warna-kedua);
+  border: 2px solid var(--warna-utama);
+  border-radius: 16px;
+  min-height: 300px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.testimoni-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+
+.testimoni-foto{
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  border: 3px solid var(--warna-utama);
+}
+
+.testimoni-foto-placeholder{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+  color: #aaa;
+  font-size: 1.8rem;
+}
+
+.testimoni-nama{
+  font-weight: 700;
+  color: var(--warna-teks-hitam);
+  margin-bottom: 6px;
+}
+
+.testimoni-rating{
+  color: var(--warna-utama);
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.testimoni-ulasan{
+  font-size: 0.9rem;
+  color: var(--warna-teks-hitam);
+  opacity: 0.85;
+  font-style: italic;
 }
