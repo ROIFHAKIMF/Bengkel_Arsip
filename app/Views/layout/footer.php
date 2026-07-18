@@ -9,7 +9,7 @@
         </div>
         <p class="mt-2 text-white text-start">Solusi kearsipan <br> profesional dan terpercaya</p>
       </div>
-              <div class="footer-bottom-row mb-2 p-0 w-auto d-flex justify-content-center align-items-start gap-3 col-lg-4 col-xl-4 col-sm-12 ">
+      <div class="footer-bottom-row mb-2 p-0 w-auto col-lg-4 col-xl-4 col-sm-12">
         <!-- Kolom Navigasi -->
         <div class="footer-bottom-col ">
           <h5 class="fw-bold footer-links">Navigasi</h5>

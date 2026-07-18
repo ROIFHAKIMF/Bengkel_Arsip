@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-
+use App\Models\BarangModel;
 use App\Models\GambarModel;
 use App\Models\AboutModel;
 use App\Models\ServiceModel;
@@ -31,6 +31,9 @@ class AdminController extends BaseController
         $modelService = new ServiceModel();
         $data_services = $modelService->findAll();
 
+        $barangModel = new BarangModel();
+        $data_barang = $barangModel->findAll();
+
         $clientModel = new ClientModel();
         $clients = $clientModel->findAll();
 
@@ -51,6 +54,8 @@ class AdminController extends BaseController
             'selected_about' => $selected_about
         ]);
         echo view('content/services', ['data_services' => $data_services]);
+        echo view('content/partner');
+        echo view('content/barang', ['data_barang' => $data_barang, 'social' => $social]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
         echo view('content/client', ['groupedClient' => $groupedClient]);
@@ -392,4 +397,86 @@ public function hapusgallery()
         return redirect()->back()->with('success', 'Data media sosial berhasil diperbarui!');
     }
 
+    // ==== CRUD Barang (Dropship) ====
+
+public function tambahBarang()
+{
+    $model = new BarangModel();
+    $file = $this->request->getFile('gambar');
+    $fileName = '';
+
+    if ($file && $file->isValid()) {
+        $jumlahBarang = $model->countAll();
+        $nextNumber = $jumlahBarang + 1;
+
+        $ext = $file->getClientExtension();
+        $fileName = "barang_{$nextNumber}." . $ext;
+        $file->move('img', $fileName);
+    }
+
+    $model->save([
+        'nama'      => $this->request->getPost('nama'),
+        'harga'     => $this->request->getPost('harga'),
+        'stok'      => $this->request->getPost('stok'),
+        'deskripsi' => $this->request->getPost('deskripsi'),
+        'gambar'    => $fileName,
+    ]);
+
+    return redirect()->to('/admin#barang')->with('success', 'Barang berhasil ditambahkan.');
+}
+
+public function editBarang()
+{
+    $model = new BarangModel();
+    $id = $this->request->getPost('id');
+
+    $data = [
+        'nama'      => $this->request->getPost('nama'),
+        'harga'     => $this->request->getPost('harga'),
+        'stok'      => $this->request->getPost('stok'),
+        'deskripsi' => $this->request->getPost('deskripsi'),
+    ];
+
+    $file = $this->request->getFile('gambar');
+    if ($file && $file->isValid()) {
+        $oldBarang = $model->find($id);
+
+        if (!empty($oldBarang['gambar'])) {
+            $oldPath = FCPATH . 'img/' . $oldBarang['gambar'];
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
+        }
+
+        $ext = $file->getClientExtension();
+        $fileName = "barang_{$id}." . $ext;
+        $file->move('img/', $fileName, true);
+        $data['gambar'] = $fileName;
+    }
+
+    $model->update($id, $data);
+    return redirect()->to('/admin#barang')->with('success', 'Barang berhasil diedit.');
+}
+
+    public function hapusBarang()
+    {
+        $id = $this->request->getPost('id');
+        $model = new BarangModel();
+
+        $barang = $model->find($id);
+
+        if ($model->delete($id)) {
+            if (!empty($barang['gambar'])) {
+                $filePath = FCPATH . 'img/' . $barang['gambar'];
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+            session()->setFlashdata('alert', 'Barang berhasil dihapus.');
+        } else {
+            session()->setFlashdata('alert', 'Gagal menghapus barang.');
+        }
+
+        return redirect()->to('/admin#barang');
+    }
 }

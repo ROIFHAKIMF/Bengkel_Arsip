@@ -34,6 +34,10 @@ $routes->group('admin', ['filter' => 'rolefilter'], function ($routes) {
     $routes->post('gallery/tambah', 'AdminController::tambahgallery');
     $routes->post('gallery/edit', 'AdminController::editgallery');
     $routes->post('gallery/hapus', 'AdminController::hapusgallery');
+
+    $routes->post('barang/tambah', 'AdminController::tambahBarang');
+    $routes->post('barang/edit', 'AdminController::editBarang');
+    $routes->post('barang/hapus', 'AdminController::hapusBarang');
 });
 // Routes untuk CRUD Client
 
