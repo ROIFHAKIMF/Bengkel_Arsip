@@ -514,8 +514,16 @@ background-color: var(--warna-keempat);
 border-radius: 20px;
 color: var(--warna-teks-hitam);
 }
+
+.dropdown-iteml.active{
+background-color: var(--warna-utama)!important;
+}
+.dropdown-item{
+color: var(--warna-teks-hitam);
+}
 .dropdown-item:hover{
-background-color: var(--warna-kedua)!important;
+background-color: var(--warna-utama)!important;
+color: var(--warna-teks-hitam)!important;
 }
 
 .img-1, .img-2{
@@ -1723,4 +1731,67 @@ flex-direction: column! important;
   color: var(--warna-teks-hitam);
   opacity: 0.85;
   font-style: italic;
+}
+
+
+/* ===== Konsultasi Berbayar ===== */
+.konsultasi-title{
+  color: var(--warna-utama);
+}
+
+.konsultasi-card{
+  background-color: var(--warna-kedua);
+  min-width: 400px;
+  min-height: 200px;
+  max-height: fit-content;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+.konsultasi-card:hover{
+  transform: translateY(-6px);
+  transform: scale(1.01);
+  box-shadow: 0 10px 24px rgba(12, 79, 64, 0.752);
+  border: 2px solid var(--warna-utama);
+}
+
+.konsultasi-nama{
+  font-weight: 700;
+  color: var(--warna-teks-hitam);
+  margin-bottom: 6px;
+}
+
+.konsultasi-harga{
+  font-weight: 700;
+  color: var(--warna-utama);
+  margin-bottom: 8px;
+}
+
+.konsultasi-deskripsi{
+  font-size: 0.9rem;
+  color: var(--warna-teks-hitam);
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+.btn-booking-konsultasi{
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background-color: var(--warna-utama);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.btn-booking-konsultasi:hover{
+  opacity: 0.85;
 }

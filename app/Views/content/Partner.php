@@ -1,5 +1,5 @@
 <section id="partner" class="py-5">
-  <div class="container-fluid text-center">
+  <div class="container-fluid text-center pt-5 mt-5">
     <h1 class="fw-bold text-uppercase mb-4 partner-title">Partner By</h1>
 
     <div class="marquee-wrapper">

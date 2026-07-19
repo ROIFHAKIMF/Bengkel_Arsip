@@ -8,6 +8,7 @@ use App\Models\ServiceModel;
 use App\Models\ClientModel;
 use App\Models\SocialMediaModel;
 use App\Models\TestimoniModel;
+use App\Models\KonsultasiModel;
 
 class AdminController extends BaseController
 {
@@ -35,6 +36,9 @@ class AdminController extends BaseController
         $barangModel = new BarangModel();
         $data_barang = $barangModel->findAll();
 
+        $KonsultasiModel = new KonsultasiModel();
+        $data_konsultasi = $KonsultasiModel->findAll();
+
         $testimoniModel = new TestimoniModel(); $data_testimoni = $testimoniModel->findAll();
 
         $clientModel = new ClientModel();
@@ -60,6 +64,7 @@ class AdminController extends BaseController
         echo view('content/partner');
         echo view('content/testimoni', ['data_testimoni' => $data_testimoni]);
         echo view('content/barang', ['data_barang' => $data_barang, 'social' => $social]);
+        echo view('content/konsultasi', ['data_konsultasi' => $data_konsultasi]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
         echo view('content/client', ['groupedClient' => $groupedClient]);
@@ -558,5 +563,48 @@ public function editBarang()
         }
 
         return redirect()->to('/admin#testimoni');
+    }
+
+    //konsultasi CRUD
+    public function tambahKonsultasi()
+    {
+        $model = new KonsultasiModel();
+        $model->save([
+            'nama_paket' => $this->request->getPost('nama_paket'),
+            'harga'      => $this->request->getPost('harga'),
+            'deskripsi'  => $this->request->getPost('deskripsi'),
+        ]);
+
+        return redirect()->to('/admin#konsultasi')->with('success', 'Paket konsultasi berhasil ditambahkan.');
+    }
+
+    public function editKonsultasi()
+    {
+        $model = new KonsultasiModel();
+        $id = $this->request->getPost('id');
+
+        $data = [
+            'nama_paket' => $this->request->getPost('nama_paket'),
+            'harga'      => $this->request->getPost('harga'),
+            'deskripsi'  => $this->request->getPost('deskripsi'),
+        ];
+
+        $model->update($id, $data);
+
+        return redirect()->to('/admin#konsultasi')->with('success', 'Paket konsultasi berhasil diedit.');
+    }
+
+    public function hapusKonsultasi()
+    {
+        $id = $this->request->getPost('id');
+        $model = new KonsultasiModel();
+
+        if ($model->delete($id)) {
+            session()->setFlashdata('alert', 'Konsultasi berhasil dihapus.');
+        } else {
+            session()->setFlashdata('alert', 'Gagal menghapus konsultasi.');
+        }
+
+        return redirect()->to('/admin#konsultasi');
     }
 }

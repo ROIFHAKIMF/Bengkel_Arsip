@@ -1,4 +1,4 @@
-    <!-- navstart -->
+<!-- navstart -->
     <nav class="navbar navbar-dark bg-nav border-bottom navbar-expand-lg fixed-top shadow-lg">
     <div class="container-fluid">
         <a class="navbar-brand d-flex gap-2 fw-bold ms-4 bg-nav color-hijau" href="#">
@@ -23,16 +23,25 @@
                 <a class="nav-link color-hijau" aria-current="page" href="#service">Service</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link color-hijau" aria-current="page" href="#profile">Profile</a>
+                <a class="nav-link color-hijau" aria-current="page" href="#partner">Partner</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link color-hijau" aria-current="page" href="#gallery">Gallery</a>
+                <a class="nav-link color-hijau" aria-current="page" href="#testimoni">Testimoni</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link color-hijau" aria-current="page" href="#client">Client</a>
+                <a class="nav-link color-hijau" aria-current="page" href="#barang">Barang</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link color-hijau" aria-current="page" href="#contact">Contact</a>
+            <li class="nav-item dropdown" aria-current="page">
+                <a class="nav-link color-hijau dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Lainnya
+                </a>
+                <ul class="dropdown-menu shadow-lg rounded-4 border-0">
+                    <li><a class="dropdown-item" href="#konsultasi">Konsultasi</a></li>
+                    <li><a class="dropdown-item" href="#profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="#gallery">Gallery</a></li>
+                    <li><a class="dropdown-item" href="#client">Client</a></li>
+                    <li><a class="dropdown-item" href="#contact">Contact</a></li>
+                </ul>
             </li>
             <li class="nav-item">
             <label id="theme-toggle-button">
