@@ -102,6 +102,13 @@ align-items: center;
 background-color: var(--warna-keempat);
 min-height: 100vh;
 }
+
+#partner{
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 #gallery{
 background-color: var(--warna-utama);
 }
@@ -515,7 +522,7 @@ border-radius: 20px;
 color: var(--warna-teks-hitam);
 }
 
-.dropdown-iteml.active{
+.dropdown-item.active{
 background-color: var(--warna-utama)!important;
 }
 .dropdown-item{
@@ -1444,8 +1451,8 @@ flex-direction: column! important;
 
 .partner-item{
   flex: 0 0 auto;
-  width: 180px;
-  height: 100px;
+  width: 360px;
+  height: 200px ;
   border-radius: 14px;
   display: flex;
   align-items: center;
@@ -1741,11 +1748,11 @@ flex-direction: column! important;
 
 .konsultasi-card{
   background-color: var(--warna-kedua);
-  min-width: 400px;
-  min-height: 200px;
+  min-width: 480px;
+  min-height: 320px;
   max-height: fit-content;
   border-radius: 16px;
-  padding: 20px;
+  padding: 32px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
@@ -1763,21 +1770,23 @@ flex-direction: column! important;
 
 .konsultasi-nama{
   font-weight: 700;
+  font-size: 1.6rem;
   color: var(--warna-teks-hitam);
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
 .konsultasi-harga{
   font-weight: 700;
+  font-size: 1.4rem;
   color: var(--warna-utama);
-  margin-bottom: 8px;
+  margin-bottom: 14px;
 }
 
 .konsultasi-deskripsi{
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--warna-teks-hitam);
   opacity: 0.85;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
 }
 
 .btn-booking-konsultasi{
@@ -1790,6 +1799,7 @@ flex-direction: column! important;
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s ease;
+  margin-top: auto;
 }
 
 .btn-booking-konsultasi:hover{
