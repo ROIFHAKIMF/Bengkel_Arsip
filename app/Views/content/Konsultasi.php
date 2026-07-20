@@ -15,10 +15,10 @@
       <p class="text-muted">Belum ada paket konsultasi.</p>
     <?php endif; ?>
 
-    <div class="row gap-4 justify-content-center">
+    <div class="row gap-4 justify-content-center" id="konsultasiGrid">
       <?php foreach ($data_konsultasi as $k): ?>
         <?php $adaHarga = ((float) $k['harga']) > 0; ?>
-        <div class="konsultasi-card col-lg-3 col-md-5 col-sm-10">
+        <div class="konsultasi-card col-lg-3 col-md-5 col-sm-10" data-id="<?= $k['id'] ?>">
           <h5 class="konsultasi-nama"><?= esc($k['nama_paket']) ?></h5>
           <p class="konsultasi-harga">
             <?= $adaHarga ? 'Rp' . number_format((float) $k['harga'], 0, ',', '.') : 'Hubungi kami untuk harga' ?>
@@ -81,7 +81,7 @@
 <div class="modal fade" id="addModalKonsultasi" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form action="<?= site_url('admin/konsultasi/tambah') ?>" method="post">
+      <form id="formTambahKonsultasi" action="<?= site_url('admin/konsultasi/tambah') ?>" method="post">
         <?= csrf_field(); ?>
         <div class="modal-header">
           <h5 class="modal-title">Tambah Paket Konsultasi</h5>
@@ -113,7 +113,7 @@
 <!-- Modal Edit Paket Konsultasi -->
 <div class="modal fade" id="modalEditKonsultasi" data-bs-backdrop="static" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <form action="<?= base_url('admin/konsultasi/edit') ?>" method="post">
+    <form id="formEditKonsultasi" action="<?= base_url('admin/konsultasi/edit') ?>" method="post">
       <?= csrf_field(); ?>
       <div class="modal-content modal-half">
         <div class="modal-header">
@@ -121,7 +121,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <select name="id" class="form-select mb-3" onchange="fillEditKonsultasi(this)" required>
+          <select name="id" id="editKonsultasiSelect" class="form-select mb-3" onchange="fillEditKonsultasi(this)" required>
             <option value="">Pilih Paket</option>
             <?php foreach ($data_konsultasi as $k): ?>
               <option
@@ -150,7 +150,7 @@
 <!-- Modal Hapus Paket Konsultasi -->
 <div class="modal fade" id="hapusModalKonsultasi" data-bs-backdrop="static" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <form action="<?= base_url('admin/konsultasi/hapus') ?>" method="post">
+    <form id="formHapusKonsultasi" action="<?= base_url('admin/konsultasi/hapus') ?>" method="post">
       <?= csrf_field(); ?>
       <div class="modal-content modal-half">
         <div class="modal-header">
@@ -159,7 +159,7 @@
         </div>
         <div class="modal-body">
           <p>Pilih paket yang ingin dihapus:</p>
-          <div class="list-group overflow-auto" style="max-height: 300px;">
+          <div class="list-group overflow-auto" id="hapusKonsultasiList" style="max-height: 300px;">
             <?php foreach ($data_konsultasi as $k): ?>
               <label class="list-group-item d-flex align-items-start gap-3">
                 <input class="form-check-input mt-1" type="radio" name="id" value="<?= $k['id'] ?>" required>
@@ -185,6 +185,114 @@ function fillEditKonsultasi(select) {
   document.getElementById('editKonsultasiHarga').value = option.getAttribute('data-harga') || '0';
   document.getElementById('editKonsultasiDeskripsi').value = option.getAttribute('data-deskripsi') || '';
 }
+</script>
+
+<script>
+  function escapeKonsultasiHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  }
+
+  function buildKonsultasiCardHTML(k) {
+    var adaHarga = parseFloat(k.harga) > 0;
+    var hargaText = adaHarga ? 'Rp' + Number(k.harga).toLocaleString('id-ID') : 'Hubungi kami untuk harga';
+    var deskripsiHtml = k.deskripsi ? '<p class="konsultasi-deskripsi">' + escapeKonsultasiHtml(k.deskripsi) + '</p>' : '';
+
+    return '<div class="konsultasi-card col-lg-3 col-md-5 col-sm-10" data-id="' + k.id + '">' +
+      '<h5 class="konsultasi-nama">' + escapeKonsultasiHtml(k.nama_paket) + '</h5>' +
+      '<p class="konsultasi-harga">' + hargaText + '</p>' +
+      deskripsiHtml +
+      '<button type="button" class="btn-booking-konsultasi" onclick="openBookingKonsultasi(\'' + escapeKonsultasiHtml(k.nama_paket).replace(/'/g, "\\'") + '\', ' + parseFloat(k.harga) + ')"><i class="bi bi-whatsapp"></i> Booking Konsultasi</button>' +
+    '</div>';
+  }
+
+  function buildKonsultasiOptionHTML(k) {
+    return '<option value="' + k.id + '" data-nama="' + escapeKonsultasiHtml(k.nama_paket) + '" data-harga="' + k.harga + '" data-deskripsi="' + escapeKonsultasiHtml(k.deskripsi || '') + '">' + escapeKonsultasiHtml(k.nama_paket) + '</option>';
+  }
+
+  function buildKonsultasiHapusItemHTML(k) {
+    return '<label class="list-group-item d-flex align-items-start gap-3">' +
+      '<input class="form-check-input mt-1" type="radio" name="id" value="' + k.id + '" required>' +
+      '<div class="d-flex flex-column justify-content-center align-items-start">' +
+        '<p class="fw-bold mb-1 small">' + escapeKonsultasiHtml(k.nama_paket) + '</p>' +
+      '</div>' +
+    '</label>';
+  }
+
+  function ajaxSubmitKonsultasiForm(form, onSuccess) {
+    var formData = new FormData(form);
+    fetch(form.action, { method: 'POST', body: formData })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        window.syncCsrfToken && window.syncCsrfToken();
+        if (json.success) {
+          onSuccess(json.data);
+          window.showAjaxToast && window.showAjaxToast(json.message, false);
+        } else {
+          window.showAjaxToast && window.showAjaxToast(json.message || 'Terjadi kesalahan.', true);
+        }
+      })
+      .catch(function () {
+        window.showAjaxToast && window.showAjaxToast('Gagal menghubungi server.', true);
+      });
+  }
+
+  var formTambahKonsultasi = document.getElementById('formTambahKonsultasi');
+  if (formTambahKonsultasi) {
+    formTambahKonsultasi.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitKonsultasiForm(formTambahKonsultasi, function (data) {
+        document.getElementById('konsultasiGrid').insertAdjacentHTML('beforeend', buildKonsultasiCardHTML(data));
+        document.getElementById('editKonsultasiSelect').insertAdjacentHTML('beforeend', buildKonsultasiOptionHTML(data));
+        document.getElementById('hapusKonsultasiList').insertAdjacentHTML('beforeend', buildKonsultasiHapusItemHTML(data));
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('addModalKonsultasi'));
+        if (modal) modal.hide();
+        formTambahKonsultasi.reset();
+      });
+    });
+  }
+
+  var formEditKonsultasi = document.getElementById('formEditKonsultasi');
+  if (formEditKonsultasi) {
+    formEditKonsultasi.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitKonsultasiForm(formEditKonsultasi, function (data) {
+        var oldCard = document.querySelector('.konsultasi-card[data-id="' + data.id + '"]');
+        if (oldCard) oldCard.outerHTML = buildKonsultasiCardHTML(data);
+
+        var oldOption = document.querySelector('#editKonsultasiSelect option[value="' + data.id + '"]');
+        if (oldOption) oldOption.outerHTML = buildKonsultasiOptionHTML(data);
+
+        var oldRadio = document.querySelector('#hapusKonsultasiList input[value="' + data.id + '"]');
+        if (oldRadio) oldRadio.closest('label').outerHTML = buildKonsultasiHapusItemHTML(data);
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('modalEditKonsultasi'));
+        if (modal) modal.hide();
+        formEditKonsultasi.reset();
+      });
+    });
+  }
+
+  var formHapusKonsultasi = document.getElementById('formHapusKonsultasi');
+  if (formHapusKonsultasi) {
+    formHapusKonsultasi.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitKonsultasiForm(formHapusKonsultasi, function (data) {
+        var card = document.querySelector('.konsultasi-card[data-id="' + data.id + '"]');
+        if (card) card.remove();
+
+        var option = document.querySelector('#editKonsultasiSelect option[value="' + data.id + '"]');
+        if (option) option.remove();
+
+        var radio = document.querySelector('#hapusKonsultasiList input[value="' + data.id + '"]');
+        if (radio) radio.closest('label').remove();
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('hapusModalKonsultasi'));
+        if (modal) modal.hide();
+        formHapusKonsultasi.reset();
+      });
+    });
+  }
 </script>
 <?php endif; ?>
 

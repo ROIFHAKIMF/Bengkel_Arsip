@@ -25,7 +25,7 @@ $routes->group('admin', ['filter' => 'rolefilter'], function ($routes) {
     // About
     $routes->post('about/tambah', 'AdminController::tambahAbout');
     $routes->post('about/edit', 'AdminController::editAbout');
-    $routes->post('about/hapus', 'AdminController::hapusAbout'); 
+    $routes->post('about/hapus', 'AdminController::hapusAbout');
     
     $routes->post('client/tambah', 'AdminController::tambahClient');
     $routes->post('client/edit', 'AdminController::editClient');
@@ -38,6 +38,10 @@ $routes->group('admin', ['filter' => 'rolefilter'], function ($routes) {
     $routes->post('barang/tambah', 'AdminController::tambahBarang');
     $routes->post('barang/edit', 'AdminController::editBarang');
     $routes->post('barang/hapus', 'AdminController::hapusBarang');
+
+    $routes->post('partner/tambah', 'AdminController::tambahPartner');
+    $routes->post('partner/edit', 'AdminController::editPartner');
+    $routes->post('partner/hapus', 'AdminController::hapusPartner');
 
     $routes->post('testimoni/tambah', 'AdminController::tambahTestimoni');
     $routes->post('testimoni/edit', 'AdminController::editTestimoni');

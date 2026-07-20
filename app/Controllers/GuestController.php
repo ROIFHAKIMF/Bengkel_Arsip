@@ -10,6 +10,7 @@ use App\Models\SocialMediaModel;
 use App\Models\BarangModel;
 use App\Models\TestimoniModel;
 use App\Models\KonsultasiModel;
+use App\Models\PartnerModel;
 class GuestController extends BaseController
 {
     public function index()
@@ -22,11 +23,13 @@ class GuestController extends BaseController
         $barangModel = new BarangModel();
         $testimoniModel = new TestimoniModel();
         $konsultasiModel = new KonsultasiModel();
+        $partnerModel = new PartnerModel();
         $data_gallery = $gambarModel->findAll();
         $data_about = $aboutModel->findAll();
         $data_services = $serviceModel->findAll();
         $data_barang = $barangModel->findAll();
         $data_testimoni = $testimoniModel->findAll();
+        $data_partner = $partnerModel->findAll();
         $data_konsultasi = $konsultasiModel->findAll();
         $clients = $clientModel->findAll();
         $groupedClient = [];
@@ -45,7 +48,7 @@ class GuestController extends BaseController
 
         echo view('content/services', ['data_services' => $data_services]);
 
-        echo view('content/partner');
+        echo view('content/partner', ['data_partner' => $data_partner]);
         echo view('content/testimoni', ['data_testimoni' => $data_testimoni]);
         echo view('content/barang', ['data_barang' => $data_barang, 'social' => $social]);
         echo view('content/konsultasi', ['data_konsultasi' => $data_konsultasi]);

@@ -9,6 +9,7 @@ use App\Models\ClientModel;
 use App\Models\SocialMediaModel;
 use App\Models\TestimoniModel;
 use App\Models\KonsultasiModel;
+use App\Models\PartnerModel;
 
 class AdminController extends BaseController
 {
@@ -36,6 +37,9 @@ class AdminController extends BaseController
         $barangModel = new BarangModel();
         $data_barang = $barangModel->findAll();
 
+        $partnerModel = new PartnerModel();
+        $data_partner = $partnerModel->findAll();
+
         $KonsultasiModel = new KonsultasiModel();
         $data_konsultasi = $KonsultasiModel->findAll();
 
@@ -61,13 +65,13 @@ class AdminController extends BaseController
             'selected_about' => $selected_about
         ]);
         echo view('content/services', ['data_services' => $data_services]);
-        echo view('content/partner');
+        echo view('content/partner', ['data_partner' => $data_partner]);
         echo view('content/testimoni', ['data_testimoni' => $data_testimoni]);
         echo view('content/barang', ['data_barang' => $data_barang, 'social' => $social]);
         echo view('content/konsultasi', ['data_konsultasi' => $data_konsultasi]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
-        echo view('content/client', ['groupedClient' => $groupedClient]);
+        echo view('content/client', ['groupedClient' => $groupedClient, 'clients' => $clients]);
         echo view('content/contact');
         echo view('layout/footer', ['data_services' => $data_services, 'social' => $social]);
     }
@@ -93,12 +97,19 @@ public function tambahService()
         $file->move('img', $fileName);
     }
 
-    $model->save([
+    $id = $model->insert([
         'title' => $fileName,
         'content' => $this->request->getPost('content')
     ]);
 
-    return redirect()->to('/admin#service');
+    $service = $model->find($id);
+    $service['title_url'] = !empty($service['title']) ? base_url('img/' . $service['title']) : null;
+
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'Service berhasil ditambahkan.',
+        'data' => $service,
+    ]);
 }
 
 public function editService()
@@ -117,13 +128,7 @@ public function editService()
         if (!empty($oldService['title'])) {
             $oldPath = FCPATH . 'img/' . $oldService['title'];
             if (file_exists($oldPath)) {
-                if (unlink($oldPath)) {
-                    session()->setFlashdata('alert', 'Gambar lama berhasil dihapus.');
-                } else {
-                    session()->setFlashdata('alert', 'Gagal menghapus gambar lama.');
-                }
-            } else {
-                session()->setFlashdata('alert', 'File lama tidak ditemukan.');
+                unlink($oldPath);
             }
         }
 
@@ -134,7 +139,15 @@ public function editService()
     }
 
     $model->update($id, $data);
-    return redirect()->to('/admin#service')->with('success', 'Service berhasil diedit.');
+
+    $service = $model->find($id);
+    $service['title_url'] = !empty($service['title']) ? base_url('img/' . $service['title']) : null;
+
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'Service berhasil diedit.',
+        'data' => $service,
+    ]);
 }
 
 
@@ -144,29 +157,27 @@ public function hapusService()
     $id = $this->request->getPost('id');
     $model = new ServiceModel();
 
-    $service = $model->find($id); // Ambil data sebelum dihapus
+    $service = $model->find($id);
 
-    if ($model->delete($id)) {
-        // Coba hapus file gambarnya kalau ada
+    if ($service && $model->delete($id)) {
         if (!empty($service['title'])) {
             $filePath = FCPATH . 'img/' . $service['title'];
             if (file_exists($filePath)) {
-                if (unlink($filePath)) {
-                    session()->setFlashdata('alert', 'Service dan file gambar berhasil dihapus.');
-                } else {
-                    session()->setFlashdata('alert', 'Service dihapus, tapi file gambar gagal dihapus.');
-                }
-            } else {
-                session()->setFlashdata('alert', 'Service dihapus, tapi file gambar tidak ditemukan.');
+                unlink($filePath);
             }
-        } else {
-            session()->setFlashdata('alert', 'Service berhasil dihapus (tanpa file gambar).');
         }
 
-        return redirect()->to('/admin#service')->with('success', 'Service berhasil dihapus.');
-    } else {
-        return redirect()->to('/admin#service')->with('error', 'Gagal menghapus service.');
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Service berhasil dihapus.',
+            'data' => ['id' => (int) $id],
+        ]);
     }
+
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal menghapus service.',
+    ]);
 }
 
 public function tambahClient()
@@ -193,9 +204,15 @@ public function tambahClient()
         $data['gambar'] = $fileName;
     }
 
-    $clientModel->save($data);
-    session()->setFlashdata('alert', 'Client berhasil ditambahkan.');
-    return redirect()->to('/admin#client');
+    $id = $clientModel->insert($data);
+    $client = $clientModel->find($id);
+    $client['gambar_url'] = !empty($client['gambar']) ? base_url('img/' . $client['gambar']) : null;
+
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'Client berhasil ditambahkan.',
+        'data' => $client,
+    ]);
 }
 
 public function editClient()
@@ -211,7 +228,6 @@ public function editClient()
 
     $file = $this->request->getFile('gambar');
     if ($file && $file->isValid()) {
-        // Hapus gambar lama kalau ada
         if (!empty($client['gambar'])) {
             $oldPath = FCPATH . 'img/' . $client['gambar'];
             if (file_exists($oldPath)) {
@@ -227,8 +243,15 @@ public function editClient()
     }
 
     $clientModel->update($id, $data);
-    session()->setFlashdata('alert', 'Client berhasil diedit.');
-    return redirect()->to('/admin#client');
+
+    $client = $clientModel->find($id);
+    $client['gambar_url'] = !empty($client['gambar']) ? base_url('img/' . $client['gambar']) : null;
+
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'Client berhasil diedit.',
+        'data' => $client,
+    ]);
 }
 
 public function hapusClient()
@@ -237,31 +260,41 @@ public function hapusClient()
     $id = $this->request->getPost('id');
     $client = $clientModel->find($id);
 
-    if ($clientModel->delete($id)) {
+    if ($client && $clientModel->delete($id)) {
         if (!empty($client['gambar'])) {
             $filePath = FCPATH . 'img/' . $client['gambar'];
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
         }
-        session()->setFlashdata('alert', 'Client berhasil dihapus.');
-    } else {
-        session()->setFlashdata('alert', 'Gagal menghapus client.');
+
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Client berhasil dihapus.',
+            'data' => ['id' => (int) $id],
+        ]);
     }
 
-    return redirect()->to('/admin#client');
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal menghapus client.',
+    ]);
 }
 
 
     public function tambahAbout()
     {
         $model = new AboutModel();
-        $model->save([
+        $id = $model->insert([
             'title' => $this->request->getPost('title'),
             'content' => $this->request->getPost('content')
         ]);
 
-        return redirect()->to('/admin#about')->with('success', 'Data About berhasil ditambahkan.');
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Data About berhasil ditambahkan.',
+            'data' => $model->find($id),
+        ]);
     }
 
     public function editAbout()
@@ -274,7 +307,11 @@ public function hapusClient()
             'content' => $this->request->getPost('content')
         ]);
 
-        return redirect()->to('/admin#about')->with('success', 'Data About berhasil diedit.');
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Data About berhasil diedit.',
+            'data' => $model->find($id),
+        ]);
     }
 
     public function hapusAbout()
@@ -283,10 +320,17 @@ public function hapusClient()
         $model = new AboutModel();
 
         if ($model->delete($id)) {
-            return redirect()->back()->with('success', 'Data berhasil dihapus')->to('/admin#about');
-        } else {
-            return redirect()->back()->with('error', 'Gagal menghapus data')->to('/admin#about');
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Data About berhasil dihapus.',
+                'data' => ['id' => (int) $id],
+            ]);
         }
+
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Gagal menghapus data About.',
+        ]);
     }
 
 public function tambahgallery()
@@ -309,7 +353,15 @@ public function tambahgallery()
         'judul'      => $this->request->getPost('judul'),
     ]);
 
-    return redirect()->back()->with('success', 'Galeri berhasil ditambahkan!')->to('/admin#gallery');
+    $id = $this->gambarModel->getInsertID();
+    $galeri = $this->gambarModel->find($id);
+    $galeri['gambar_url'] = !empty($galeri['gambar']) ? base_url('img/' . $galeri['gambar']) : null;
+
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'Galeri berhasil ditambahkan.',
+        'data' => $galeri,
+    ]);
 }
 
 
@@ -332,7 +384,14 @@ public function editgallery()
 
     $this->gambarModel->update($id, $data);
 
-    return redirect()->back()->with('success', 'Galeri berhasil diupdate!')->to('/admin#gallery');
+    $galeri = $this->gambarModel->find($id);
+    $galeri['gambar_url'] = !empty($galeri['gambar']) ? base_url('img/' . $galeri['gambar']) : null;
+
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'Galeri berhasil diedit.',
+        'data' => $galeri,
+    ]);
 }
 
 
@@ -341,7 +400,7 @@ public function hapusgallery()
     $id = $this->request->getPost('id');
     $galeri = $this->gambarModel->find($id);
 
-    if ($this->gambarModel->delete($id)) {
+    if ($galeri && $this->gambarModel->delete($id)) {
         if (!empty($galeri['gambar'])) {
             $path = FCPATH . 'img/' . $galeri['gambar'];
             if (file_exists($path)) {
@@ -349,10 +408,17 @@ public function hapusgallery()
             }
         }
 
-        return redirect()->back()->with('success', 'Galeri berhasil dihapus!')->to('/admin#gallery');
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Galeri berhasil dihapus.',
+            'data' => ['id' => (int) $id],
+        ]);
     }
 
-    return redirect()->back()->with('error', 'Gagal menghapus galeri!')->to('/admin#gallery');
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal menghapus galeri.',
+    ]);
 }
 
 
@@ -361,14 +427,15 @@ public function hapusgallery()
         $model = new SocialMediaModel();
         $id = $this->request->getPost('id');
 
-        // Ambil data lama dari database
         $oldData = $model->find($id);
 
         if (!$oldData) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Data tidak ditemukan.',
+            ]);
         }
 
-        // Ambil data dari POST tapi hanya isi kolom yang dikirim
         $newData = [];
 
         if ($this->request->getPost('wa_number') !== null) {
@@ -403,7 +470,11 @@ public function hapusgallery()
 
         $model->update($id, $newData);
 
-        return redirect()->back()->with('success', 'Data media sosial berhasil diperbarui!');
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Data media sosial berhasil diperbarui.',
+            'data' => $model->find($id),
+        ]);
     }
 
     // ==== CRUD Barang (Dropship) ====
@@ -504,14 +575,21 @@ public function editBarang()
             $file->move('img', $fileName);
         }
 
-        $model->save([
+        $id = $model->insert([
             'nama' => $this->request->getPost('nama'),
             'ulasan' => $this->request->getPost('ulasan'),
             'rating' => $this->request->getPost('rating'),
             'foto' => $fileName,
         ]);
 
-        return redirect()->to('/admin#testimoni')->with('success', 'Testimoni berhasil ditambahkan.');
+        $testimoni = $model->find($id);
+        $testimoni['foto_url'] = !empty($testimoni['foto']) ? base_url('img/' . $testimoni['foto']) : null;
+
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Testimoni berhasil ditambahkan.',
+            'data' => $testimoni,
+        ]);
     }
     public function editTestimoni(){
         $model = new TestimoniModel();
@@ -541,7 +619,15 @@ public function editBarang()
         }
 
         $model->update($id, $data);
-        return redirect()->to('/admin#testimoni')->with('success', 'Testimoni berhasil diedit.');
+
+        $testimoni = $model->find($id);
+        $testimoni['foto_url'] = !empty($testimoni['foto']) ? base_url('img/' . $testimoni['foto']) : null;
+
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Testimoni berhasil diedit.',
+            'data' => $testimoni,
+        ]);
     }
 
     public function hapusTestimoni(){
@@ -550,32 +636,41 @@ public function editBarang()
 
         $testimoni = $model->find($id);
 
-        if ($model->delete($id)) {
+        if ($testimoni && $model->delete($id)) {
             if (!empty($testimoni['foto'])) {
                 $filePath = FCPATH . 'img/' . $testimoni['foto'];
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 }
             }
-            session()->setFlashdata('alert', 'Testimoni berhasil dihapus.');
-        } else {
-            session()->setFlashdata('alert', 'Gagal menghapus testimoni.');
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Testimoni berhasil dihapus.',
+                'data' => ['id' => (int) $id],
+            ]);
         }
 
-        return redirect()->to('/admin#testimoni');
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Gagal menghapus testimoni.',
+        ]);
     }
 
     //konsultasi CRUD
     public function tambahKonsultasi()
     {
         $model = new KonsultasiModel();
-        $model->save([
+        $id = $model->insert([
             'nama_paket' => $this->request->getPost('nama_paket'),
             'harga'      => $this->request->getPost('harga'),
             'deskripsi'  => $this->request->getPost('deskripsi'),
         ]);
 
-        return redirect()->to('/admin#konsultasi')->with('success', 'Paket konsultasi berhasil ditambahkan.');
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Paket konsultasi berhasil ditambahkan.',
+            'data' => $model->find($id),
+        ]);
     }
 
     public function editKonsultasi()
@@ -591,7 +686,11 @@ public function editBarang()
 
         $model->update($id, $data);
 
-        return redirect()->to('/admin#konsultasi')->with('success', 'Paket konsultasi berhasil diedit.');
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Paket konsultasi berhasil diedit.',
+            'data' => $model->find($id),
+        ]);
     }
 
     public function hapusKonsultasi()
@@ -600,11 +699,90 @@ public function editBarang()
         $model = new KonsultasiModel();
 
         if ($model->delete($id)) {
-            session()->setFlashdata('alert', 'Konsultasi berhasil dihapus.');
-        } else {
-            session()->setFlashdata('alert', 'Gagal menghapus konsultasi.');
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Konsultasi berhasil dihapus.',
+                'data' => ['id' => (int) $id],
+            ]);
         }
 
-        return redirect()->to('/admin#konsultasi');
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Gagal menghapus konsultasi.',
+        ]);
+    }
+
+    public function tambahPartner()
+    {
+        $model = new PartnerModel();
+        $file = $this->request->getFile('logo');
+        $fileName = '';
+
+        if ($file && $file->isValid()) {
+            $jumlahPartner = $model->countAll();
+            $nextNumber = $jumlahPartner + 1;
+
+            $ext = $file->getClientExtension();
+            $fileName = "partner_{$nextNumber}." . $ext;
+            $file->move('img', $fileName);
+        }
+
+        $id = $model->insert([
+            'nama' => $this->request->getPost('nama'),
+            'logo' => $fileName,
+        ]);
+
+        return redirect()->to('/admin#partner')->with('success', 'Partner berhasil ditambahkan.');
+    }
+
+    public function editPartner()
+    {
+        $model = new PartnerModel();
+        $id = $this->request->getPost('id');
+
+        $data = [
+            'nama' => $this->request->getPost('nama'),
+        ];
+
+        $file = $this->request->getFile('logo');
+        if ($file && $file->isValid()) {
+            $oldPartner = $model->find($id);
+
+            if (!empty($oldPartner['logo'])) {
+                $oldPath = FCPATH . 'img/' . $oldPartner['logo'];
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            $ext = $file->getClientExtension();
+            $fileName = "partner_{$id}." . $ext;
+            $file->move('img/', $fileName, true);
+            $data['logo'] = $fileName;
+        }
+
+        $model->update($id, $data);
+
+        return redirect()->to('/admin#partner')->with('success', 'Partner berhasil diedit.');
+    }
+
+    public function hapusPartner()
+    {
+        $id = $this->request->getPost('id');
+        $model = new PartnerModel();
+
+        $partner = $model->find($id);
+
+        if ($partner && $model->delete($id)) {
+            if (!empty($partner['logo'])) {
+                $filePath = FCPATH . 'img/' . $partner['logo'];
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+            return redirect()->to('/admin#partner')->with('success', 'Partner berhasil dihapus.');
+        }
+
+        return redirect()->to('/admin#partner')->with('error', 'Gagal menghapus partner.');
     }
 }
