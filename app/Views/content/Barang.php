@@ -12,16 +12,16 @@
     <?php endif; ?>
 
     <?php if (empty($data_barang)): ?>
-      <p class="text-muted">Belum ada barang yang ditambahkan.</p>
+      <p class="text-muted" id="barangEmptyMsg">Belum ada barang yang ditambahkan.</p>
     <?php endif; ?>
 
-    <div class="row gap-4 justify-content-center">
+    <div class="row gap-4 justify-content-center" id="barangGrid">
       <?php foreach ($data_barang as $b): ?>
         <?php
           $qtyId = 'qtyBarang' . $b['id'];
           $stokHabis = ((int) $b['stok']) <= 0;
         ?>
-        <div class="barang-card col-lg-3 col-md-5 col-sm-10">
+        <div class="barang-card col-lg-3 col-md-5 col-sm-10" data-id="<?= $b['id'] ?>">
           <?php if (!empty($b['gambar'])): ?>
             <img src="<?= base_url('img/' . $b['gambar']) ?>" class="barang-img" alt="<?= esc($b['nama']) ?>">
           <?php else: ?>
@@ -153,7 +153,7 @@
 <div class="modal fade" id="addModalBarang" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form action="<?= site_url('admin/barang/tambah') ?>" method="post" enctype="multipart/form-data">
+      <form id="formTambahBarang" action="<?= site_url('admin/barang/tambah') ?>" method="post" enctype="multipart/form-data">
         <?= csrf_field(); ?>
         <div class="modal-header">
           <h5 class="modal-title">Tambah Barang</h5>
@@ -193,7 +193,7 @@
 <!-- Modal Edit Barang -->
 <div class="modal fade" id="modalEditBarang" data-bs-backdrop="static" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <form action="<?= base_url('admin/barang/edit') ?>" method="post" enctype="multipart/form-data">
+    <form id="formEditBarang" action="<?= base_url('admin/barang/edit') ?>" method="post" enctype="multipart/form-data">
       <?= csrf_field(); ?>
       <div class="modal-content modal-half">
         <div class="modal-header">
@@ -201,7 +201,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <select name="id" class="form-select mb-3" onchange="fillEditBarang(this)" required>
+          <select name="id" id="editBarangSelect" class="form-select mb-3" onchange="fillEditBarang(this)" required>
             <option value="">Pilih Barang</option>
             <?php foreach ($data_barang as $b): ?>
               <option
@@ -238,7 +238,7 @@
 <!-- Modal Hapus Barang -->
 <div class="modal fade" id="hapusModalBarang" data-bs-backdrop="static" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <form action="<?= base_url('admin/barang/hapus') ?>" method="post">
+    <form id="formHapusBarang" action="<?= base_url('admin/barang/hapus') ?>" method="post">
       <?= csrf_field(); ?>
       <div class="modal-content modal-half">
         <div class="modal-header">
@@ -247,7 +247,7 @@
         </div>
         <div class="modal-body">
           <p>Pilih barang yang ingin dihapus:</p>
-          <div class="list-group overflow-auto" style="max-height: 300px;">
+          <div class="list-group overflow-auto" id="hapusBarangList" style="max-height: 300px;">
             <?php foreach ($data_barang as $b): ?>
               <label class="list-group-item d-flex align-items-start gap-3">
                 <input class="form-check-input mt-1" type="radio" name="id" value="<?= $b['id'] ?>" required>
@@ -284,6 +284,187 @@ function fillEditBarang(select) {
     preview.style.display = 'none';
   }
 }
+</script>
+
+<script>
+  // ==== AJAX CRUD Barang (no reload) ====
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function escapeJsString(str) {
+    return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  }
+
+  function getCookieValue(name) {
+    var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function syncCsrfToken() {
+    var token = getCookieValue('csrf_cookie_name');
+    if (!token) return;
+    document.querySelectorAll('input[name="csrf_test_name"]').forEach(function (input) {
+      input.value = token;
+    });
+  }
+
+  function showAjaxToast(message, isError) {
+    var toast = document.createElement('div');
+    toast.className = 'ajax-toast' + (isError ? ' ajax-toast-error' : '');
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(function () {
+      toast.classList.add('ajax-toast-hide');
+      setTimeout(function () { toast.remove(); }, 300);
+    }, 2500);
+  }
+
+  function ajaxSubmitForm(form, onSuccess) {
+    var formData = new FormData(form);
+    fetch(form.action, { method: 'POST', body: formData })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        syncCsrfToken();
+        if (json.success) {
+          onSuccess(json.data);
+          showAjaxToast(json.message, false);
+        } else {
+          showAjaxToast(json.message || 'Terjadi kesalahan.', true);
+        }
+      })
+      .catch(function () {
+        showAjaxToast('Gagal menghubungi server.', true);
+      });
+  }
+
+  function buildBarangCardHTML(b) {
+    var stokHabis = parseInt(b.stok, 10) <= 0;
+    var qtyId = 'qtyBarang' + b.id;
+
+    var imgHtml = b.gambar_url
+      ? '<img src="' + b.gambar_url + '" class="barang-img" alt="' + escapeHtml(b.nama) + '">'
+      : '<div class="barang-img barang-img-placeholder"><i class="bi bi-image"></i></div>';
+
+    var deskripsiHtml = b.deskripsi
+      ? '<p class="barang-deskripsi">' + escapeHtml(b.deskripsi) + '</p>'
+      : '';
+
+    var actionHtml;
+    if (!stokHabis) {
+      actionHtml =
+        '<div class="qty-stepper mb-2">' +
+          '<button type="button" class="btn-qty" onclick="stepProductQty(\'' + qtyId + '\', -1, ' + parseInt(b.stok, 10) + ')">-</button>' +
+          '<input type="number" id="' + qtyId + '" class="qty-input" value="1" min="1" max="' + parseInt(b.stok, 10) + '">' +
+          '<button type="button" class="btn-qty" onclick="stepProductQty(\'' + qtyId + '\', 1, ' + parseInt(b.stok, 10) + ')">+</button>' +
+        '</div>' +
+        '<button type="button" class="btn-add-cart" onclick="addToCart(' + b.id + ', \'' + escapeJsString(b.nama) + '\', ' + parseFloat(b.harga) + ', \'' + (b.gambar_url || '') + '\', \'' + qtyId + '\')">' +
+          '<i class="bi bi-cart-plus"></i> Tambah ke Keranjang' +
+        '</button>';
+    } else {
+      actionHtml = '<button type="button" class="btn-add-cart" disabled>Stok Habis</button>';
+    }
+
+    return (
+      '<div class="barang-card col-lg-3 col-md-5 col-sm-10" data-id="' + b.id + '">' +
+        imgHtml +
+        '<h5 class="barang-nama">' + escapeHtml(b.nama) + '</h5>' +
+        '<p class="barang-harga">Rp' + Number(b.harga).toLocaleString('id-ID') + '</p>' +
+        '<p class="barang-stok' + (stokHabis ? ' text-danger' : '') + '">' + (stokHabis ? 'Stok habis' : 'Stok: ' + parseInt(b.stok, 10)) + '</p>' +
+        deskripsiHtml +
+        actionHtml +
+      '</div>'
+    );
+  }
+
+  function buildEditOptionHTML(b) {
+    return '<option value="' + b.id + '"' +
+      ' data-nama="' + escapeHtml(b.nama) + '"' +
+      ' data-harga="' + b.harga + '"' +
+      ' data-stok="' + b.stok + '"' +
+      ' data-deskripsi="' + escapeHtml(b.deskripsi || '') + '"' +
+      ' data-gambar="' + (b.gambar_url || '') + '">' +
+      escapeHtml(b.nama) +
+      '</option>';
+  }
+
+  function buildHapusItemHTML(b) {
+    return '<label class="list-group-item d-flex align-items-start gap-3">' +
+      '<input class="form-check-input mt-1" type="radio" name="id" value="' + b.id + '" required>' +
+      '<div class="d-flex flex-column justify-content-center align-items-start">' +
+        '<p class="fw-bold mb-1 small">' + escapeHtml(b.nama) + '</p>' +
+        '<p class="mb-0 small text-muted">Rp' + Number(b.harga).toLocaleString('id-ID') + '</p>' +
+      '</div>' +
+    '</label>';
+  }
+
+  var formTambahBarang = document.getElementById('formTambahBarang');
+  if (formTambahBarang) {
+    formTambahBarang.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitForm(formTambahBarang, function (data) {
+        var emptyMsg = document.getElementById('barangEmptyMsg');
+        if (emptyMsg) emptyMsg.remove();
+
+        document.getElementById('barangGrid').insertAdjacentHTML('beforeend', buildBarangCardHTML(data));
+        document.getElementById('editBarangSelect').insertAdjacentHTML('beforeend', buildEditOptionHTML(data));
+        document.getElementById('hapusBarangList').insertAdjacentHTML('beforeend', buildHapusItemHTML(data));
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('addModalBarang'));
+        if (modal) modal.hide();
+        formTambahBarang.reset();
+      });
+    });
+  }
+
+  var formEditBarang = document.getElementById('formEditBarang');
+  if (formEditBarang) {
+    formEditBarang.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitForm(formEditBarang, function (data) {
+        var oldCard = document.querySelector('.barang-card[data-id="' + data.id + '"]');
+        if (oldCard) oldCard.outerHTML = buildBarangCardHTML(data);
+
+        var oldOption = document.querySelector('#editBarangSelect option[value="' + data.id + '"]');
+        if (oldOption) oldOption.outerHTML = buildEditOptionHTML(data);
+
+        var oldRadio = document.querySelector('#hapusBarangList input[value="' + data.id + '"]');
+        if (oldRadio) oldRadio.closest('label').outerHTML = buildHapusItemHTML(data);
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('modalEditBarang'));
+        if (modal) modal.hide();
+        formEditBarang.reset();
+        document.getElementById('editBarangPreview').style.display = 'none';
+      });
+    });
+  }
+
+  var formHapusBarang = document.getElementById('formHapusBarang');
+  if (formHapusBarang) {
+    formHapusBarang.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitForm(formHapusBarang, function (data) {
+        var card = document.querySelector('.barang-card[data-id="' + data.id + '"]');
+        if (card) card.remove();
+
+        var option = document.querySelector('#editBarangSelect option[value="' + data.id + '"]');
+        if (option) option.remove();
+
+        var radio = document.querySelector('#hapusBarangList input[value="' + data.id + '"]');
+        if (radio) radio.closest('label').remove();
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('hapusModalBarang'));
+        if (modal) modal.hide();
+        formHapusBarang.reset();
+      });
+    });
+  }
 </script>
 <?php endif; ?>
 

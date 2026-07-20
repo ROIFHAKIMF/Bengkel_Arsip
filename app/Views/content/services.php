@@ -11,9 +11,9 @@
         </div>
       <?php endif; ?>
 
-      <div class="row gap-5 justify-content-center">
+      <div class="row gap-5 justify-content-center" id="serviceCardGrid">
         <?php foreach ($data_services as $service): ?>
-          <div class="card-sr col-lg-4 col-md-6 col-sm-12">
+          <div class="card-sr col-lg-4 col-md-6 col-sm-12" data-id="<?= $service['id'] ?>">
             <div class="bg">
               <img src="<?= base_url('img/' . $service['title']) ?>" class="card-img-top" alt="...">
               <h4 class="card-title fw-bolder text-center"><?= $service['content'] ?></h4>
@@ -82,7 +82,7 @@ function hideServiceDetail() {
 <div class="modal fade" id="addModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form action="<?= site_url('admin/service/tambah') ?>" method="post" enctype="multipart/form-data">
+      <form id="formTambahService" action="<?= site_url('admin/service/tambah') ?>" method="post" enctype="multipart/form-data">
         <?= csrf_field(); ?>
         <div class="modal-header">
           <h5 class="modal-title">Tambah Service</h5>
@@ -110,7 +110,7 @@ function hideServiceDetail() {
 <!-- Modal Edit -->
 <div class="modal fade" id="modalEditService" data-bs-backdrop="static" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <form action="<?= base_url('admin/service/edit') ?>" method="post" enctype="multipart/form-data">
+    <form id="formEditService" action="<?= base_url('admin/service/edit') ?>" method="post" enctype="multipart/form-data">
       <?= csrf_field(); ?>
       <div class="modal-content modal-half">
         <div class="modal-header">
@@ -118,7 +118,7 @@ function hideServiceDetail() {
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <select name="id" class="form-select mb-3" onchange="fillEditService(this)" required>
+          <select name="id" id="editServiceSelect" class="form-select mb-3" onchange="fillEditService(this)" required>
             <option value="">Pilih Service</option>
             <?php foreach ($data_services as $service): ?>
               <option
@@ -151,7 +151,7 @@ function hideServiceDetail() {
 <!-- Modal Hapus -->
 <div class="modal fade" id="hapusModal" data-bs-backdrop="static" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <form action="<?= base_url('admin/service/hapus') ?>" method="post">
+    <form id="formHapusService" action="<?= base_url('admin/service/hapus') ?>" method="post">
       <?= csrf_field(); ?>
       <div class="modal-content modal-half">
         <div class="modal-header">
@@ -160,7 +160,7 @@ function hideServiceDetail() {
         </div>
         <div class="modal-body">
           <p>Pilih service yang ingin dihapus:</p>
-          <div class="list-group overflow-auto" style="max-height: 300px;">
+          <div class="list-group overflow-auto" id="hapusServiceList" style="max-height: 300px;">
             <?php foreach ($data_services as $service): ?>
               <label class="list-group-item d-flex align-items-start gap-3">
                 <input class="form-check-input mt-1" type="radio" name="id" value="<?= $service['id'] ?>" required>
@@ -199,4 +199,119 @@ function fillEditService(select) {
     imgPreview.style.display = 'none';
   }
 }
+</script>
+
+<script>
+  function escapeServiceHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  }
+
+  function buildServiceCardHTML(s) {
+    return '<div class="card-sr col-lg-4 col-md-6 col-sm-12" data-id="' + s.id + '">' +
+      '<div class="bg">' +
+        '<img src="' + s.title_url + '" class="card-img-top" alt="...">' +
+        '<h4 class="card-title fw-bolder text-center">' + escapeServiceHtml(s.content) + '</h4>' +
+        '<div class="button-container">' +
+          '<a href="#service" class="learn-more" onclick="showServiceDetail(' + s.id + '); return false;">' +
+            '<span class="circle" aria-hidden="true"><span class="icon arrow"></span></span>' +
+            '<span class="button-text">Learn More</span>' +
+          '</a>' +
+        '</div>' +
+      '</div>' +
+      '<div class="blob"></div>' +
+    '</div>';
+  }
+
+  function buildServiceOptionHTML(s) {
+    return '<option value="' + s.id + '" data-content="' + escapeServiceHtml(s.content) + '" data-title="' + s.title_url + '">' + escapeServiceHtml(s.content) + '</option>';
+  }
+
+  function buildServiceHapusItemHTML(s) {
+    return '<label class="list-group-item d-flex align-items-start gap-3">' +
+      '<input class="form-check-input mt-1" type="radio" name="id" value="' + s.id + '" required>' +
+      '<div class="d-flex flex-column justify-content-center align-items-start">' +
+        '<div class="d-flex flex-row align-items-start justify-content-start w-100 gap-2">' +
+          '<p class="fw-bold mb-1 small">' + escapeServiceHtml(s.content) + '</p>' +
+          '<img src="' + s.title_url + '" alt="Service" width="60" height="40" class="rounded shadow-sm mb-1">' +
+        '</div>' +
+      '</div>' +
+    '</label>';
+  }
+
+  function ajaxSubmitServiceForm(form, onSuccess) {
+    var formData = new FormData(form);
+    fetch(form.action, { method: 'POST', body: formData })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        window.syncCsrfToken && window.syncCsrfToken();
+        if (json.success) {
+          onSuccess(json.data);
+          window.showAjaxToast && window.showAjaxToast(json.message, false);
+        } else {
+          window.showAjaxToast && window.showAjaxToast(json.message || 'Terjadi kesalahan.', true);
+        }
+      })
+      .catch(function () {
+        window.showAjaxToast && window.showAjaxToast('Gagal menghubungi server.', true);
+      });
+  }
+
+  var formTambahService = document.getElementById('formTambahService');
+  if (formTambahService) {
+    formTambahService.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitServiceForm(formTambahService, function (data) {
+        document.getElementById('serviceCardGrid').insertAdjacentHTML('beforeend', buildServiceCardHTML(data));
+        document.getElementById('editServiceSelect').insertAdjacentHTML('beforeend', buildServiceOptionHTML(data));
+        document.getElementById('hapusServiceList').insertAdjacentHTML('beforeend', buildServiceHapusItemHTML(data));
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+        if (modal) modal.hide();
+        formTambahService.reset();
+      });
+    });
+  }
+
+  var formEditService = document.getElementById('formEditService');
+  if (formEditService) {
+    formEditService.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitServiceForm(formEditService, function (data) {
+        var oldCard = document.querySelector('.card-sr[data-id="' + data.id + '"]');
+        if (oldCard) oldCard.outerHTML = buildServiceCardHTML(data);
+
+        var oldOption = document.querySelector('#editServiceSelect option[value="' + data.id + '"]');
+        if (oldOption) oldOption.outerHTML = buildServiceOptionHTML(data);
+
+        var oldRadio = document.querySelector('#hapusServiceList input[value="' + data.id + '"]');
+        if (oldRadio) oldRadio.closest('label').outerHTML = buildServiceHapusItemHTML(data);
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('modalEditService'));
+        if (modal) modal.hide();
+        formEditService.reset();
+        document.getElementById('editServicePreview').style.display = 'none';
+      });
+    });
+  }
+
+  var formHapusService = document.getElementById('formHapusService');
+  if (formHapusService) {
+    formHapusService.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ajaxSubmitServiceForm(formHapusService, function (data) {
+        var card = document.querySelector('.card-sr[data-id="' + data.id + '"]');
+        if (card) card.remove();
+
+        var option = document.querySelector('#editServiceSelect option[value="' + data.id + '"]');
+        if (option) option.remove();
+
+        var radio = document.querySelector('#hapusServiceList input[value="' + data.id + '"]');
+        if (radio) radio.closest('label').remove();
+
+        var modal = bootstrap.Modal.getInstance(document.getElementById('hapusModal'));
+        if (modal) modal.hide();
+        formHapusService.reset();
+      });
+    });
+  }
 </script>

@@ -152,7 +152,7 @@
                 <h5 class="modal-title">Edit Nomor WhatsApp</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
-              <form method="post" action="<?= base_url('/update-social-media') ?>">
+              <form id="formSocialWhatsapp" method="post" action="<?= base_url('/update-social-media') ?>">
                 <div class="modal-body modal-wa">
                   <input type="hidden" name="id" value="<?= $social['id'] ?>">
                   <label for="wa_number" class="form-label">Nomor WhatsApp Baru</label>
@@ -246,7 +246,7 @@
                   <h5 class="modal-title">Edit Link Instagram</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="post" action="<?= base_url('/update-social-media') ?>">
+                <form id="formSocialInstagram" method="post" action="<?= base_url('/update-social-media') ?>">
                   <div class="modal-body modal-ig">
                     <input type="hidden" name="id" value="<?= $social['id'] ?>">
                     <label for="instagram" class="form-label">Link Instagram Baru</label>
@@ -268,7 +268,7 @@
                   <h5 class="modal-title">Edit Link Facebook</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="post" action="<?= base_url('/update-social-media') ?>">
+                <form id="formSocialFacebook" method="post" action="<?= base_url('/update-social-media') ?>">
                   <div class="modal-body modal-fb">
                     <input type="hidden" name="id" value="<?= $social['id'] ?>">
                     <label for="facebook" class="form-label">Link Facebook Baru</label>
@@ -290,7 +290,7 @@
                   <h5 class="modal-title">Edit Link YouTube</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="post" action="<?= base_url('/update-social-media') ?>">
+                <form id="formSocialYoutube" method="post" action="<?= base_url('/update-social-media') ?>">
                   <div class="modal-body modal-yt">
                     <input type="hidden" name="id" value="<?= $social['id'] ?>">
                     <label for="youtube" class="form-label">Link YouTube Baru</label>
@@ -312,7 +312,7 @@
                   <h5 class="modal-title">Edit Email</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="post" action="<?= base_url('/update-social-media') ?>">
+                <form id="formSocialEmail" method="post" action="<?= base_url('/update-social-media') ?>">
                   <div class="modal-body modal-em">
                     <input type="hidden" name="id" value="<?= $social['id'] ?>">
                     <label for="email" class="form-label">Email Baru</label>
@@ -327,3 +327,35 @@
           </div>
 
         <?php endif; ?>
+<?php if (session()->get('isLoggedIn')): ?>
+<script>
+  function ajaxSubmitSocialForm(form) {
+    var formData = new FormData(form);
+    fetch(form.action, { method: 'POST', body: formData })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        window.syncCsrfToken && window.syncCsrfToken();
+        window.showAjaxToast && window.showAjaxToast(json.message, !json.success);
+
+        var modalEl = form.closest('.modal');
+        if (json.success && modalEl) {
+          var modal = bootstrap.Modal.getInstance(modalEl);
+          if (modal) modal.hide();
+        }
+      })
+      .catch(function () {
+        window.showAjaxToast && window.showAjaxToast('Gagal menghubungi server.', true);
+      });
+  }
+
+  ['formSocialWhatsapp', 'formSocialInstagram', 'formSocialFacebook', 'formSocialYoutube', 'formSocialEmail'].forEach(function (formId) {
+    var form = document.getElementById(formId);
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        ajaxSubmitSocialForm(form);
+      });
+    }
+  });
+</script>
+<?php endif; ?>
