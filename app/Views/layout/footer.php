@@ -8,6 +8,11 @@
           <h3 class="text-uppercase fw-bold text-white text-nowrap">Bengkel Arsip</h3>
         </div>
         <p class="mt-2 text-white text-start">Solusi kearsipan <br> profesional dan terpercaya</p>
+        <div class="text-white text-start mt-2">
+          <p class="mb-0 fw-bold footer-links">Jam Operasional</p>
+          <p class="mb-0">Senin - Jumat: 08.00 - 17.00</p>
+          <p class="mb-0">Sabtu: 08.00 - 13.00</p>
+        </div>
       </div>
       <div class="footer-bottom-row mb-2 p-0 w-auto col-lg-4 col-xl-4 col-sm-12">
         <!-- Kolom Navigasi -->
@@ -17,11 +22,14 @@
             <li><a href="#Home" class="footer-links">Home</a></li>
             <li><a href="#about" class="footer-links">About</a></li>
             <li><a href="#service" class="footer-links">Service</a></li>
-            <li><a href="#client" class="footer-links">Client</a></li>
-            <li><a href="#gallery" class="footer-links">Gallery</a></li>
+            <li><a href="#partner" class="footer-links">Partner</a></li>
+            <li><a href="#testimoni" class="footer-links">Testimoni</a></li>
+            <li><a href="#barang" class="footer-links">Barang</a></li>
+            <li><a href="#konsultasi" class="footer-links">Konsultasi</a></li>
             <li><a href="#profile" class="footer-links">Profile</a></li>
+            <li><a href="#gallery" class="footer-links">Gallery</a></li>
+            <li><a href="#client" class="footer-links">Client</a></li>
             <li><a href="#contact" class="footer-links">Contact</a></li>
-            <li><a href="#footer" class="footer-links">Footer</a></li>
           </ul>
         </div>
                 <!-- Kolom Services -->
@@ -39,59 +47,6 @@
           </ul>
         </div>
       </div>
-      <div class="col-lg-12 col-xl-12 col-xxl-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center flex-column" >
-        <h5 class="fw-bold footer-links">SOCIAL MEDIA </h5>
-        <ul class="example-2 ms-0 d-flex gap-3 list-unstyled mt-3">
-          <li class="icon-content">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#whatsappModal" aria-label="whatsapp" data-social="whatsapp">
-              <div class="filled"></div>
-              <i class="bi bi-whatsapp fs-3"></i>
-            </a>
-            <div class="tooltip">Whatsapp</div>
-          </li>
-          <li class="icon-content">
-              <?php if (session()->get('isLoggedIn')): ?>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#instagramModal" aria-label="Instagram" data-social="Instagram">
-              <?php else: ?>
-                <a href="https://www.instagram.com/bengkel.arsip/" target="_blank" aria-label="Instagram" data-social="Instagram">
-              <?php endif; ?>
-              <div class="filled"></div>
-              <i class="bi bi-instagram fs-3"></i>
-            </a>
-            <div class="tooltip">Instagram</div>
-          </li>
-          <li class="icon-content">
-              <?php if (session()->get('isLoggedIn')): ?>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#facebookModal" aria-label="Facebook" data-social="Facebook">
-              <?php else: ?>
-                <a href="https://www.facebook.com/bengkel.arsip/" target="_blank" aria-label="Facebook" data-social="Facebook">
-              <?php endif; ?>
-              <div class="filled"></div>
-              <i class="bi bi-facebook fs-3"></i>
-            </a>
-            <div class="tooltip">Facebook</div>
-          </li>
-          <li class="icon-content">
-              <?php if (session()->get('isLoggedIn')): ?>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#youtubeModal" data-social="Youtube" aria-label="Youtube">
-              <?php else: ?>
-                <a href="https://www.youtube.com/@bengkelarsip3676" target="_blank" aria-label="Youtube" data-social="Youtube">
-              <?php endif; ?>
-              <div class="filled"></div>
-              <i class="bi bi-youtube fs-3"></i>
-            </a>
-            <div class="tooltip">YouTube</div>
-          </li>
-          <li class="icon-content">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#emailModal" data-social="Email" aria-label="Email">
-              <div class="filled"></div>
-                  <i class="bi bi-envelope-at-fill fs-3"></i>
-            </a>
-              <div class="tooltip">Email</div>
-            </li>
-          </ul>
-        </div>
-
     <div class="footer-kontak-row">
       <h5 class="fw-bold footer-links">&copy;<?= date('Y') ?> Bengkel Arsip. All rights reserved.</h5>
     </div>
@@ -202,7 +157,6 @@
           </div>
         </div>
                 <!-- Modal Email untuk Guest -->
-<!-- Modal Email untuk Guest -->
 <div class="modal fade" id="emailModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">

@@ -87,6 +87,7 @@
       </div>
     <?php endif; ?>
 
+    <!-- Area Carousel ditaruh di sini (di luar penutup endif) - Sudah benar -->
     <div class="row w-100" id="clientCarouselArea"></div>
   </div>
 </section>
@@ -103,8 +104,6 @@
 </script>
 
 <script>
-  // ==== Client: render penuh via JS (grouping per judul jadi carousel) + AJAX CRUD ====
-
   var clientData = (initialClientData || []).slice();
 
   function escapeClientHtml(str) {
@@ -162,7 +161,6 @@
 
     area.innerHTML = html;
 
-    // Bootstrap carousel butuh di-init manual karena dibuat lewat innerHTML (bukan saat page load)
     area.querySelectorAll('.carousel').forEach(function (el) {
       new bootstrap.Carousel(el);
     });
@@ -171,6 +169,8 @@
   function renderClientAdminLists() {
     var select = document.getElementById('editClientSelect');
     var hapusList = document.getElementById('hapusClientList');
+    
+    // Validasi: Jika elemen tidak ada (mode guest), langsung hentikan fungsi agar tidak error
     if (!select || !hapusList) return;
 
     select.innerHTML = '<option value="">Pilih Client</option>';
@@ -199,19 +199,24 @@
 
   function fillEditClient(select) {
     var option = select.options[select.selectedIndex];
-    document.getElementById('editClientJudul').value = option.getAttribute('data-judul') || '';
-    document.getElementById('editClientDeskripsi').value = option.getAttribute('data-deskripsi') || '';
+    var judulEl = document.getElementById('editClientJudul');
+    var deskripsiEl = document.getElementById('editClientDeskripsi');
+    if (judulEl) judulEl.value = option.getAttribute('data-judul') || '';
+    if (deskripsiEl) deskripsiEl.value = option.getAttribute('data-deskripsi') || '';
 
     var gambar = option.getAttribute('data-gambar');
     var preview = document.getElementById('editClientPreview');
-    if (gambar) {
-      preview.src = gambar;
-      preview.style.display = 'block';
-    } else {
-      preview.style.display = 'none';
+    if (preview) {
+      if (gambar) {
+        preview.src = gambar;
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
     }
   }
 
+  // Panggil fungsi utama render
   renderClientCarousels();
   renderClientAdminLists();
 
@@ -263,7 +268,8 @@
         var modal = bootstrap.Modal.getInstance(document.getElementById('modalEditClient'));
         if (modal) modal.hide();
         formEditClient.reset();
-        document.getElementById('editClientPreview').style.display = 'none';
+        var preview = document.getElementById('editClientPreview');
+        if (preview) preview.style.display = 'none';
       });
     });
   }

@@ -54,7 +54,7 @@ class GuestController extends BaseController
         echo view('content/konsultasi', ['data_konsultasi' => $data_konsultasi]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
-        echo view('content/client', ['groupedClient' => $groupedClient]);
+        echo view('content/client', ['clients' => $clients]);
         echo view('content/contact');
         echo view('layout/footer', ['data_services' => $data_services, 'social' => $social]);
         

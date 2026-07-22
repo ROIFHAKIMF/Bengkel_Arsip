@@ -1227,7 +1227,11 @@ flex-direction: column! important;
   align-items: flex-start;
   gap: 20px;
 }
-
+.contact-text{
+  color: var(--warna-teks-hitam);
+  font-size: 1.2rem;
+  text-align: justify;
+}
 .footer-links{
   font-weight: bold;
   color: var(--warna-teks-putih);
