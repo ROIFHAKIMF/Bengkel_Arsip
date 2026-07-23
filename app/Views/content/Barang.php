@@ -15,13 +15,36 @@
       <p class="text-muted" id="barangEmptyMsg">Belum ada barang yang ditambahkan.</p>
     <?php endif; ?>
 
+    <!-- search filter -->
+    <div class="row w-75 gap-3 mb-4 justify-content-center align-items-center" id="barangFilterBar">
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <input type="text" id="barangSearchInput" class="form-control" placeholder="Cari nama barang...">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6">
+        <select id="barangStokFilter" class="form-select">
+          <option value="semua">Semua Stok</option>
+          <option value="tersedia">Tersedia</option>
+          <option value="habis">Stok Habis</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6">
+        <select id="barangSortFilter" class="form-select">
+          <option value="default">Urutkan</option>
+          <option value="harga_asc">Harga Terendah</option>
+          <option value="harga_desc">Harga Tertinggi</option>
+          <option value="nama_asc">Nama A-Z</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="text-muted" id="barangNoResultMsg" style="display:none;">Barang tidak ditemukan.</p>
     <div class="row gap-4 justify-content-center" id="barangGrid">
       <?php foreach ($data_barang as $b): ?>
         <?php
           $qtyId = 'qtyBarang' . $b['id'];
           $stokHabis = ((int) $b['stok']) <= 0;
         ?>
-        <div class="barang-card col-lg-3 col-md-5 col-sm-10" data-id="<?= $b['id'] ?>">
+        <div class="barang-card col-lg-3 col-md-5 col-sm-10" data-id="<?= $b['id'] ?>" data-nama="<?= esc(strtolower($b['nama'])) ?>" data-harga="<?= (float) $b['harga'] ?>" data-stok="<?= $stokHabis ? 'habis' : 'tersedia' ?>">
           <?php if (!empty($b['gambar'])): ?>
             <img src="<?= base_url('img/' . $b['gambar']) ?>" class="barang-img" alt="<?= esc($b['nama']) ?>">
           <?php else: ?>
@@ -60,6 +83,58 @@
   </div>
 </section>
 
+<script>
+  (function () {
+    var searchInput = document.getElementById('barangSearchInput');
+    var stokFilter = document.getElementById('barangStokFilter');
+    var sortFilter = document.getElementById('barangSortFilter');
+    var grid = document.getElementById('barangGrid');
+    var noResultMsg = document.getElementById('barangNoResultMsg');
+
+    if (!searchInput || !stokFilter || !sortFilter || !grid) return;
+
+    function applyBarangFilter() {
+      var keyword = searchInput.value.trim().toLowerCase();
+      var stok = stokFilter.value;
+      var cards = Array.prototype.slice.call(grid.querySelectorAll('.barang-card'));
+      var visibleCount = 0;
+
+      cards.forEach(function (card) {
+        var nama = card.getAttribute('data-nama') || '';
+        var cardStok = card.getAttribute('data-stok') || '';
+        var matchKeyword = !keyword || nama.indexOf(keyword) !== -1;
+        var matchStok = stok === 'semua' || stok === cardStok;
+        var visible = matchKeyword && matchStok;
+        card.style.display = visible ? '' : 'none';
+        if (visible) visibleCount++;
+      });
+
+      if (noResultMsg) {
+        noResultMsg.style.display = (visibleCount === 0 && cards.length > 0) ? 'block' : 'none';
+      }
+      applyBarangSort();
+    }
+
+    function applyBarangSort() {
+      var sortBy = sortFilter.value;
+      if (sortBy === 'default') return;
+      var cards = Array.prototype.slice.call(grid.querySelectorAll('.barang-card'));
+
+      cards.sort(function (a, b) {
+        if (sortBy === 'harga_asc') return parseFloat(a.getAttribute('data-harga')) - parseFloat(b.getAttribute('data-harga'));
+        if (sortBy === 'harga_desc') return parseFloat(b.getAttribute('data-harga')) - parseFloat(a.getAttribute('data-harga'));
+        if (sortBy === 'nama_asc') return (a.getAttribute('data-nama') || '').localeCompare(b.getAttribute('data-nama') || '');
+        return 0;
+      });
+
+      cards.forEach(function (card) { grid.appendChild(card); });
+    }
+
+    searchInput.addEventListener('input', applyBarangFilter);
+    stokFilter.addEventListener('change', applyBarangFilter);
+    sortFilter.addEventListener('change', applyBarangFilter);
+  })();
+</script>
 <!-- Floating Cart Button -->
 <button type="button" id="cartFloatBtn" class="cart-float-btn" style="display:none;" onclick="openCartModal()" aria-label="Keranjang">
   <i class="bi bi-cart3 fs-4"></i>
@@ -372,7 +447,7 @@ function fillEditBarang(select) {
     }
 
     return (
-      '<div class="barang-card col-lg-3 col-md-5 col-sm-10" data-id="' + b.id + '">' +
+        '<div class="barang-card col-lg-3 col-md-5 col-sm-10" data-id="' + b.id + '" data-nama="' + escapeHtml(String(b.nama).toLowerCase()) + '" data-harga="' + parseFloat(b.harga) + '" data-stok="' + (stokHabis ? 'habis' : 'tersedia') + '">' +
         imgHtml +
         '<h5 class="barang-nama">' + escapeHtml(b.nama) + '</h5>' +
         '<p class="barang-harga">Rp' + Number(b.harga).toLocaleString('id-ID') + '</p>' +

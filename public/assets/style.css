@@ -1492,6 +1492,10 @@ flex-direction: column! important;
 }
 
 /* ===== Barang / Dropship Marketplace ===== */
+
+#barangGrid, #barangFilterBar{
+  width: 100% !important;
+}
 .barang-card{
   background-color: var(--warna-kedua);
   border: 2px solid var(--warna-utama);

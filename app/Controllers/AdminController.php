@@ -67,7 +67,6 @@ class AdminController extends BaseController
         echo view('content/services', ['data_services' => $data_services]);
         echo view('content/partner', ['data_partner' => $data_partner]);
         echo view('content/testimoni', ['data_testimoni' => $data_testimoni]);
-        echo view('content/barang', ['data_barang' => $data_barang, 'social' => $social]);
         echo view('content/konsultasi', ['data_konsultasi' => $data_konsultasi]);
         echo view('content/profile');
         echo view('content/gallery', ['galeri' => $data_gallery]);
@@ -488,13 +487,12 @@ public function tambahBarang()
     if ($file && $file->isValid()) {
         $jumlahBarang = $model->countAll();
         $nextNumber = $jumlahBarang + 1;
-
         $ext = $file->getClientExtension();
         $fileName = "barang_{$nextNumber}." . $ext;
         $file->move('img', $fileName);
     }
 
-    $model->save([
+    $id = $model->insert([
         'nama'      => $this->request->getPost('nama'),
         'harga'     => $this->request->getPost('harga'),
         'stok'      => $this->request->getPost('stok'),
@@ -502,7 +500,14 @@ public function tambahBarang()
         'gambar'    => $fileName,
     ]);
 
-    return redirect()->to('/admin#barang')->with('success', 'Barang berhasil ditambahkan.');
+    $barang = $model->find($id);
+    $barang['gambar_url'] = !empty($barang['gambar']) ? base_url('img/' . $barang['gambar']) : null;
+
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'Barang berhasil ditambahkan.',
+        'data' => $barang,
+    ]);
 }
 
 public function editBarang()
@@ -535,30 +540,40 @@ public function editBarang()
     }
 
     $model->update($id, $data);
-    return redirect()->to('/admin#barang')->with('success', 'Barang berhasil diedit.');
+
+    $barang = $model->find($id);
+    $barang['gambar_url'] = !empty($barang['gambar']) ? base_url('img/' . $barang['gambar']) : null;
+
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'Barang berhasil diedit.',
+        'data' => $barang,
+    ]);
 }
 
     public function hapusBarang()
-    {
-        $id = $this->request->getPost('id');
-        $model = new BarangModel();
+{
+    $id = $this->request->getPost('id');
+    $model = new BarangModel();
+    $barang = $model->find($id);
 
-        $barang = $model->find($id);
-
-        if ($model->delete($id)) {
-            if (!empty($barang['gambar'])) {
-                $filePath = FCPATH . 'img/' . $barang['gambar'];
-                if (file_exists($filePath)) {
-                    unlink($filePath);
-                }
-            }
-            session()->setFlashdata('alert', 'Barang berhasil dihapus.');
-        } else {
-            session()->setFlashdata('alert', 'Gagal menghapus barang.');
+    if ($barang && $model->delete($id)) {
+        if (!empty($barang['gambar'])) {
+            $filePath = FCPATH . 'img/' . $barang['gambar'];
+            if (file_exists($filePath)) unlink($filePath);
         }
-
-        return redirect()->to('/admin#barang');
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Barang berhasil dihapus.',
+            'data' => ['id' => (int) $id],
+        ]);
     }
+
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal menghapus barang.',
+    ]);
+}
 
     //fungsi testimoni
     public function tambahTestimoni(){

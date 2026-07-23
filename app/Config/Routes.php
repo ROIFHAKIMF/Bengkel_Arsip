@@ -9,6 +9,7 @@ use CodeIgniter\Router\RouteCollection;
 // Halaman publik (untuk pengunjung / guest)
 $routes->get('/', 'GuestController::index');
 $routes->get('/admin', 'AdminController::index');
+$routes->get('/barang', 'GuestController::barang');
 
 // Autentikasi
 $routes->get('login', 'AuthController::login');

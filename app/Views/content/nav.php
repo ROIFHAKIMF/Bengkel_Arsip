@@ -14,33 +14,33 @@
         <div class="w-100 container-fluid rounded-4 p-3 collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav w-100 text-center gap-2 d-flex bg-nav justify-content-around navbar-nav-scroll" style="--bs-scroll-height: 1000px;">
             <li class="nav-item">
-            <a class="nav-link active color-hijau" aria-current="page" href="#Home">Home</a>
+            <a class="nav-link <?= (!isset($activeNav) || $activeNav === 'home') ? 'active' : '' ?> color-hijau" aria-current="page" href="<?= base_url('/') ?>#Home">Home</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link color-hijau" aria-current="page" href="#about">About</a>
+            <a class="nav-link color-hijau" aria-current="page" href="<?= base_url('/') ?>#about">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link color-hijau" aria-current="page" href="#service">Service</a>
+                <a class="nav-link color-hijau" aria-current="page" href="<?= base_url('/') ?>#service">Service</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link color-hijau" aria-current="page" href="#partner">Partner</a>
+                <a class="nav-link color-hijau" aria-current="page" href="<?= base_url('/') ?>#partner">Partner</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link color-hijau" aria-current="page" href="#testimoni">Testimoni</a>
+                <a class="nav-link color-hijau" aria-current="page" href="<?= base_url('/') ?>#testimoni">Testimoni</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link color-hijau" aria-current="page" href="#barang">Barang</a>
+                <a class="nav-link <?= (isset($activeNav) && $activeNav === 'barang') ? 'active' : '' ?> color-hijau" aria-current="page" href="<?= base_url('barang') ?>">Barang</a>
             </li>
             <li class="nav-item dropdown" aria-current="page">
                 <a class="nav-link color-hijau dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Lainnya
                 </a>
                 <ul class="dropdown-menu shadow-lg rounded-4 border-0">
-                    <li><a class="dropdown-item" href="#konsultasi">Konsultasi</a></li>
-                    <li><a class="dropdown-item" href="#profile">Profile</a></li>
-                    <li><a class="dropdown-item" href="#gallery">Gallery</a></li>
-                    <li><a class="dropdown-item" href="#client">Client</a></li>
-                    <li><a class="dropdown-item" href="#contact">Contact</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/') ?>#konsultasi">Konsultasi</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/') ?>#profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/') ?>#gallery">Gallery</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/') ?>#client">Client</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/') ?>#contact">Contact</a></li>
                 </ul>
             </li>
             <li class="nav-item">

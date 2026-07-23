@@ -19,17 +19,17 @@
         <div class="footer-bottom-col ">
           <h5 class="fw-bold footer-links">Navigasi</h5>
           <ul class="footer-nav-grid">
-            <li><a href="#Home" class="footer-links">Home</a></li>
-            <li><a href="#about" class="footer-links">About</a></li>
-            <li><a href="#service" class="footer-links">Service</a></li>
-            <li><a href="#partner" class="footer-links">Partner</a></li>
-            <li><a href="#testimoni" class="footer-links">Testimoni</a></li>
-            <li><a href="#barang" class="footer-links">Barang</a></li>
-            <li><a href="#konsultasi" class="footer-links">Konsultasi</a></li>
-            <li><a href="#profile" class="footer-links">Profile</a></li>
-            <li><a href="#gallery" class="footer-links">Gallery</a></li>
-            <li><a href="#client" class="footer-links">Client</a></li>
-            <li><a href="#contact" class="footer-links">Contact</a></li>
+              <li><a href="<?= base_url('/') ?>#Home" class="footer-links">Home</a></li>
+              <li><a href="<?= base_url('/') ?>#about" class="footer-links">About</a></li>
+              <li><a href="<?= base_url('/') ?>#service" class="footer-links">Service</a></li>
+              <li><a href="<?= base_url('/') ?>#partner" class="footer-links">Partner</a></li>
+              <li><a href="<?= base_url('/') ?>#testimoni" class="footer-links">Testimoni</a></li>
+              <li><a href="<?= base_url('barang') ?>" class="footer-links">Barang</a></li>
+              <li><a href="<?= base_url('/') ?>#konsultasi" class="footer-links">Konsultasi</a></li>
+              <li><a href="<?= base_url('/') ?>#profile" class="footer-links">Profile</a></li>
+              <li><a href="<?= base_url('/') ?>#gallery" class="footer-links">Gallery</a></li>
+              <li><a href="<?= base_url('/') ?>#client" class="footer-links">Client</a></li>
+              <li><a href="<?= base_url('/') ?>#contact" class="footer-links">Contact</a></li>
           </ul>
         </div>
                 <!-- Kolom Services -->
