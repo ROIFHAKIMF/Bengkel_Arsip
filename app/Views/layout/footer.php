@@ -10,8 +10,8 @@
         <p class="mt-2 text-white text-start">Solusi kearsipan <br> profesional dan terpercaya</p>
         <div class="text-white text-start mt-2">
           <p class="mb-0 fw-bold footer-links">Jam Operasional</p>
-          <p class="mb-0">Senin - Jumat: 08.00 - 17.00</p>
-          <p class="mb-0">Sabtu: 08.00 - 13.00</p>
+          <p class="mb-0 footer-links">Senin - Jumat: 08.00 - 17.00</p>
+          <p class="mb-0 footer-links">Sabtu: 08.00 - 13.00</p>
         </div>
       </div>
       <div class="footer-bottom-row mb-2 p-0 w-auto col-lg-4 col-xl-4 col-sm-12">
