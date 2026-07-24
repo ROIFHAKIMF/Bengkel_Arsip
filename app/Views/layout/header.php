@@ -13,3 +13,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/style.css') ?>">
 </head>
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70" tabindex="0" class="darkmode">
+<script src="<?= base_url('bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+<!-- Script JS -->
+<script src="<?= base_url('assets/index.js') ?>"></script>
+<!-- Script Bootstrap dan JS -->
+<script src="<?= base_url('bootstrap/js/bootstrap.bundle.min.js') ?>"></script>

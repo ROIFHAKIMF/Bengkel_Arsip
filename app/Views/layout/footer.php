@@ -53,9 +53,7 @@
   </div>
 </footer>
 
-<!-- Script Bootstrap dan JS -->
-<script src="<?= base_url('bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-<script src="<?= base_url('assets/index.js') ?>"></script>
+
 <!-- Script Set Tahun -->
 <script>
   function sendToWhatsApp(event) {

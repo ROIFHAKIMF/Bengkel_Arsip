@@ -139,7 +139,11 @@
         '</button>' +
       '</div>';
 
-    new bootstrap.Carousel(document.getElementById('carouselExample'));
+  new bootstrap.Carousel(document.getElementById('carouselExample'), {
+  ride: 'carousel',
+  interval: 3000,
+  pause: false
+  });
   }
 
   function renderGalleryAdminLists() {
