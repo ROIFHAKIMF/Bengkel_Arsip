@@ -16,5 +16,3 @@
 <script src="<?= base_url('bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <!-- Script JS -->
 <script src="<?= base_url('assets/index.js') ?>"></script>
-<!-- Script Bootstrap dan JS -->
-<script src="<?= base_url('bootstrap/js/bootstrap.bundle.min.js') ?>"></script>

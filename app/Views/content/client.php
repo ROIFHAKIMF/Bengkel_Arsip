@@ -135,7 +135,7 @@
     groups.forEach(function (group) {
       var slidesHtml = group.items.map(function (item, index) {
         var imgHtml = item.gambar_url
-          ? '<img class="img-cl" src="' + item.gambar_url + '" style="width:100%" alt="' + escapeClientHtml(item.judul) + '">'
+          ? '<img class="img-cl" src="' + item.gambar_url + '"  alt="' + escapeClientHtml(item.judul) + '">'
           : '';
         return '<div class="carousel-item ' + (index === 0 ? 'active' : '') + ' p-4">' +
           '<p class="mb-1 fw-bold">' + escapeClientHtml(item.judul) + '</p>' +

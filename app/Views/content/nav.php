@@ -26,20 +26,20 @@
                 <a class="nav-link color-hijau" aria-current="page" href="<?= base_url('/') ?>#partner">Partner</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link color-hijau" aria-current="page" href="<?= base_url('/') ?>#testimoni">Testimoni</a>
+                <a class="nav-link" href="<?= base_url('/') ?>#konsultasi">Konsultasi</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= (isset($activeNav) && $activeNav === 'barang') ? 'active' : '' ?> color-hijau" aria-current="page" href="<?= base_url('barang') ?>">Barang</a>
+                <a class="nav-link color-hijau" aria-current="page" href="<?= base_url('/') ?>#testimoni">Testimoni</a>
             </li>
             <li class="nav-item dropdown" aria-current="page">
                 <a class="nav-link color-hijau dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Lainnya
                 </a>
                 <ul class="dropdown-menu shadow-lg rounded-4 border-0">
-                    <li><a class="dropdown-item" href="<?= base_url('/') ?>#konsultasi">Konsultasi</a></li>
                     <li><a class="dropdown-item" href="<?= base_url('/') ?>#profile">Profile</a></li>
                     <li><a class="dropdown-item" href="<?= base_url('/') ?>#gallery">Gallery</a></li>
                     <li><a class="dropdown-item" href="<?= base_url('/') ?>#client">Client</a></li>
+                    <li><a class="dropdown-item <?= (isset($activeNav) && $activeNav === 'barang') ? 'active' : '' ?> color-hijau" aria-current="page" href="<?= base_url('barang') ?>">Barang</a></li>
                     <li><a class="dropdown-item" href="<?= base_url('/') ?>#contact">Contact</a></li>
                 </ul>
             </li>
